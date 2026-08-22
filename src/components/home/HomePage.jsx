@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Navbar } from '../navigation/Navbar';
+import { WhyUsSection } from './WhyUsSection';
 import './HomePage.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -260,8 +262,7 @@ export function HomePage({ onReplay }) {
         aboutIdentityBodyRef.current,
         aboutDividerRef.current,
         aboutImpactEyebrowRef.current,
-        aboutImpactHeadlineRef.current,
-        aboutMetaRef.current
+        aboutImpactHeadlineRef.current
       ];
 
       gsap.set(aboutItems, {
@@ -416,14 +417,6 @@ export function HomePage({ onReplay }) {
         ease: 'power2.out'
       }, 0.76);
 
-      // 11. Bottom Meta Footer (Scroll ~82% -> 92%)
-      mainTl.to(aboutMetaRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.10,
-        ease: 'power2.out'
-      }, 0.82);
-
       // Refresh ScrollTrigger calculations
       const timer = setTimeout(() => {
         ScrollTrigger.refresh();
@@ -436,7 +429,30 @@ export function HomePage({ onReplay }) {
     return () => ctx.revert();
   }, [renderFrame, isLoaded]);
 
+  const handleNavNavigate = useCallback((item) => {
+    if (item === 'TOP' || item === 'WORK') {
+      snapTo(0, 2.0);
+    } else if (item === 'ABOUT' && containerRef.current) {
+      const maxScroll = containerRef.current.offsetHeight - window.innerHeight;
+      snapTo(maxScroll, 2.4);
+    } else if (item === 'SERVICES' || item === 'STUDIO' || item === 'WHY US') {
+      const sectionEl = document.getElementById('services');
+      if (sectionEl) {
+        sectionEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      const sectionEl = document.getElementById(item.toLowerCase());
+      if (sectionEl) {
+        sectionEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [snapTo]);
+
   return (
+    <>
+    {/* Global Persistent Fixed Navbar */}
+    <Navbar onReplay={onReplay} onNavigate={handleNavNavigate} />
+
     <div className="aar-scroll-container" ref={containerRef}>
       {/* Viewport pinned during the scroll sequence */}
       <div className="aar-hero-pin-viewport" ref={pinViewportRef}>
@@ -445,61 +461,6 @@ export function HomePage({ onReplay }) {
         <div className="ghost-visibility" ref={ghostVisRef}>
           <span className="ghost-visibility__text">VISIBILITY</span>
         </div>
-
-        {/* Layer 1: Persistent Header Navigation */}
-        <header className="aar-header">
-          <a
-            href="#"
-            className="aar-logo"
-            onClick={(e) => {
-              e.preventDefault();
-              snapTo(0, 1.8);
-            }}
-          >
-            <img
-              src="/images/aar_logo.png"
-              alt="AAR"
-              className="aar-logo__img"
-            />
-            <div className="aar-logo__sub">
-              <span>V</span>
-              <span>I</span>
-              <span>S</span>
-              <span>U</span>
-              <span>A</span>
-              <span>L</span>
-              <span>S</span>
-            </div>
-          </a>
-
-          <nav className="aar-nav">
-            {['WORK', 'SERVICES', 'STUDIO', 'ABOUT', 'CONTACT'].map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="aar-nav__link"
-                onClick={(e) => {
-                  if (item === 'ABOUT' && containerRef.current) {
-                    e.preventDefault();
-                    const maxScroll = containerRef.current.offsetHeight - window.innerHeight;
-                    snapTo(maxScroll, 2.2);
-                  }
-                }}
-              >
-                {item}
-              </a>
-            ))}
-          </nav>
-
-          <button className="aar-menu-btn" onClick={onReplay} aria-label="Replay loader">
-            <span>MENU</span>
-            <div className="aar-menu-dots">
-              {[...Array(9)].map((_, i) => (
-                <span key={i} />
-              ))}
-            </div>
-          </button>
-        </header>
 
         {/* Layer 2: 60fps Canvas Frame Scrubber */}
         <div className="hero-canvas-wrapper" ref={canvasWrapperRef}>
@@ -716,14 +677,12 @@ export function HomePage({ onReplay }) {
           </div>
         </div>
 
-        {/* About Bottom Meta Bar */}
-        <div className="about-meta" ref={aboutMetaRef}>
-          <span className="about-meta__item">STUDIO IDENTITY &copy; 2026</span>
-          <span className="about-meta__item">ALL RIGHTS RESERVED</span>
-        </div>
-
       </div>
     </div>
+
+    {/* Section 2: WHY US Physical Assembly Scroll Sequence */}
+    <WhyUsSection />
+    </>
   );
 }
 
