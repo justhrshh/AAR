@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+/* ========================================================================= */
+/* AHSING FONT-FACE DEFINITION (Typogama Ahsing)                            */
+/* ========================================================================= */
+@font-face {
+  font-family: 'Ahsing';
+  src: url('/fonts/Ahsing.otf') format('opentype'),
+       local('Ahsing'),
+       local('Typogama Ahsing');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-heading: 'Ahsing', system-ui, sans-serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --ink: #0d0d0d;
+  --paper: #ede8e1;
+  --muted: #787570;
+  --gold: #c9962c;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: var(--paper);
+  color: #0d0d0d;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #080a10;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
