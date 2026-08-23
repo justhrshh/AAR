@@ -1,0 +1,499 @@
+/* =============================================================================
+   AAR VISUALS — STUDIO & PHILOSOPHY PAGE STYLES
+   ============================================================================= */
+
+.aar-studio-page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--paper, #ede8e1);
+  color: var(--ink, #0d0d0d);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   01. HERO SECTION
+───────────────────────────────────────────────────────────── */
+.studio-hero {
+  padding: 160px clamp(36px, 6vw, 100px) 80px;
+  max-width: 1440px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.studio-hero__container {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.studio-hero__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.studio-hero__eyebrow-dash {
+  width: 24px;
+  height: 2px;
+  background-color: var(--gold, #c9962c);
+}
+
+.studio-hero__eyebrow-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--muted, #6e6b66);
+}
+
+.studio-hero__main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 60px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.studio-hero__title {
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: clamp(44px, 6.8vw, 92px);
+  font-weight: 700;
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.studio-hero__title--gold {
+  color: var(--gold, #c9962c);
+  font-style: italic;
+  font-family: 'Instrument Serif', 'Playfair Display', serif;
+  font-weight: 400;
+}
+
+.studio-hero__title-dot {
+  color: var(--gold, #c9962c);
+}
+
+.studio-hero__lead-col {
+  display: flex;
+  flex-direction: column;
+  max-width: 420px;
+  gap: 28px;
+}
+
+.studio-hero__lead {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--muted, #6e6b66);
+  margin: 0;
+}
+
+.studio-hero__coordinates {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.studio-coord-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--gold, #c9962c);
+}
+
+.studio-coord-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink, #0d0d0d);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SECTION HEADER UTILITY
+───────────────────────────────────────────────────────────── */
+.studio-section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.studio-section-header__dash {
+  width: 20px;
+  height: 2px;
+  background-color: var(--gold, #c9962c);
+}
+
+.studio-section-header__title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--muted, #6e6b66);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   02. PHILOSOPHY ESSAY
+───────────────────────────────────────────────────────────── */
+.studio-essay-section {
+  padding: 80px clamp(36px, 6vw, 100px);
+  max-width: 1440px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.studio-essay-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1.3fr;
+  gap: 80px;
+  align-items: flex-start;
+}
+
+.studio-essay-headline {
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: clamp(28px, 3.5vw, 46px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  margin: 0;
+  color: var(--ink, #0d0d0d);
+}
+
+.studio-essay-right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.studio-essay-p {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--muted, #6e6b66);
+  margin: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   03. CORE PRINCIPLES
+───────────────────────────────────────────────────────────── */
+.studio-principles-section {
+  padding: 80px clamp(36px, 6vw, 100px) 120px;
+  max-width: 1440px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.studio-principles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 36px;
+}
+
+.studio-principle-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 44px 36px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.studio-principle-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--gold, #c9962c);
+}
+
+.studio-principle-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.studio-principle-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--gold, #c9962c);
+}
+
+.studio-principle-line {
+  flex: 1;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.studio-principle-title {
+  font-family: 'Cinzel', serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+.studio-principle-lead {
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--ink, #0d0d0d);
+  margin: 0;
+}
+
+.studio-principle-body {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--muted, #6e6b66);
+  margin: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   04. ART-DIRECTED VISUAL MOMENT / GRAPHIC PAUSE
+───────────────────────────────────────────────────────────── */
+.studio-visual-pause-section {
+  padding: 0 clamp(36px, 6vw, 100px) 120px;
+  max-width: 1440px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.studio-sculpture-card {
+  position: relative;
+  width: 100%;
+  min-height: 480px;
+  border-radius: 12px;
+  background: #0d0d0d;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 60px 40px;
+  box-sizing: border-box;
+}
+
+.studio-sculpture-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(201, 150, 44, 0.15) 0%, rgba(13, 13, 13, 0.85) 60%, #0d0d0d 100%);
+  pointer-events: none;
+}
+
+.studio-sculpture-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Cinzel', serif;
+  font-size: clamp(140px, 28vw, 380px);
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.025);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.studio-sculpture-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+  max-width: 680px;
+}
+
+.studio-seal-wrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 150, 44, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.studio-seal-ring {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(201, 150, 44, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.studio-seal-star {
+  color: var(--gold, #c9962c);
+  font-size: 20px;
+}
+
+.studio-sculpture-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--gold, #c9962c);
+  text-transform: uppercase;
+}
+
+.studio-sculpture-headline {
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: clamp(32px, 4.5vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.studio-sculpture-meta-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.studio-sculpture-dot {
+  color: var(--gold, #c9962c);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   05. CTA SECTION
+───────────────────────────────────────────────────────────── */
+.studio-cta-section {
+  padding: 0 clamp(36px, 6vw, 100px) 140px;
+  max-width: 1440px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.studio-cta-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  padding: 64px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+
+.studio-cta-left {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.studio-cta-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--gold, #c9962c);
+  text-transform: uppercase;
+}
+
+.studio-cta-title {
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 50px);
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.studio-cta-title--gold {
+  color: var(--gold, #c9962c);
+  font-style: italic;
+  font-family: 'Instrument Serif', 'Playfair Display', serif;
+  font-weight: 400;
+}
+
+.studio-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 32px;
+  border-radius: 999px;
+  background: var(--ink, #0d0d0d);
+  color: #ffffff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+}
+
+.studio-cta-btn:hover {
+  background: var(--gold, #c9962c);
+  transform: translateX(4px);
+}
+
+.studio-cta-arrow {
+  font-size: 15px;
+  transition: transform 0.25s ease;
+}
+
+.studio-cta-btn:hover .studio-cta-arrow {
+  transform: translateX(3px);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE BREAKPOINTS
+───────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .studio-hero__main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+  }
+
+  .studio-essay-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .studio-principles-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .studio-cta-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+    padding: 40px 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .studio-hero {
+    padding-top: 120px;
+  }
+
+  .studio-sculpture-card {
+    min-height: 400px;
+    padding: 40px 20px;
+  }
+}

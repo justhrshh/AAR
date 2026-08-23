@@ -1,429 +1,344 @@
-import React, { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import './WhyUsSection.css';
+import React, { useRef, useState, useEffect } from "react";
+import gsap from "gsap";
+import { cn } from "../../lib/utils";
 
-gsap.registerPlugin(ScrollTrigger);
+const config = {
+  marqueeScrollSpeed: 180, // Increased for a faster, dynamic feel
+  stripFollowEase: 0.05,
+  stripEdgeInset: 175,
+  contentRiseRate: 0.85,
+  risenTopGap: 100,
+  liftHeadStart: 125,
+  wakeStrength: 2.5,
+  wakeReach: 125,
+  lineSettleEase: 0.09,
+};
 
-export function WhyUsSection() {
-  const sectionRef = useRef(null);
-  const pinWrapRef = useRef(null);
-  const bgBaseRef = useRef(null);
+const DEFAULT_IMAGES = [
+  "https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=800&auto=format&fit=crop", 
+  "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=800&auto=format&fit=crop", 
+  "https://images.unsplash.com/photo-1541562232579-512a21360020?q=80&w=800&auto=format&fit=crop", 
+  "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?q=80&w=800&auto=format&fit=crop", 
+  "https://images.unsplash.com/photo-1560972550-aba3456b5564?q=80&w=800&auto=format&fit=crop", 
+  "https://images.unsplash.com/photo-1613376023733-0a73315d9b06?q=80&w=800&auto=format&fit=crop",
+];
 
-  // SVG Layer refs (independent physical sheets)
-  const navyWaveRef = useRef(null);
-  const greyWaveRef = useRef(null);
-  const ivoryWaveRef = useRef(null);
+const DEFAULT_EYEBROW = "BUILT TO BE";
+const DEFAULT_TITLE = ["SEEN."];
+const DEFAULT_SUBTITLE = ["BUILD FASTER", "SHIP BETTER"];
+const DEFAULT_PARAGRAPHS = [
+  [
+    "Vengeance UI is a premium component library",
+    "specializing in smooth animations, interactive",
+    "interfaces, and modern design.",
+  ],
+  [
+    "We prioritize developer experience and aesthetics.",
+    "Our components span across complex interactions,",
+    "3D elements, and smooth animations built",
+    "for React and modern frameworks. Our library is tailored",
+    "to distinct challenges within modern web development."
+  ]
+];
 
-  // Left rail & lower CTA refs
-  const leftRailRef = useRef(null);
-  const lowerCtaRef = useRef(null);
+export function MagneticSpotlightMarquee({
+  className,
+  images = DEFAULT_IMAGES,
+  eyebrow = DEFAULT_EYEBROW,
+  title = DEFAULT_TITLE,
+  subtitle = DEFAULT_SUBTITLE,
+  paragraphs = DEFAULT_PARAGRAPHS,
+  navEmail = "hello@vengeance.ui",
+  navLinks = "Documentation, Components, GitHub",
+  footerText = "We navigate in no-nonsense environments pushing the boundaries of web design. Whether you're a startup or a global leader, building a new identity or interactive platform, Vengeance UI is your partner in innovation. Our premium components ensure that every project feels magical, collaborative, and smooth.",
+}) {
+  const containerRef = useRef(null);
+  const marqueeStripRef = useRef(null);
+  const marqueeTrackRef = useRef(null);
+  const contentWrapperRef = useRef(null);
 
-  // Typography refs
-  const eyebrowRef = useRef(null);
-  const titleWhyRef = useRef(null);
-  const titleUsRef = useRef(null);
-  const supportingCopyRef = useRef(null);
-
-  // Principles refs (01, 02, 03, 04)
-  const principleRefs = useRef([]);
-  principleRefs.current = [];
-  const addToPrincipleRefs = (el) => {
-    if (el && !principleRefs.current.includes(el)) {
-      principleRefs.current.push(el);
-    }
-  };
-
-  const principlesData = [
-    {
-      num: '01',
-      title: 'CLARITY',
-      desc: 'We strip away the unnecessary until the idea speaks for itself.'
-    },
-    {
-      num: '02',
-      title: 'CRAFT',
-      desc: 'Every detail is considered, from the first frame to the final pixel.'
-    },
-    {
-      num: '03',
-      title: 'INTENT',
-      desc: 'Design with purpose, not decoration. Every decision has a reason.'
-    },
-    {
-      num: '04',
-      title: 'IMPACT',
-      desc: 'Visuals built to be remembered, not simply viewed.'
-    }
-  ];
+  // State to hold cloned images to fill width
+  const [clonedImages, setClonedImages] = useState(images);
 
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
+    if (!marqueeTrackRef.current || !marqueeStripRef.current || !containerRef.current || !contentWrapperRef.current) return;
 
+    const marqueeTrack = marqueeTrackRef.current;
+
+    // 1. Setup infinite horizontal marquee with GSAP
+    // Calculate width statically to avoid issues with unloaded images
+    const isMobile = window.innerWidth < 768;
+    const itemWidth = isMobile ? 140 : 180; // Smaller, square width
+    const gap = 16; // 1rem gap
+    const oneSetWidth = images.length * (itemWidth + gap);
+    const setsNeeded = Math.ceil(window.innerWidth / oneSetWidth) + 2;
+    
+    const newImages = [];
+    for (let i = 0; i < setsNeeded; i++) {
+      newImages.push(...images);
+    }
+    setClonedImages(newImages);
+
+    // Wait for React to render clones, then animate
     const ctx = gsap.context(() => {
-      // -----------------------------------------------------------------------
-      // INITIAL STATES (Physical sheets primed below viewport)
-      // -----------------------------------------------------------------------
-
-      // 0. Base canvas
-      gsap.set(bgBaseRef.current, {
-        opacity: 0
-      });
-
-      // 1. Physical Paper Layers (Independent entrance velocities for realistic depth)
-      gsap.set(navyWaveRef.current, {
-        yPercent: 110,
-        xPercent: -5,
-        opacity: 0.2
-      });
-
-      gsap.set(greyWaveRef.current, {
-        yPercent: 115,
-        xPercent: 4,
-        rotation: -1,
-        opacity: 0.3
-      });
-
-      gsap.set(ivoryWaveRef.current, {
-        yPercent: 105,
-        opacity: 0.5
-      });
-
-      // 2. Left vertical rail & lower CTA
-      gsap.set(leftRailRef.current, {
-        opacity: 0,
-        x: -25,
-        y: 15
-      });
-
-      gsap.set(lowerCtaRef.current, {
-        opacity: 0,
-        y: 35
-      });
-
-      // 3. Main typography
-      gsap.set(eyebrowRef.current, {
-        opacity: 0,
-        y: 20
-      });
-
-      gsap.set(titleWhyRef.current, {
-        opacity: 0,
-        y: 40
-      });
-
-      gsap.set(titleUsRef.current, {
-        opacity: 0,
-        y: 40
-      });
-
-      gsap.set(supportingCopyRef.current, {
-        opacity: 0,
-        y: 25
-      });
-
-      // 4. Principles rows (01 - 04)
-      gsap.set(principleRefs.current, {
-        opacity: 0,
-        y: 30
-      });
-
-      // -----------------------------------------------------------------------
-      // MASTER SCROLLTRIGGER TIMELINE (Pinned & scrubbed with natural momentum)
-      // -----------------------------------------------------------------------
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: 'bottom bottom',
-          pin: pinWrapRef.current,
-          scrub: 0.35,
-          anticipatePin: 1,
-          invalidateOnRefresh: true
-        }
-      });
-
-      // -----------------------------------------------------------------------
-      // PHASE 1: Organic Physical Sheets Rise (0.00 -> 0.48)
-      // -----------------------------------------------------------------------
-      tl.to(bgBaseRef.current, {
-        opacity: 1,
-        duration: 0.22,
-        ease: 'power2.out'
-      }, 0.02)
-      .to(navyWaveRef.current, {
-        yPercent: 0,
-        xPercent: 0,
-        opacity: 1,
-        duration: 0.44,
-        ease: 'power3.out'
-      }, 0.02)
-      .to(greyWaveRef.current, {
-        yPercent: 0,
-        xPercent: 0,
-        rotation: 0,
-        opacity: 1,
-        duration: 0.46,
-        ease: 'power3.out'
-      }, 0.04)
-      .to(ivoryWaveRef.current, {
-        yPercent: 0,
-        opacity: 1,
-        duration: 0.40,
-        ease: 'power3.out'
-      }, 0.06);
-
-      // -----------------------------------------------------------------------
-      // PHASE 2: Left Rail & Main WHY US Typography (0.22 -> 0.60)
-      // -----------------------------------------------------------------------
-      tl.to(leftRailRef.current, {
-        opacity: 1,
-        x: 0,
-        y: 0,
-        duration: 0.22,
-        ease: 'power2.out'
-      }, 0.20)
-      .to(eyebrowRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.18,
-        ease: 'power2.out'
-      }, 0.22)
-      .to(titleWhyRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.25,
-        ease: 'power3.out'
-      }, 0.26)
-      .to(titleUsRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.26,
-        ease: 'power3.out'
-      }, 0.30)
-      .to(supportingCopyRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.22,
-        ease: 'power2.out'
-      }, 0.35);
-
-      // -----------------------------------------------------------------------
-      // PHASE 3: Sequential Reveal of Principles 01 -> 04 (0.42 -> 0.85)
-      // -----------------------------------------------------------------------
-      principleRefs.current.forEach((rowEl, index) => {
-        const startPos = 0.42 + index * 0.11;
-        tl.to(rowEl, {
-          opacity: 1,
-          y: 0,
-          duration: 0.18,
-          ease: 'power2.out'
-        }, startPos);
-      });
-
-      // -----------------------------------------------------------------------
-      // PHASE 4: Lower Left CTA Settles (0.70 -> 0.95)
-      // -----------------------------------------------------------------------
-      tl.to(lowerCtaRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.20,
-        ease: 'power2.out'
-      }, 0.70);
-
-    }, section);
+      setTimeout(() => {
+         gsap.to(marqueeTrack, {
+           x: `-${oneSetWidth}px`,
+           duration: oneSetWidth / 600, // Hardcoded even faster speed (600)
+           ease: "none",
+           repeat: -1,
+           modifiers: {
+             x: (x) => `${gsap.utils.wrap(-oneSetWidth, 0, parseFloat(x))}px`
+           }
+         });
+      }, 100);
+    }, marqueeTrack);
 
     return () => ctx.revert();
+  }, [images]);
+
+  // Wake effect logic
+  useEffect(() => {
+    if (!containerRef.current || !marqueeStripRef.current || !contentWrapperRef.current) return;
+
+    const spotlightSection = containerRef.current;
+    const marqueeStrip = marqueeStripRef.current;
+
+    let stripBaseTop = 0;
+    let stripHeight = 0;
+    let sectionHeight = 0;
+    let stripRestCenterY = 0;
+    let contentTopAtRest = 0;
+
+    let stripTargetY = 0;
+    let stripCurrentY = 0;
+    let stripPrevY = 0;
+    let hasPointerMoved = false;
+
+    let targets = [];
+    let rafId;
+
+    const measureGeometry = () => {
+      sectionHeight = spotlightSection.getBoundingClientRect().height;
+      stripBaseTop = marqueeStrip.offsetTop;
+      stripHeight = marqueeStrip.offsetHeight;
+      
+      stripRestCenterY = config.stripEdgeInset;
+      
+      const elements = Array.from(spotlightSection.querySelectorAll('.wake-target'));
+      
+      let blockTop = Infinity;
+      targets = elements.map(el => {
+        let y = 0;
+        let node = el;
+        while (node && node !== spotlightSection) {
+          y += node.offsetTop;
+          node = node.offsetParent;
+        }
+        const restCenterY = y + el.offsetHeight / 2;
+        blockTop = Math.min(blockTop, restCenterY - el.offsetHeight / 2);
+        
+        return {
+          el,
+          restCenterY,
+          currentY: 0
+        };
+      });
+
+      contentTopAtRest = isFinite(blockTop) ? blockTop : sectionHeight * 0.4;
+      
+      if (!hasPointerMoved) {
+        const restY = config.stripEdgeInset - stripHeight / 2;
+        stripTargetY = restY;
+        stripCurrentY = restY;
+        stripPrevY = restY;
+        gsap.set(marqueeStrip, { y: stripCurrentY });
+      }
+    };
+
+    setTimeout(measureGeometry, 100);
+    window.addEventListener('resize', measureGeometry);
+
+    const handlePointerMove = (e) => {
+      hasPointerMoved = true;
+      const rect = spotlightSection.getBoundingClientRect();
+      const pointerY = e.clientY - rect.top;
+      stripTargetY = pointerY - stripHeight / 2;
+    };
+
+    const handlePointerLeave = () => {
+      hasPointerMoved = false;
+      stripTargetY = config.stripEdgeInset - stripHeight / 2;
+    };
+
+    spotlightSection.addEventListener('mousemove', handlePointerMove);
+    spotlightSection.addEventListener('mouseleave', handlePointerLeave);
+
+    const render = () => {
+      stripCurrentY += (stripTargetY - stripCurrentY) * config.stripFollowEase;
+      gsap.set(marqueeStrip, { y: stripCurrentY });
+
+      const stripCenterY = stripBaseTop + stripCurrentY + stripHeight / 2;
+      const stripVelocityY = stripCurrentY - stripPrevY;
+      stripPrevY = stripCurrentY;
+
+      const descentBelowRest = Math.max(0, stripCenterY - stripRestCenterY);
+      const maxRise = Math.max(0, contentTopAtRest - config.risenTopGap);
+      const contentRise = -Math.min(
+        descentBelowRest * config.contentRiseRate,
+        maxRise
+      );
+
+      targets.forEach(line => {
+        const gapToStrip = line.restCenterY - stripCenterY;
+        const reachedLine = stripCenterY + config.liftHeadStart >= line.restCenterY;
+        
+        const wakeInfluence = Math.exp(
+          -(gapToStrip * gapToStrip) / (2 * config.wakeReach * config.wakeReach)
+        );
+        const wakeOffset = stripVelocityY * wakeInfluence * config.wakeStrength;
+        
+        const lineTarget = (reachedLine ? contentRise : 0) + wakeOffset;
+        
+        line.currentY += (lineTarget - line.currentY) * config.lineSettleEase;
+        gsap.set(line.el, { y: line.currentY });
+      });
+
+      rafId = requestAnimationFrame(render);
+    };
+    rafId = requestAnimationFrame(render);
+
+    return () => {
+      window.removeEventListener('resize', measureGeometry);
+      spotlightSection.removeEventListener('mousemove', handlePointerMove);
+      spotlightSection.removeEventListener('mouseleave', handlePointerLeave);
+      cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (
-    <section className="why-us-section" ref={sectionRef} id="services">
-      <div className="why-us-pin-wrap" ref={pinWrapRef}>
-        
-        {/* Layer 0: Warm Ivory Base Canvas */}
-        <div className="why-us-bg-base" ref={bgBaseRef} />
+    <section
+      ref={containerRef}
+      id="whyus"
+      className={cn(
+        "spotlight relative w-full h-[100vh] min-h-[800px] overflow-hidden bg-white dark:bg-[#0f0f0f] text-white font-sans",
+        className
+      )}
+      style={{ fontFamily: "'Instrument Sans', sans-serif" }}
+    >
+      {/* Top Nav - Centered layout as seen in screenshot */}
+      <div className="absolute top-0 left-0 w-full p-6 flex flex-col items-center justify-center z-50 text-[10px] md:text-xs font-medium tracking-wide opacity-90 mix-blend-difference pointer-events-none">
+        <div>{navEmail}</div>
+        <div>{navLinks}</div>
+      </div>
 
-        {/* Layer 1: Physical Layered SVG Paper Sheets */}
-        <div className="why-us-svg-container">
-          
-          {/* ================================================================= */}
-          {/* 1. DEEP NAVY / CHARCOAL BASE SHEET (#101B2A)                      */}
-          {/* ================================================================= */}
-          <div className="why-us-wave why-us-wave--navy" ref={navyWaveRef}>
-            <svg
-              viewBox="0 0 1600 1000"
-              preserveAspectRatio="none"
-              className="why-us-wave-svg"
-            >
-              <defs>
-                <linearGradient id="navyMaterialGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#132030" />
-                  <stop offset="50%" stopColor="#101B2A" />
-                  <stop offset="100%" stopColor="#0B131E" />
-                </linearGradient>
-              </defs>
-              {/* Bottom-left organic sheet */}
-              <path
-                d="M 0,660 C 140,670 280,740 440,830 C 580,910 700,970 820,1000 L 0,1000 Z"
-                fill="url(#navyMaterialGrad)"
+      {/* Marquee Strip */}
+      <div 
+        ref={marqueeStripRef} 
+        className="spotlight-marquee absolute left-0 w-full z-20 h-[160px] md:h-[200px] pointer-events-none"
+        style={{ top: 0 }} 
+      >
+        <div 
+          ref={marqueeTrackRef} 
+          className="spotlight-marquee-track flex gap-4 h-full items-center absolute top-0 left-0"
+        >
+          {clonedImages.map((img, idx) => (
+            <div key={idx} className="w-[140px] h-[140px] md:w-[180px] md:h-[180px] shrink-0 rounded-[20px] overflow-hidden shadow-sm bg-neutral-100 dark:bg-neutral-900">
+              <img
+                src={img}
+                alt="Marquee item"
+                className="w-full h-full object-cover"
+                loading="lazy"
               />
-              {/* Subtle top surface highlight line */}
-              <path
-                d="M 0,660 C 140,670 280,740 440,830 C 580,910 700,970 820,1000"
-                fill="none"
-                stroke="rgba(255, 255, 255, 0.12)"
-                strokeWidth="1.5"
-              />
-            </svg>
-          </div>
-
-          {/* ================================================================= */}
-          {/* 2. COOL STONE GREY MIDDLE SHEET (#B8B7B2)                         */}
-          {/* ================================================================= */}
-          <div className="why-us-wave why-us-wave--grey" ref={greyWaveRef}>
-            <svg
-              viewBox="0 0 1600 1000"
-              preserveAspectRatio="none"
-              className="why-us-wave-svg"
-            >
-              <defs>
-                <linearGradient id="greyMaterialGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#C4C3BE" />
-                  <stop offset="55%" stopColor="#B8B7B2" />
-                  <stop offset="100%" stopColor="#A3A29C" />
-                </linearGradient>
-                {/* Contact & ambient drop shadow over navy layer */}
-                <filter id="greyPaperShadow" x="-5%" y="-10%" width="120%" height="135%">
-                  <feDropShadow dx="-2" dy="-5" stdDeviation="12" floodColor="#000000" floodOpacity="0.32" />
-                  <feDropShadow dx="0" dy="2" stdDeviation="4" floodColor="#000000" floodOpacity="0.18" />
-                </filter>
-              </defs>
-              {/* Organic contour sweeping across center and rising dramatically up right side */}
-              <path
-                d="M 0,640 C 180,655 340,740 520,760 C 700,780 860,880 1000,980 C 1080,1030 1180,980 1280,880 C 1400,760 1520,580 1600,440 L 1600,1000 L 0,1000 Z"
-                fill="url(#greyMaterialGrad)"
-                filter="url(#greyPaperShadow)"
-              />
-              {/* Crisp top edge highlight */}
-              <path
-                d="M 0,640 C 180,655 340,740 520,760 C 700,780 860,880 1000,980 C 1080,1030 1180,980 1280,880 C 1400,760 1520,580 1600,440"
-                fill="none"
-                stroke="rgba(255, 255, 255, 0.45)"
-                strokeWidth="1.2"
-              />
-            </svg>
-          </div>
-
-          {/* ================================================================= */}
-          {/* 3. WARM CREAM TOP FOREGROUND SHEET (#EDE6DC)                      */}
-          {/* ================================================================= */}
-          <div className="why-us-wave why-us-wave--ivory" ref={ivoryWaveRef}>
-            <svg
-              viewBox="0 0 1600 1000"
-              preserveAspectRatio="none"
-              className="why-us-wave-svg"
-            >
-              <defs>
-                {/* Multi-tier realistic 3D paper shadow: tight contact + soft ambient */}
-                <filter id="ivoryPhysicalShadow" x="-10%" y="-10%" width="125%" height="145%">
-                  {/* Tight dark contact shadow */}
-                  <feDropShadow dx="0" dy="5" stdDeviation="6" floodColor="#08101a" floodOpacity="0.40" />
-                  {/* Broad soft ambient shadow */}
-                  <feDropShadow dx="0" dy="18" stdDeviation="26" floodColor="#08101a" floodOpacity="0.22" />
-                </filter>
-              </defs>
-              {/* Primary asymmetrical organic contour matching reference */}
-              <path
-                d="M 0,0 L 1600,0 L 1600,440 C 1510,600 1390,780 1240,880 C 1120,950 980,880 860,780 C 720,660 560,670 380,710 C 220,740 100,660 0,590 Z"
-                fill="#EDE6DC"
-                filter="url(#ivoryPhysicalShadow)"
-              />
-              {/* Physical edge bevel / underside shadow strip */}
-              <path
-                d="M 0,590 C 100,660 220,740 380,710 C 560,670 720,660 860,780 C 980,880 1120,950 1240,880 C 1390,780 1510,600 1600,440"
-                fill="none"
-                stroke="rgba(0, 0, 0, 0.08)"
-                strokeWidth="2.5"
-              />
-              {/* Crisp top edge highlight catching light */}
-              <path
-                d="M 0,590 C 100,660 220,740 380,710 C 560,670 720,660 860,780 C 980,880 1120,950 1240,880 C 1390,780 1510,600 1600,440"
-                fill="none"
-                stroke="rgba(255, 255, 255, 0.65)"
-                strokeWidth="1.2"
-              />
-            </svg>
-          </div>
-
+            </div>
+          ))}
         </div>
+      </div>
 
-        {/* Layer 2: Main Editorial Grid Content */}
-        <div className="why-us-content-grid">
+      {/* Main Content Layout */}
+      <div 
+        ref={contentWrapperRef}
+        className="spotlight-content-wrapper relative w-full h-full flex flex-col items-center justify-center px-6 md:px-12 lg:px-24 z-30 pointer-events-none mix-blend-difference"
+      >
+        {/* Main Hero Row: Left Paragraph Block | Center: BUILT TO BE SEEN. | Right: Statement & CTA */}
+        <div className="w-full max-w-[1400px] mx-auto flex flex-col xl:flex-row items-start xl:items-center justify-between gap-8 xl:gap-10 px-4 md:px-8 mb-8 md:mb-12">
           
-          {/* Left Vertical Editorial Rail */}
-          <div className="why-us-left-rail" ref={leftRailRef}>
-            <div className="why-us-rail__line-top" />
-            <span className="why-us-rail__text">BRAND | DESIGN | VISUAL</span>
-            <div className="why-us-rail__dot" />
-          </div>
-
-          {/* Center/Left Main Heading & Intro Copy */}
-          <div className="why-us-hero-col">
-            <div className="why-us-eyebrow" ref={eyebrowRef}>
-              WHY AAR
+          {/* 1. Left Paragraph Block with Split Vertical Accent Line */}
+          <div className="flex items-stretch gap-5 max-w-xs flex-shrink-0">
+            {/* Split Vertical Line (Gold Top, White Bottom + Dot) */}
+            <div className="flex flex-col items-center flex-shrink-0 pt-1">
+              <div className="w-[1.5px] h-12 bg-[#d99e1f]" />
+              <div className="w-[1.5px] h-16 bg-white/40" />
+              <div className="w-1.5 h-1.5 rounded-full bg-white mt-1 shadow-sm" />
             </div>
 
-            <div className="why-us-headline-wrap">
-              <h2 className="why-us-headline">
-                <span className="why-us-headline__why" ref={titleWhyRef}>WHY</span>
-                <span className="why-us-headline__us" ref={titleUsRef}>US.</span>
-              </h2>
-
-              <p className="why-us-statement" ref={supportingCopyRef}>
-                We don’t just make things look good. We make ideas impossible to ignore.
+            {/* Paragraphs */}
+            <div className="flex flex-col gap-4 text-left">
+              <p className="wake-target text-xs md:text-sm text-white/75 font-sans leading-[1.55]">
+                We don’t just design.<br />
+                We build visuals that<br />
+                demand attention.
+              </p>
+              <p className="wake-target text-xs md:text-sm font-bold text-white font-sans leading-[1.55]">
+                Crafted to be seen.<br />
+                Built to be remembered.
               </p>
             </div>
           </div>
 
-          {/* Right Column: 4 Editorial Principles */}
-          <div className="why-us-principles-col">
-            {principlesData.map((item, i) => (
-              <div
-                key={item.num}
-                className="why-us-principle-row"
-                ref={addToPrincipleRefs}
-              >
-                <div className="why-us-principle-header">
-                  <span className="why-us-principle-num">{item.num}</span>
-                  <h3 className="why-us-principle-title">{item.title}</h3>
-                </div>
-
-                <p className="why-us-principle-desc">{item.desc}</p>
-
-                {i < principlesData.length - 1 && (
-                  <div className="why-us-principle-divider" />
-                )}
+          {/* 2. Center: Eyebrow & SEEN Title Display with Gold Dot */}
+          <div className="flex flex-col items-start xl:items-center flex-shrink-0">
+            {eyebrow && (
+              <div className="wake-target text-[10px] md:text-xs font-mono font-bold tracking-[0.35em] text-[#d99e1f] uppercase mb-2">
+                {eyebrow}
               </div>
-            ))}
+            )}
+            <h1 
+              className="text-[17vw] md:text-[11rem] lg:text-[13rem] font-bold leading-[0.82] tracking-tight uppercase flex items-baseline"
+              style={{ fontFamily: "'Playfair Display', 'Cinzel', 'Instrument Serif', serif" }}
+            >
+              <span className="wake-target text-white">SEEN</span>
+              <span className="wake-target inline-block w-4 h-4 md:w-5 md:h-5 rounded-full bg-[#d99e1f] ml-2 mb-2 md:mb-4 shadow-sm" />
+            </h1>
           </div>
 
-          {/* Lower Left Dark Slate CTA (Positioned on the dark navy paper sheet) */}
-          <div className="why-us-lower-cta" ref={lowerCtaRef}>
-            <a href="#contact" className="why-us-cta-link">
-              <div className="why-us-cta-text">
-                <span>LET'S CREATE</span>
-                <span>SOMETHING ICONIC <span className="why-us-cta-arrow">→</span></span>
+          {/* 3. Right: Impact Statement & EXPLORE OUR WORK CTA */}
+          <div className="flex flex-col items-start text-left max-w-xs flex-shrink-0 gap-5">
+            <p className="wake-target text-xs md:text-sm text-white/75 font-sans leading-[1.6]">
+              Every frame. Every detail.<br />
+              Every decision is made to cut through<br />
+              the noise and leave a lasting impact.
+            </p>
+
+            <a 
+              href="#work"
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.getElementById('work');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="wake-target group flex flex-col gap-2 pointer-events-auto cursor-pointer"
+            >
+              <div className="flex items-center gap-3 text-xs md:text-sm font-bold tracking-[0.22em] text-white uppercase group-hover:text-[#d99e1f] transition-colors">
+                <span>EXPLORE OUR WORK</span>
+                <span className="text-[#d99e1f] text-base group-hover:translate-x-1 transition-transform">→</span>
               </div>
-              <div className="why-us-cta-dash" />
+              <div className="w-11 h-[2px] bg-[#d99e1f]" />
             </a>
           </div>
 
         </div>
+      </div>
 
+      {/* Footer */}
+      <div className="absolute bottom-0 left-0 w-full p-8 z-40 flex justify-center pointer-events-none mix-blend-difference">
+        <p className="text-[8px] md:text-[10px] text-white/70 max-w-2xl text-center leading-[1.6]">
+          {footerText}
+        </p>
       </div>
     </section>
   );
 }
 
-export default WhyUsSection;
+export const WhyUsSection = MagneticSpotlightMarquee;
+export default MagneticSpotlightMarquee;

@@ -20,7 +20,7 @@ export function App() {
       style={{
         width: '100%',
         minHeight: '100vh',
-        background: !isLoaded ? '#070707' : 'var(--paper)'
+        background: !isLoaded ? '#070707' : 'var(--paper, #ede8e1)'
       }}
     >
       {!isLoaded ? (

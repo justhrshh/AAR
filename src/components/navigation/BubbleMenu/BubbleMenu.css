@@ -1,0 +1,460 @@
+/* ================================================================
+   BubbleMenu.css — Premium Editorial Art-Directed Pill Navigation
+   Exact Visual Match & Scaled Dimensions matching Reference Design
+   ================================================================ */
+
+.organic-menu-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(11, 11, 14, 0.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  z-index: 9998;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none !important;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.organic-menu-overlay:not(.is-open) * {
+  pointer-events: none !important;
+}
+
+.organic-menu-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   TOP HEADER BAR INSIDE MENU OVERLAY
+───────────────────────────────────────────────────────────── */
+.organic-menu-header-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 30px clamp(36px, 5.5vw, 92px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.organic-menu-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: fit-content;
+}
+
+.organic-menu-logo-img {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  filter: brightness(0) invert(1);
+}
+
+.organic-menu-logo-sub {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #d99e1f;
+  line-height: 1;
+}
+
+.organic-menu-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.organic-menu-talk-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(217, 158, 31, 0.45);
+  background: rgba(217, 158, 31, 0.08);
+  color: #ffffff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.organic-menu-talk-btn:hover {
+  background: #d99e1f;
+  color: #0b0b0e;
+  border-color: #d99e1f;
+  transform: translateY(-2px);
+}
+
+.talk-btn-spark {
+  color: #d99e1f;
+  font-size: 12px;
+  transition: transform 0.25s ease;
+}
+
+.organic-menu-talk-btn:hover .talk-btn-spark {
+  color: #0b0b0e;
+  transform: rotate(45deg);
+}
+
+.organic-menu-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: none;
+  border: none;
+  color: #d99e1f;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  padding: 0;
+}
+
+.organic-menu-close-btn:hover {
+  transform: scale(1.15) rotate(90deg);
+  opacity: 0.85;
+}
+
+.organic-menu-close-icon {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-bar {
+  position: absolute;
+  width: 22px;
+  height: 2px;
+  background-color: currentColor;
+  border-radius: 1px;
+}
+
+.close-bar-1 {
+  transform: rotate(45deg);
+}
+
+.close-bar-2 {
+  transform: rotate(-45deg);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   BACKGROUND ARTWORK & DETAILS (Dotted Grids, Flow Curves, Sparks)
+───────────────────────────────────────────────────────────── */
+.menu-bg-artwork {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Dotted Grid Clusters */
+.bg-dots-grid {
+  position: absolute;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  opacity: 0.28;
+}
+
+.bg-dots-left {
+  top: 24%;
+  left: 6%;
+}
+
+.bg-dots-right {
+  bottom: 22%;
+  right: 6%;
+}
+
+.bg-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: #ffffff;
+}
+
+/* Curved Flow Lines */
+.bg-curved-flow-svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 1400px;
+  height: 650px;
+  opacity: 0.9;
+}
+
+/* Scribble Squiggle */
+.bg-squiggle-mark {
+  position: absolute;
+  bottom: 18%;
+  left: 42%;
+  transform: translateX(-50%);
+  opacity: 0.6;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   PILLS COMPOSITION CANVAS (ENLARGED)
+───────────────────────────────────────────────────────────── */
+.organic-pills-canvas {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 48px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pills-composition-wrap {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 52px;
+  column-gap: 48px;
+  width: 100%;
+  align-items: center;
+  justify-items: center;
+}
+
+/* Individual Pill Node Outer Container */
+.pill-item-node {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  will-change: transform, opacity;
+}
+
+/* ── Playful Sparks above Work & Services (Enlarged) ── */
+.pill-spark-accent {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.spark-line {
+  display: inline-block;
+  width: 2.2px;
+  height: 11px;
+  background-color: #d99e1f;
+  border-radius: 2px;
+  transform-origin: bottom center;
+}
+
+.spark-l {
+  transform: rotate(-25deg);
+  height: 8px;
+}
+
+.spark-c {
+  transform: rotate(0deg);
+  height: 13px;
+}
+
+.spark-r {
+  transform: rotate(25deg);
+  height: 8px;
+}
+
+/* ── Contact Warm Gold Underglow (Enlarged) ── */
+.pill-underglow-orb {
+  position: absolute;
+  inset: -18px;
+  background: radial-gradient(circle at center, rgba(217, 158, 31, 0.45) 0%, rgba(217, 158, 31, 0.15) 50%, transparent 75%);
+  filter: blur(24px);
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   WHITE PILL BUTTON COMPONENT (ENLARGED & SIZED PROPERLY)
+───────────────────────────────────────────────────────────── */
+.pill-card-btn {
+  position: relative;
+  z-index: 1;
+  background-color: #ffffff;
+  color: #0e0e11;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 24px 42px 24px 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow:
+    0 22px 48px rgba(0, 0, 0, 0.55),
+    0 8px 18px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.25s ease,
+    color 0.25s ease;
+  min-width: 290px;
+  max-width: 350px;
+  box-sizing: border-box;
+}
+
+/* Hover Physics */
+.pill-card-btn:hover {
+  transform: translateY(-6px) scale(1.04);
+  box-shadow:
+    0 28px 60px rgba(0, 0, 0, 0.7),
+    0 12px 24px rgba(0, 0, 0, 0.35),
+    0 0 32px rgba(217, 158, 31, 0.25);
+}
+
+.pill-card-btn:active {
+  transform: translateY(-2px) scale(0.97);
+}
+
+/* Contact Hover Glow Boost */
+.pill-item-node.has-glow:hover .pill-underglow-orb {
+  opacity: 1;
+  transform: scale(1.15);
+  filter: blur(28px);
+}
+
+/* ── Pill Icon Box (Enlarged) ── */
+.pill-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  color: #0e0e11;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.bubble-icon-svg {
+  width: 30px;
+  height: 30px;
+  display: block;
+}
+
+.pill-card-btn:hover .pill-icon-box {
+  transform: scale(1.12) rotate(-4deg);
+}
+
+/* ── Pill Text Box (Enlarged Lowercase Sans) ── */
+.pill-text-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1;
+}
+
+.pill-main-title {
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  color: #0e0e11;
+  text-transform: lowercase;
+  margin-bottom: 5px;
+  transition: color 0.2s ease;
+}
+
+.pill-sub-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #727480;
+  text-transform: lowercase;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE BREAKPOINTS (Mobile & Tablet)
+───────────────────────────────────────────────────────────── */
+@media (max-width: 1180px) {
+  .pills-composition-wrap {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 36px;
+    column-gap: 32px;
+    max-width: 700px;
+  }
+}
+
+@media (max-width: 768px) {
+  .organic-menu-overlay {
+    padding-top: 90px;
+    padding-bottom: 50px;
+    align-items: center;
+    overflow-y: auto;
+  }
+
+  .organic-pills-canvas {
+    padding: 0 20px;
+  }
+
+  .pills-composition-wrap {
+    grid-template-columns: 1fr;
+    row-gap: 20px;
+    max-width: 340px;
+  }
+
+  .pill-card-btn {
+    min-width: 270px;
+    width: 100%;
+    padding: 18px 28px 18px 22px;
+  }
+
+  .pill-main-title {
+    font-size: 1.55rem;
+  }
+
+  .pill-sub-title {
+    font-size: 0.76rem;
+  }
+
+  .bg-dots-left,
+  .bg-dots-right {
+    display: none;
+  }
+}

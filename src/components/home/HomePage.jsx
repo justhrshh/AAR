@@ -3,6 +3,11 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Navbar } from '../navigation/Navbar';
 import { WhyUsSection } from './WhyUsSection';
+import { WorkSection } from '../sections/WorkSection';
+import { ServicesSection } from '../sections/ServicesSection';
+import { StudioSection } from '../sections/StudioSection';
+import { ContactSection } from '../sections/ContactSection';
+import { Footer } from '../common/Footer';
 import './HomePage.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -28,6 +33,8 @@ export function HomePage({ onReplay }) {
   const canvasWrapperRef = useRef(null);
 
   // Progressive About element refs (glide in step-by-step with scroll)
+  const aboutLeftRef = useRef(null);
+  const aboutRightRef = useRef(null);
   const aboutEyebrowRef = useRef(null);
   const aboutBrandRef = useRef(null);
   const aboutDashRef = useRef(null);
@@ -41,6 +48,25 @@ export function HomePage({ onReplay }) {
   const aboutImpactHeadlineRef = useRef(null);
   const aboutMetaRef = useRef(null);
 
+  // Crafting Black Panel & Typography refs
+  const craftingPanelRef = useRef(null);
+  const craftingHeadlineWrapRef = useRef(null);
+  const craftingWord1CRAFT = useRef(null);
+  const craftingWireframeI = useRef(null);
+  const craftingSolidI = useRef(null);
+  const craftingWord1NG = useRef(null);
+  const craftingWireframeD = useRef(null);
+  const craftingSolidD = useRef(null);
+  const craftingWord2IGITAL = useRef(null);
+  const craftingWireframeE = useRef(null);
+  const craftingSolidE = useRef(null);
+  const craftingWord3XPERIENCES = useRef(null);
+  const craftingWord4TH = useRef(null);
+  const craftingWireframeA = useRef(null);
+  const craftingSolidA = useRef(null);
+  const craftingWord4T = useRef(null);
+  const craftingWord5CONVERT = useRef(null);
+
   // Images cache
   const imagesRef = useRef([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -48,8 +74,9 @@ export function HomePage({ onReplay }) {
   // Cinematic auto-scroll / smooth snap controller
   const isAutoScrollingRef = useRef(false);
   const snapTweenRef = useRef(null);
+  const lastRenderedFrameRef = useRef(-1);
 
-  // Smooth cinematic snap to target position
+  // Smooth cinematic snap to target position (Ultra-gentle film glide)
   const snapTo = useCallback((targetY, customDuration) => {
     if (isAutoScrollingRef.current) return;
 
@@ -67,15 +94,16 @@ export function HomePage({ onReplay }) {
 
     const scrollProxy = { y: window.scrollY };
     const distance = Math.abs(targetY - scrollProxy.y);
-    // 5.0s - 6.0s duration for an ultra-slow, peaceful, high-end cinematic glide
-    const duration = customDuration || Math.min(6.0, Math.max(4.8, (distance / 800) * 5.0));
+    // 7.5s - 8.5s peaceful luxury film speed (approx 28-30fps playback rate)
+    const duration = customDuration || Math.min(8.5, Math.max(7.2, (distance / 800) * 7.6));
 
     snapTweenRef.current = gsap.to(scrollProxy, {
       y: targetY,
       duration: duration,
-      ease: 'sine.inOut', // Ultra-smooth organic harmonic easing
+      ease: 'power1.inOut', // Very gentle, progressive, peaceful acceleration/deceleration
       onUpdate: () => {
         window.scrollTo(0, scrollProxy.y);
+        ScrollTrigger.update();
       },
       onComplete: () => {
         setTimeout(() => {
@@ -85,19 +113,22 @@ export function HomePage({ onReplay }) {
     });
   }, []);
 
-  // Draw a specific frame to the canvas
+  // Draw a specific frame to the canvas with frame caching
   const renderFrame = useCallback((frameNumber) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
 
     const clampedIndex = Math.max(1, Math.min(TOTAL_FRAMES, frameNumber));
+    if (lastRenderedFrameRef.current === clampedIndex) return;
+
     const img = imagesRef.current[clampedIndex - 1];
 
     if (img && img.complete && img.naturalWidth > 0) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      lastRenderedFrameRef.current = clampedIndex;
     }
   }, []);
 
@@ -158,7 +189,7 @@ export function HomePage({ onReplay }) {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Wheel & Touch gesture detection for threshold-based snapping
+  // Wheel & Touch gesture detection for smooth cinematic snap between Hero and About
   useEffect(() => {
     const handleWheel = (e) => {
       if (isAutoScrollingRef.current) {
@@ -173,17 +204,18 @@ export function HomePage({ onReplay }) {
       if (!container) return;
 
       const maxScroll = container.offsetHeight - window.innerHeight;
+      const aboutEndpoint = maxScroll * 0.42; // Exact position of complete About state
       const currentY = window.scrollY;
 
-      // Downward intentional scroll from Hero -> Smoothly animate to About endpoint
-      if (e.deltaY > 18 && currentY < maxScroll * 0.45) {
+      // Downward intentional scroll from Hero -> Ultra-gentle, slow 30fps film disassembly to About
+      if (e.deltaY > 18 && currentY < aboutEndpoint * 0.5) {
         e.preventDefault();
-        snapTo(maxScroll, 5.5);
+        snapTo(aboutEndpoint, 7.8);
       }
-      // Upward intentional scroll from About -> Smoothly animate back to Hero start
-      else if (e.deltaY < -18 && currentY > maxScroll * 0.55 && currentY <= maxScroll + 50) {
+      // Upward intentional scroll from About -> Ultra-gentle, slow 30fps film assembly to Hero
+      else if (e.deltaY < -18 && currentY > aboutEndpoint * 0.6 && currentY <= aboutEndpoint + 80) {
         e.preventDefault();
-        snapTo(0, 5.0);
+        snapTo(0, 7.0);
       }
     };
 
@@ -207,15 +239,18 @@ export function HomePage({ onReplay }) {
       const touchCurrentY = e.touches[0].clientY;
       const deltaY = touchStartY - touchCurrentY;
       const maxScroll = container.offsetHeight - window.innerHeight;
+      const aboutEndpoint = maxScroll * 0.42;
       const currentY = window.scrollY;
 
-      // Intentional swipe down/up
-      if (deltaY > 35 && currentY < maxScroll * 0.45) {
+      // Intentional swipe down from Hero -> Snap to About
+      if (deltaY > 35 && currentY < aboutEndpoint * 0.5) {
         e.preventDefault();
-        snapTo(maxScroll, 5.5);
-      } else if (deltaY < -35 && currentY > maxScroll * 0.55 && currentY <= maxScroll + 50) {
+        snapTo(aboutEndpoint, 7.8);
+      } 
+      // Intentional swipe up from About -> Snap to Hero
+      else if (deltaY < -35 && currentY > aboutEndpoint * 0.6 && currentY <= aboutEndpoint + 80) {
         e.preventDefault();
-        snapTo(0, 5.0);
+        snapTo(0, 7.0);
       }
     };
 
@@ -243,15 +278,44 @@ export function HomePage({ onReplay }) {
     const ctx = gsap.context(() => {
       const frameObj = { frame: 1 };
 
+      // 0. Orchestrated Hero Entrance Animation (Plays gracefully upon Loader completion)
+      const entranceTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+      gsap.set(canvasWrapperRef.current, { autoAlpha: 0, scale: 0.90 });
+      gsap.set(ghostVisRef.current, { autoAlpha: 0, y: -25 });
+      gsap.set('.hero-eyebrow', { autoAlpha: 0, y: 20 });
+      gsap.set('.hero-headline__line', { autoAlpha: 0, y: 40 });
+      gsap.set('.hero-body', { autoAlpha: 0, y: 25 });
+      gsap.set('.hero-cta', { autoAlpha: 0, y: 20, scale: 0.94 });
+      gsap.set('.hero-socials__link', { autoAlpha: 0, y: 15 });
+      gsap.set('.hero-vision-marker', { autoAlpha: 0, x: 25 });
+      gsap.set('.service-link', { autoAlpha: 0, x: 35 });
+      gsap.set('.hero-scroll', { autoAlpha: 0, y: 20 });
+
+      entranceTl
+        .to(canvasWrapperRef.current, { autoAlpha: 1, scale: 1, duration: 1.5, ease: 'power2.out' }, 0.1)
+        .to(ghostVisRef.current, { autoAlpha: 0.45, y: 0, duration: 1.4 }, 0.2)
+        .to('.hero-eyebrow', { autoAlpha: 1, y: 0, duration: 0.8 }, 0.35)
+        .to('.hero-headline__line', { autoAlpha: 1, y: 0, duration: 1.0, stagger: 0.14 }, 0.45)
+        .to('.hero-body', { autoAlpha: 1, y: 0, duration: 0.9 }, 0.8)
+        .to('.hero-cta', { autoAlpha: 1, y: 0, scale: 1, duration: 0.8 }, 0.95)
+        .to('.hero-socials__link', { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.08 }, 1.1)
+        .to('.hero-vision-marker', { autoAlpha: 1, x: 0, duration: 0.8 }, 0.5)
+        .to('.service-link', { autoAlpha: 1, x: 0, duration: 0.85, stagger: 0.12 }, 0.65)
+        .to('.hero-scroll', { autoAlpha: 1, y: 0, duration: 0.8 }, 1.0);
+
       // 1. Initial Hero states (Active at 0% scroll)
       gsap.set([heroLeftRef.current, heroRightRef.current, heroMetaRef.current], {
-        opacity: 1,
+        autoAlpha: 1,
         x: 0,
-        y: 0,
-        pointerEvents: 'auto'
+        y: 0
       });
 
       // 2. Initial About states (Hidden, primed for glide-in)
+      gsap.set([aboutLeftRef.current, aboutRightRef.current], {
+        autoAlpha: 0
+      });
+
       const aboutItems = [
         aboutEyebrowRef.current,
         aboutBrandRef.current,
@@ -266,9 +330,44 @@ export function HomePage({ onReplay }) {
       ];
 
       gsap.set(aboutItems, {
-        opacity: 0,
+        autoAlpha: 0,
+        y: 28
+      });
+
+      // Crafting Black Panel & Typography initial states (Completely hidden above viewport)
+      gsap.set(craftingPanelRef.current, {
+        yPercent: -105,
+        borderBottomLeftRadius: 'clamp(36px, 6vw, 80px)',
+        borderBottomRightRadius: 'clamp(36px, 6vw, 80px)'
+      });
+
+      gsap.set(craftingHeadlineWrapRef.current, {
+        y: 80,
+        autoAlpha: 0.2
+      });
+
+      gsap.set(craftingWord1CRAFT.current, { autoAlpha: 1, y: 0 });
+
+      gsap.set([craftingWireframeI.current, craftingWireframeD.current, craftingWireframeE.current, craftingWireframeA.current], {
+        autoAlpha: 0,
         y: 28,
-        pointerEvents: 'none'
+        scale: 0.92
+      });
+
+      gsap.set([craftingSolidI.current, craftingSolidD.current, craftingSolidE.current, craftingSolidA.current], {
+        autoAlpha: 0
+      });
+
+      gsap.set([
+        craftingWord1NG.current,
+        craftingWord2IGITAL.current,
+        craftingWord3XPERIENCES.current,
+        craftingWord4TH.current,
+        craftingWord4T.current,
+        craftingWord5CONVERT.current
+      ], {
+        autoAlpha: 0,
+        y: 30
       });
 
       // 3. Main GSAP Timeline
@@ -277,7 +376,7 @@ export function HomePage({ onReplay }) {
           trigger: container,
           start: 'top top',
           end: 'bottom bottom',
-          scrub: 0.45, // Butter-smooth lerped scrubbing
+          scrub: 0.1, // 1:1 Instant sync with scroll tweens
           pin: pinViewportRef.current,
           anticipatePin: 1,
           invalidateOnRefresh: true,
@@ -290,132 +389,223 @@ export function HomePage({ onReplay }) {
       });
 
       // =========================================================================
-      // PHASE 1: Hero UI Disappears in the starting 0% -> 10% scroll
+      // PHASE 1: Hero UI Disappears (0.00 -> 0.06)
       // =========================================================================
       mainTl
         .to(heroLeftRef.current, {
-          opacity: 0,
+          autoAlpha: 0,
           y: -30,
-          pointerEvents: 'none',
-          duration: 0.10,
+          duration: 0.06,
           ease: 'power2.inOut'
         }, 0)
         .to(heroRightRef.current, {
-          opacity: 0,
+          autoAlpha: 0,
           x: 30,
-          pointerEvents: 'none',
-          duration: 0.10,
+          duration: 0.06,
           ease: 'power2.inOut'
         }, 0)
         .to(heroMetaRef.current, {
-          opacity: 0,
-          duration: 0.08,
+          autoAlpha: 0,
+          duration: 0.05,
           ease: 'power1.inOut'
         }, 0)
         .to(ghostVisRef.current, {
           opacity: 0.20,
           y: -10,
-          duration: 0.15,
+          duration: 0.08,
           ease: 'none'
         }, 0);
 
       // =========================================================================
-      // PHASE 2 & 3: Cube Frame Scrubbing (0.08 -> 0.92)
+      // PHASE 2: Cube Frame Scrubbing (0.04 -> 0.36)
       // Cube disassembles as you scroll through its layers
       // =========================================================================
       mainTl.to(frameObj, {
         frame: TOTAL_FRAMES,
         ease: 'none',
-        duration: 0.84,
+        duration: 0.32,
         onUpdate: () => {
           renderFrame(Math.round(frameObj.frame));
         }
-      }, 0.08);
+      }, 0.04);
 
       // =========================================================================
-      // PHASE 3 & 4: Progressive Glide-In of About Elements as you scroll
-      // Each piece enters sequentially alongside the animation
+      // PHASE 3 & 4: Progressive Glide-In of About Elements (0.12 -> 0.38)
       // =========================================================================
       
-      // 1. "WE ARE" Eyebrow (Scroll ~22% -> 30%)
+      // Reveal About column containers
+      mainTl.to([aboutLeftRef.current, aboutRightRef.current], {
+        autoAlpha: 1,
+        duration: 0.04
+      }, 0.12);
+
+      // 1. "WE ARE" Eyebrow (Scroll ~12% -> 18%)
       mainTl.to(aboutEyebrowRef.current, {
-        opacity: 1,
+        autoAlpha: 1,
         y: 0,
-        duration: 0.10,
+        duration: 0.06,
+        ease: 'power2.out'
+      }, 0.12);
+
+      // 2. "AAR VISUALS" Brand Header (Scroll ~16% -> 22%)
+      mainTl.to(aboutBrandRef.current, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.06,
+        ease: 'power2.out'
+      }, 0.16);
+
+      // 3. "OUR IDENTITY" Header on right (Scroll ~18% -> 24%)
+      mainTl.to(aboutIdentityHeaderRef.current, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.06,
+        ease: 'power2.out'
+      }, 0.18);
+
+      // 4. Gold Dash (Scroll ~22% -> 28%)
+      mainTl.to(aboutDashRef.current, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.06,
         ease: 'power2.out'
       }, 0.22);
 
-      // 2. "AAR VISUALS" Brand Header (Scroll ~28% -> 38%)
-      mainTl.to(aboutBrandRef.current, {
-        opacity: 1,
+      // 5. Studio Statement on left (Scroll ~24% -> 30%)
+      mainTl.to(aboutStatementRef.current, {
+        autoAlpha: 1,
         y: 0,
-        duration: 0.12,
+        duration: 0.06,
         ease: 'power2.out'
-      }, 0.28);
+      }, 0.24);
 
-      // 3. "OUR IDENTITY" Header on right (Scroll ~34% -> 44%)
-      mainTl.to(aboutIdentityHeaderRef.current, {
-        opacity: 1,
+      // 6. Identity Paragraph on right (Scroll ~26% -> 32%)
+      mainTl.to(aboutIdentityBodyRef.current, {
+        autoAlpha: 1,
         y: 0,
-        duration: 0.10,
+        duration: 0.06,
+        ease: 'power2.out'
+      }, 0.26);
+
+      // 7. Gold Divider line on right (Scroll ~30% -> 34%)
+      mainTl.to(aboutDividerRef.current, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.04,
+        ease: 'power2.out'
+      }, 0.30);
+
+      // 8. "WE TURN" Eyebrow on right (Scroll ~32% -> 36%)
+      mainTl.to(aboutImpactEyebrowRef.current, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.04,
+        ease: 'power2.out'
+      }, 0.32);
+
+      // 9. "IDEAS INTO IMPACT." Headline on right (Scroll ~34% -> 38%)
+      mainTl.to(aboutImpactHeadlineRef.current, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.06,
         ease: 'power2.out'
       }, 0.34);
 
-      // 4. Gold Dash (Scroll ~38% -> 46%)
-      mainTl.to(aboutDashRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.08,
-        ease: 'power2.out'
-      }, 0.38);
-
-      // 5. Studio Statement on left (Scroll ~42% -> 54%)
-      mainTl.to(aboutStatementRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.12,
-        ease: 'power2.out'
-      }, 0.42);
-
-      // 6. Identity Paragraph on right (Scroll ~46% -> 58%)
-      mainTl.to(aboutIdentityBodyRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.12,
-        ease: 'power2.out'
-      }, 0.46);
-
-      // 7. Gold Divider line on right (Scroll ~54% -> 64%)
-      mainTl.to(aboutDividerRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.10,
-        ease: 'power2.out'
-      }, 0.54);
-
-      // 8. "WE TURN" Eyebrow on right (Scroll ~60% -> 70%)
-      mainTl.to(aboutImpactEyebrowRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.10,
-        ease: 'power2.out'
-      }, 0.60);
-
-      // 9. "IDEAS INTO IMPACT." Headline on right (Scroll ~68% -> 80%)
-      mainTl.to(aboutImpactHeadlineRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.14,
-        ease: 'power2.out'
-      }, 0.68);
-
-      // 10. "BRAND | DESIGN | VISUAL" Tags on left (Scroll ~76% -> 86%)
+      // 10. "BRAND | DESIGN | VISUAL" Tags on left (Scroll ~36% -> 40%)
       mainTl.to(aboutTagsRef.current, {
-        opacity: 1,
+        autoAlpha: 1,
         y: 0,
-        duration: 0.12,
+        duration: 0.06,
         ease: 'power2.out'
-      }, 0.76);
+      }, 0.36);
+
+      // =========================================================================
+      // [STABLE ABOUT HOLD ZONE: 0.38 -> 0.65]
+      // Full About section sits rock-solid in the viewport.
+      // Nothing else moves until user explicitly scrolls past 0.65!
+      // =========================================================================
+
+      // =========================================================================
+      // PHASE 5: The Black Screen Transition (Starts ONLY when user scrolls past 0.65)
+      // Panel sweeps DOWN from TOP directly over the hero in the pinned viewport
+      // =========================================================================
+      mainTl
+        .to(craftingPanelRef.current, {
+          yPercent: 0,
+          ease: 'none',
+          duration: 0.28
+        }, 0.65)
+        .to(craftingHeadlineWrapRef.current, {
+          y: 0,
+          autoAlpha: 1,
+          ease: 'power2.out',
+          duration: 0.26
+        }, 0.65);
+
+      // Progressive typography assembly (0.67 -> 0.93)
+      // 1. Wireframe "I" enters (0.67 -> 0.71)
+      mainTl.to(craftingWireframeI.current, {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.04,
+        ease: 'power2.out'
+      }, 0.67);
+
+      // 2. "I" turns solid + "NG" reveals -> "CRAFTING" complete (0.71 -> 0.76)
+      mainTl
+        .to(craftingWireframeI.current, { autoAlpha: 0, duration: 0.02 }, 0.71)
+        .to(craftingSolidI.current, { autoAlpha: 1, duration: 0.02 }, 0.71)
+        .to(craftingWord1NG.current, { autoAlpha: 1, y: 0, duration: 0.05, ease: 'power2.out' }, 0.72);
+
+      // 3. Wireframe "D" enters (0.74 -> 0.78)
+      mainTl.to(craftingWireframeD.current, {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.04,
+        ease: 'power2.out'
+      }, 0.74);
+
+      // 4. "D" turns solid + "IGITAL" reveals -> "CRAFTING DIGITAL" complete (0.78 -> 0.83)
+      mainTl
+        .to(craftingWireframeD.current, { autoAlpha: 0, duration: 0.02 }, 0.78)
+        .to(craftingSolidD.current, { autoAlpha: 1, duration: 0.02 }, 0.78)
+        .to(craftingWord2IGITAL.current, { autoAlpha: 1, y: 0, duration: 0.05, ease: 'power2.out' }, 0.79);
+
+      // 5. Wireframe "E" enters (0.80 -> 0.84)
+      mainTl.to(craftingWireframeE.current, {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.04,
+        ease: 'power2.out'
+      }, 0.80);
+
+      // 6. "E" turns solid + "XPERIENCES" reveals -> "CRAFTING DIGITAL EXPERIENCES" complete (0.84 -> 0.88)
+      mainTl
+        .to(craftingWireframeE.current, { autoAlpha: 0, duration: 0.02 }, 0.84)
+        .to(craftingSolidE.current, { autoAlpha: 1, duration: 0.02 }, 0.84)
+        .to(craftingWord3XPERIENCES.current, { autoAlpha: 1, y: 0, duration: 0.04, ease: 'power2.out' }, 0.85);
+
+      // 7. "TH" + Wireframe "A" enters (0.86 -> 0.90)
+      mainTl
+        .to(craftingWord4TH.current, { autoAlpha: 1, y: 0, duration: 0.03, ease: 'power2.out' }, 0.86)
+        .to(craftingWireframeA.current, { autoAlpha: 1, y: 0, scale: 1, duration: 0.04, ease: 'power2.out' }, 0.87);
+
+      // 8. "A" turns solid + "T" reveals -> "THAT" complete (0.90 -> 0.93)
+      mainTl
+        .to(craftingWireframeA.current, { autoAlpha: 0, duration: 0.02 }, 0.90)
+        .to(craftingSolidA.current, { autoAlpha: 1, duration: 0.02 }, 0.90)
+        .to(craftingWord4T.current, { autoAlpha: 1, y: 0, duration: 0.03, ease: 'power2.out' }, 0.91);
+
+      // 9. "CONVERT." reveals -> Full statement assembled! (0.93 -> 0.97)
+      mainTl.to(craftingWord5CONVERT.current, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.04,
+        ease: 'power2.out'
+      }, 0.93);
 
       // Refresh ScrollTrigger calculations
       const timer = setTimeout(() => {
@@ -434,7 +624,7 @@ export function HomePage({ onReplay }) {
       snapTo(0, 2.0);
     } else if (item === 'ABOUT' && containerRef.current) {
       const maxScroll = containerRef.current.offsetHeight - window.innerHeight;
-      snapTo(maxScroll, 2.4);
+      snapTo(maxScroll * 0.42, 2.4);
     } else if (item === 'SERVICES' || item === 'STUDIO' || item === 'WHY US') {
       const sectionEl = document.getElementById('services');
       if (sectionEl) {
@@ -499,7 +689,7 @@ export function HomePage({ onReplay }) {
                 e.preventDefault();
                 if (containerRef.current) {
                   const maxScroll = containerRef.current.offsetHeight - window.innerHeight;
-                  snapTo(maxScroll, 2.2);
+                  snapTo(maxScroll * 0.42, 2.2);
                 }
               }}
             >
@@ -613,7 +803,7 @@ export function HomePage({ onReplay }) {
         <div className="about-overlay-grid">
           
           {/* About Left Column */}
-          <div className="about-left">
+          <div className="about-left" ref={aboutLeftRef}>
             <div className="about-eyebrow" ref={aboutEyebrowRef}>WE ARE</div>
             
             <div className="about-brand" ref={aboutBrandRef}>
@@ -653,7 +843,7 @@ export function HomePage({ onReplay }) {
           </div>
 
           {/* About Right Column */}
-          <div className="about-right">
+          <div className="about-right" ref={aboutRightRef}>
             <div className="about-identity-header" ref={aboutIdentityHeaderRef}>OUR IDENTITY</div>
 
             <p className="about-identity-body" ref={aboutIdentityBodyRef}>
@@ -677,11 +867,102 @@ export function HomePage({ onReplay }) {
           </div>
         </div>
 
+        {/* Layer 5: Integrated Crafting Black Panel Scroll Transition (Animates in from TOP) */}
+        <div ref={craftingPanelRef} className="crafting-black-panel">
+          
+          {/* Chapter Manifesto Marker */}
+          <div className="crafting-chapter-tag">
+            <span className="crafting-chapter-dash" />
+            <span className="crafting-chapter-text">AAR VISUALS • MANIFESTO</span>
+          </div>
+
+          {/* Progressive Animated Headline (Animates in from BOTTOM) */}
+          <div ref={craftingHeadlineWrapRef} className="crafting-headline-wrap">
+            <h2 className="crafting-headline">
+              
+              {/* WORD 1: CRAFTING (CRAFT + I [wireframe/solid] + NG) */}
+              <span className="crafting-word">
+                <span ref={craftingWord1CRAFT} className="crafting-glyph-solid">CRAFT</span>
+                
+                <span className="crafting-special-char-wrap">
+                  <span ref={craftingWireframeI} className="crafting-glyph-wireframe">I</span>
+                  <span ref={craftingSolidI} className="crafting-glyph-solid crafting-glyph-solid--accent">I</span>
+                </span>
+                
+                <span ref={craftingWord1NG} className="crafting-glyph-solid">NG</span>
+              </span>
+
+              {/* WORD 2: DIGITAL (D [wireframe/solid] + IGITAL) */}
+              <span className="crafting-word">
+                <span className="crafting-special-char-wrap">
+                  <span ref={craftingWireframeD} className="crafting-glyph-wireframe">D</span>
+                  <span ref={craftingSolidD} className="crafting-glyph-solid crafting-glyph-solid--accent">D</span>
+                </span>
+                
+                <span ref={craftingWord2IGITAL} className="crafting-glyph-solid">IGITAL</span>
+              </span>
+
+              {/* WORD 3: EXPERIENCES (E [wireframe/solid] + XPERIENCES) */}
+              <span className="crafting-word">
+                <span className="crafting-special-char-wrap">
+                  <span ref={craftingWireframeE} className="crafting-glyph-wireframe">E</span>
+                  <span ref={craftingSolidE} className="crafting-glyph-solid crafting-glyph-solid--accent">E</span>
+                </span>
+                
+                <span ref={craftingWord3XPERIENCES} className="crafting-glyph-solid">XPERIENCES</span>
+              </span>
+
+              {/* WORD 4: THAT (TH + A [wireframe/solid] + T) */}
+              <span className="crafting-word">
+                <span ref={craftingWord4TH} className="crafting-glyph-solid">TH</span>
+                
+                <span className="crafting-special-char-wrap">
+                  <span ref={craftingWireframeA} className="crafting-glyph-wireframe">A</span>
+                  <span ref={craftingSolidA} className="crafting-glyph-solid crafting-glyph-solid--accent">A</span>
+                </span>
+                
+                <span ref={craftingWord4T} className="crafting-glyph-solid">T</span>
+              </span>
+
+              {/* WORD 5: CONVERT */}
+              <span className="crafting-word">
+                <span ref={craftingWord5CONVERT} className="crafting-glyph-solid crafting-glyph-solid--gold">
+                  CONVERT<span className="crafting-dot">.</span>
+                </span>
+              </span>
+
+            </h2>
+          </div>
+
+          {/* Bottom Subtext */}
+          <div className="crafting-footer-note">
+            <span>TACTILE CLARITY</span>
+            <span className="crafting-footer-sep">•</span>
+            <span>UNCOMPROMISING PRECISION</span>
+          </div>
+
+        </div>
+
       </div>
     </div>
 
     {/* Section 2: WHY US Physical Assembly Scroll Sequence */}
     <WhyUsSection />
+
+    {/* Section 3: SELECTED WORK / ASYMMETRIC PROJECT ARCHIVE */}
+    <WorkSection />
+
+    {/* Section 4: CAPABILITIES & 5-STEP METHODOLOGY */}
+    <ServicesSection />
+
+    {/* Section 5: STUDIO PHILOSOPHY & PRINCIPLES */}
+    <StudioSection />
+
+    {/* Section 6: BESPOKE CONTACT & INQUIRY */}
+    <ContactSection />
+
+    {/* Section 7: SHARED EDITORIAL FOOTER */}
+    <Footer theme="light" />
     </>
   );
 }

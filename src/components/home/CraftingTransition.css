@@ -1,0 +1,224 @@
+/* =============================================================================
+   AAR VISUALS — SCROLL-DRIVEN BLACK PANEL (FROM TOP) & TEXT (FROM BOTTOM)
+   ============================================================================= */
+
+.crafting-transition-section {
+  position: relative;
+  width: 100%;
+  height: 220vh; /* Smooth 1:1 scroll scrub track */
+  background-color: var(--paper, #ede8e1);
+  overflow: visible;
+  z-index: 25;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   PINNED VIEWPORT
+───────────────────────────────────────────────────────────── */
+.crafting-viewport {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--paper, #ede8e1);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   INCOMING PURE BLACK PANEL (SLIDES DOWN FROM TOP)
+───────────────────────────────────────────────────────────── */
+.crafting-black-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #000000;
+  color: #ffffff;
+  border-bottom-left-radius: clamp(36px, 6vw, 80px);
+  border-bottom-right-radius: clamp(36px, 6vw, 80px);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px clamp(24px, 5vw, 80px);
+  box-sizing: border-box;
+  will-change: transform;
+  user-select: none;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   TOP CHAPTER TAG
+───────────────────────────────────────────────────────────── */
+.crafting-chapter-tag {
+  position: absolute;
+  top: clamp(32px, 5vh, 60px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.crafting-chapter-dash {
+  width: 20px;
+  height: 2px;
+  background-color: var(--gold, #c9962c);
+}
+
+.crafting-chapter-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   HEADLINE CONTAINER & TYPOGRAPHY (ANIMATES UP FROM BOTTOM)
+───────────────────────────────────────────────────────────── */
+.crafting-headline-wrap {
+  width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  will-change: transform, opacity;
+}
+
+.crafting-headline {
+  font-family: 'Plus Jakarta Sans', 'Cinzel', sans-serif;
+  font-size: clamp(26px, 4.3vw, 68px);
+  font-weight: 900;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  row-gap: 14px;
+  column-gap: clamp(14px, 1.8vw, 32px);
+}
+
+.crafting-word {
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
+}
+
+/* Solid Glyphs */
+.crafting-glyph-solid {
+  display: inline-block;
+  color: #ffffff;
+  font-weight: 900;
+}
+
+.crafting-glyph-solid--accent {
+  color: #ffffff;
+}
+
+.crafting-glyph-solid--gold {
+  color: #ffffff;
+}
+
+.crafting-dot {
+  color: var(--gold, #c9962c);
+  font-family: serif;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SPECIAL CHARACTER STACK (WIREFRAME ↔ SOLID)
+───────────────────────────────────────────────────────────── */
+.crafting-special-char-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: baseline;
+  margin: 0 1px;
+}
+
+/* Wireframe Outline Glyph */
+.crafting-glyph-wireframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.45);
+  font-weight: 900;
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   BOTTOM FOOTER NOTE
+───────────────────────────────────────────────────────────── */
+.crafting-footer-note {
+  position: absolute;
+  bottom: clamp(32px, 5vh, 60px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+}
+
+.crafting-footer-sep {
+  color: var(--gold, #c9962c);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE BREAKPOINTS
+───────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .crafting-headline {
+    font-size: clamp(24px, 4.8vw, 48px);
+    column-gap: 16px;
+    row-gap: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .crafting-transition-section {
+    height: 200vh;
+  }
+
+  .crafting-black-panel {
+    border-bottom-left-radius: 36px;
+    border-bottom-right-radius: 36px;
+    padding: 32px 18px;
+  }
+
+  .crafting-headline {
+    font-size: clamp(20px, 6vw, 32px);
+    line-height: 1.35;
+    column-gap: 10px;
+    row-gap: 8px;
+  }
+
+  .crafting-chapter-tag {
+    top: 24px;
+  }
+
+  .crafting-footer-note {
+    bottom: 24px;
+    font-size: 9px;
+  }
+}
