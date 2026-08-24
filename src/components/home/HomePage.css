@@ -19,7 +19,7 @@
 .aar-scroll-container {
   position: relative;
   width: 100vw;
-  height: 380vh;
+  height: 240vh;
   background-color: var(--paper);
   color: var(--ink);
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
@@ -911,6 +911,56 @@
   color: var(--ink);
 }
 
+/* About Bottom Scroll Hint */
+.about-scroll-hint {
+  position: absolute;
+  bottom: clamp(18px, 3.5vh, 42px);
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  z-index: 25;
+  pointer-events: none;
+  user-select: none;
+}
+
+.about-scroll-hint__text {
+  font-family: 'JetBrains Mono', 'Plus Jakarta Sans', monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: 0.45;
+  white-space: nowrap;
+}
+
+.about-scroll-hint__line {
+  width: 1.5px;
+  height: 42px;
+  background: linear-gradient(to bottom, var(--ink), transparent);
+  border-radius: 2px;
+  opacity: 0.45;
+  animation: aboutScrollPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes aboutScrollPulse {
+  0%, 100% {
+    opacity: 0.25;
+    transform: scaleY(0.85);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scaleY(1.05);
+  }
+}
+
 /* --------------------------------------------------------------------------- */
 /* RESPONSIVE BREAKPOINTS                                                       */
 /* --------------------------------------------------------------------------- */
@@ -945,185 +995,5 @@
   .hero-explode-video {
     width: 95vw;
     height: 60vh;
-  }
-}
-
-/* --------------------------------------------------------------------------- */
-/* CRAFTING BLACK PANEL SCROLL OVERLAY (Integrated Pinned Viewport)            */
-/* --------------------------------------------------------------------------- */
-.crafting-black-panel {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: #000000;
-  color: #ffffff;
-  border-bottom-left-radius: clamp(36px, 6vw, 80px);
-  border-bottom-right-radius: clamp(36px, 6vw, 80px);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px clamp(24px, 5vw, 80px);
-  box-sizing: border-box;
-  z-index: 40;
-  transform: translateY(-105%);
-  will-change: transform;
-  user-select: none;
-  pointer-events: none;
-}
-
-.crafting-chapter-tag {
-  position: absolute;
-  top: clamp(32px, 5vh, 60px);
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.crafting-chapter-dash {
-  width: 20px;
-  height: 2px;
-  background-color: var(--gold, #c9962c);
-}
-
-.crafting-chapter-text {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.26em;
-  color: rgba(255, 255, 255, 0.6);
-  text-transform: uppercase;
-}
-
-.crafting-headline-wrap {
-  width: 100%;
-  max-width: 1380px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  will-change: transform, opacity;
-}
-
-.crafting-headline {
-  font-family: 'Plus Jakarta Sans', 'Cinzel', sans-serif;
-  font-size: clamp(26px, 4.3vw, 68px);
-  font-weight: 900;
-  line-height: 1.25;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: center;
-  row-gap: 14px;
-  column-gap: clamp(14px, 1.8vw, 32px);
-}
-
-.crafting-word {
-  display: inline-flex;
-  align-items: baseline;
-  white-space: nowrap;
-}
-
-.crafting-glyph-solid {
-  display: inline-block;
-  color: #ffffff;
-  font-weight: 900;
-}
-
-.crafting-glyph-solid--accent {
-  color: #ffffff;
-}
-
-.crafting-glyph-solid--gold {
-  color: #ffffff;
-}
-
-.crafting-dot {
-  color: var(--gold, #c9962c);
-  font-family: serif;
-}
-
-.crafting-special-char-wrap {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  vertical-align: baseline;
-  margin: 0 1px;
-}
-
-.crafting-glyph-wireframe {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.45);
-  font-weight: 900;
-  pointer-events: none;
-}
-
-.crafting-footer-note {
-  position: absolute;
-  bottom: clamp(32px, 5vh, 60px);
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  color: rgba(255, 255, 255, 0.4);
-  text-transform: uppercase;
-}
-
-.crafting-footer-sep {
-  color: var(--gold, #c9962c);
-}
-
-@media (max-width: 1024px) {
-  .crafting-headline {
-    font-size: clamp(24px, 4.8vw, 48px);
-    column-gap: 16px;
-    row-gap: 10px;
-  }
-}
-
-@media (max-width: 768px) {
-  .crafting-black-panel {
-    border-bottom-left-radius: 36px;
-    border-bottom-right-radius: 36px;
-    padding: 32px 18px;
-  }
-
-  .crafting-headline {
-    font-size: clamp(20px, 6vw, 32px);
-    line-height: 1.35;
-    column-gap: 10px;
-    row-gap: 8px;
-  }
-
-  .crafting-chapter-tag {
-    top: 24px;
-  }
-
-  .crafting-footer-note {
-    bottom: 24px;
-    font-size: 9px;
   }
 }

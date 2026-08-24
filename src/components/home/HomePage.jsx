@@ -3,6 +3,8 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Navbar } from '../navigation/Navbar';
 import { WhyUsSection } from './WhyUsSection';
+import { Skiper31 } from './Skiper31';
+import { ZoomParallax } from './ZoomParallax';
 import { WorkSection } from '../sections/WorkSection';
 import { ServicesSection } from '../sections/ServicesSection';
 import { StudioSection } from '../sections/StudioSection';
@@ -46,26 +48,8 @@ export function HomePage({ onReplay }) {
   const aboutDividerRef = useRef(null);
   const aboutImpactEyebrowRef = useRef(null);
   const aboutImpactHeadlineRef = useRef(null);
+  const aboutScrollHintRef = useRef(null);
   const aboutMetaRef = useRef(null);
-
-  // Crafting Black Panel & Typography refs
-  const craftingPanelRef = useRef(null);
-  const craftingHeadlineWrapRef = useRef(null);
-  const craftingWord1CRAFT = useRef(null);
-  const craftingWireframeI = useRef(null);
-  const craftingSolidI = useRef(null);
-  const craftingWord1NG = useRef(null);
-  const craftingWireframeD = useRef(null);
-  const craftingSolidD = useRef(null);
-  const craftingWord2IGITAL = useRef(null);
-  const craftingWireframeE = useRef(null);
-  const craftingSolidE = useRef(null);
-  const craftingWord3XPERIENCES = useRef(null);
-  const craftingWord4TH = useRef(null);
-  const craftingWireframeA = useRef(null);
-  const craftingSolidA = useRef(null);
-  const craftingWord4T = useRef(null);
-  const craftingWord5CONVERT = useRef(null);
 
   // Images cache
   const imagesRef = useRef([]);
@@ -204,16 +188,15 @@ export function HomePage({ onReplay }) {
       if (!container) return;
 
       const maxScroll = container.offsetHeight - window.innerHeight;
-      const aboutEndpoint = maxScroll * 0.42; // Exact position of complete About state
       const currentY = window.scrollY;
 
       // Downward intentional scroll from Hero -> Ultra-gentle, slow 30fps film disassembly to About
-      if (e.deltaY > 18 && currentY < aboutEndpoint * 0.5) {
+      if (e.deltaY > 18 && currentY < maxScroll * 0.45) {
         e.preventDefault();
-        snapTo(aboutEndpoint, 7.8);
+        snapTo(maxScroll, 7.8);
       }
       // Upward intentional scroll from About -> Ultra-gentle, slow 30fps film assembly to Hero
-      else if (e.deltaY < -18 && currentY > aboutEndpoint * 0.6 && currentY <= aboutEndpoint + 80) {
+      else if (e.deltaY < -18 && currentY > maxScroll * 0.55 && currentY <= maxScroll + 80) {
         e.preventDefault();
         snapTo(0, 7.0);
       }
@@ -239,16 +222,15 @@ export function HomePage({ onReplay }) {
       const touchCurrentY = e.touches[0].clientY;
       const deltaY = touchStartY - touchCurrentY;
       const maxScroll = container.offsetHeight - window.innerHeight;
-      const aboutEndpoint = maxScroll * 0.42;
       const currentY = window.scrollY;
 
       // Intentional swipe down from Hero -> Snap to About
-      if (deltaY > 35 && currentY < aboutEndpoint * 0.5) {
+      if (deltaY > 35 && currentY < maxScroll * 0.45) {
         e.preventDefault();
-        snapTo(aboutEndpoint, 7.8);
+        snapTo(maxScroll, 7.8);
       } 
       // Intentional swipe up from About -> Snap to Hero
-      else if (deltaY < -35 && currentY > aboutEndpoint * 0.6 && currentY <= aboutEndpoint + 80) {
+      else if (deltaY < -35 && currentY > maxScroll * 0.55 && currentY <= maxScroll + 80) {
         e.preventDefault();
         snapTo(0, 7.0);
       }
@@ -326,48 +308,13 @@ export function HomePage({ onReplay }) {
         aboutIdentityBodyRef.current,
         aboutDividerRef.current,
         aboutImpactEyebrowRef.current,
-        aboutImpactHeadlineRef.current
+        aboutImpactHeadlineRef.current,
+        aboutScrollHintRef.current
       ];
 
       gsap.set(aboutItems, {
         autoAlpha: 0,
         y: 28
-      });
-
-      // Crafting Black Panel & Typography initial states (Completely hidden above viewport)
-      gsap.set(craftingPanelRef.current, {
-        yPercent: -105,
-        borderBottomLeftRadius: 'clamp(36px, 6vw, 80px)',
-        borderBottomRightRadius: 'clamp(36px, 6vw, 80px)'
-      });
-
-      gsap.set(craftingHeadlineWrapRef.current, {
-        y: 80,
-        autoAlpha: 0.2
-      });
-
-      gsap.set(craftingWord1CRAFT.current, { autoAlpha: 1, y: 0 });
-
-      gsap.set([craftingWireframeI.current, craftingWireframeD.current, craftingWireframeE.current, craftingWireframeA.current], {
-        autoAlpha: 0,
-        y: 28,
-        scale: 0.92
-      });
-
-      gsap.set([craftingSolidI.current, craftingSolidD.current, craftingSolidE.current, craftingSolidA.current], {
-        autoAlpha: 0
-      });
-
-      gsap.set([
-        craftingWord1NG.current,
-        craftingWord2IGITAL.current,
-        craftingWord3XPERIENCES.current,
-        craftingWord4TH.current,
-        craftingWord4T.current,
-        craftingWord5CONVERT.current
-      ], {
-        autoAlpha: 0,
-        y: 30
       });
 
       // 3. Main GSAP Timeline
@@ -389,223 +336,143 @@ export function HomePage({ onReplay }) {
       });
 
       // =========================================================================
-      // PHASE 1: Hero UI Disappears (0.00 -> 0.06)
+      // PHASE 1: Hero UI Disappears (0.00 -> 0.10)
       // =========================================================================
       mainTl
         .to(heroLeftRef.current, {
           autoAlpha: 0,
           y: -30,
-          duration: 0.06,
+          duration: 0.10,
           ease: 'power2.inOut'
         }, 0)
         .to(heroRightRef.current, {
           autoAlpha: 0,
           x: 30,
-          duration: 0.06,
+          duration: 0.10,
           ease: 'power2.inOut'
         }, 0)
         .to(heroMetaRef.current, {
           autoAlpha: 0,
-          duration: 0.05,
+          duration: 0.08,
           ease: 'power1.inOut'
         }, 0)
         .to(ghostVisRef.current, {
           opacity: 0.20,
           y: -10,
-          duration: 0.08,
+          duration: 0.12,
           ease: 'none'
         }, 0);
 
       // =========================================================================
-      // PHASE 2: Cube Frame Scrubbing (0.04 -> 0.36)
+      // PHASE 2: Cube Frame Scrubbing (0.08 -> 0.88)
       // Cube disassembles as you scroll through its layers
       // =========================================================================
       mainTl.to(frameObj, {
         frame: TOTAL_FRAMES,
         ease: 'none',
-        duration: 0.32,
+        duration: 0.80,
         onUpdate: () => {
           renderFrame(Math.round(frameObj.frame));
         }
-      }, 0.04);
+      }, 0.08);
 
       // =========================================================================
-      // PHASE 3 & 4: Progressive Glide-In of About Elements (0.12 -> 0.38)
+      // PHASE 3 & 4: Progressive Glide-In of About Elements (0.18 -> 0.86)
       // =========================================================================
       
       // Reveal About column containers
       mainTl.to([aboutLeftRef.current, aboutRightRef.current], {
         autoAlpha: 1,
-        duration: 0.04
-      }, 0.12);
+        duration: 0.10
+      }, 0.18);
 
-      // 1. "WE ARE" Eyebrow (Scroll ~12% -> 18%)
+      // 1. "WE ARE" Eyebrow (Scroll ~20% -> 32%)
       mainTl.to(aboutEyebrowRef.current, {
         autoAlpha: 1,
         y: 0,
-        duration: 0.06,
+        duration: 0.12,
         ease: 'power2.out'
-      }, 0.12);
+      }, 0.20);
 
-      // 2. "AAR VISUALS" Brand Header (Scroll ~16% -> 22%)
+      // 2. "AAR VISUALS" Brand Header (Scroll ~28% -> 40%)
       mainTl.to(aboutBrandRef.current, {
         autoAlpha: 1,
         y: 0,
-        duration: 0.06,
+        duration: 0.12,
         ease: 'power2.out'
-      }, 0.16);
+      }, 0.28);
 
-      // 3. "OUR IDENTITY" Header on right (Scroll ~18% -> 24%)
+      // 3. "OUR IDENTITY" Header on right (Scroll ~34% -> 46%)
       mainTl.to(aboutIdentityHeaderRef.current, {
         autoAlpha: 1,
         y: 0,
-        duration: 0.06,
-        ease: 'power2.out'
-      }, 0.18);
-
-      // 4. Gold Dash (Scroll ~22% -> 28%)
-      mainTl.to(aboutDashRef.current, {
-        autoAlpha: 1,
-        y: 0,
-        duration: 0.06,
-        ease: 'power2.out'
-      }, 0.22);
-
-      // 5. Studio Statement on left (Scroll ~24% -> 30%)
-      mainTl.to(aboutStatementRef.current, {
-        autoAlpha: 1,
-        y: 0,
-        duration: 0.06,
-        ease: 'power2.out'
-      }, 0.24);
-
-      // 6. Identity Paragraph on right (Scroll ~26% -> 32%)
-      mainTl.to(aboutIdentityBodyRef.current, {
-        autoAlpha: 1,
-        y: 0,
-        duration: 0.06,
-        ease: 'power2.out'
-      }, 0.26);
-
-      // 7. Gold Divider line on right (Scroll ~30% -> 34%)
-      mainTl.to(aboutDividerRef.current, {
-        autoAlpha: 1,
-        y: 0,
-        duration: 0.04,
-        ease: 'power2.out'
-      }, 0.30);
-
-      // 8. "WE TURN" Eyebrow on right (Scroll ~32% -> 36%)
-      mainTl.to(aboutImpactEyebrowRef.current, {
-        autoAlpha: 1,
-        y: 0,
-        duration: 0.04,
-        ease: 'power2.out'
-      }, 0.32);
-
-      // 9. "IDEAS INTO IMPACT." Headline on right (Scroll ~34% -> 38%)
-      mainTl.to(aboutImpactHeadlineRef.current, {
-        autoAlpha: 1,
-        y: 0,
-        duration: 0.06,
+        duration: 0.12,
         ease: 'power2.out'
       }, 0.34);
 
-      // 10. "BRAND | DESIGN | VISUAL" Tags on left (Scroll ~36% -> 40%)
+      // 4. Gold Dash (Scroll ~40% -> 52%)
+      mainTl.to(aboutDashRef.current, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.12,
+        ease: 'power2.out'
+      }, 0.40);
+
+      // 5. Studio Statement on left (Scroll ~46% -> 58%)
+      mainTl.to(aboutStatementRef.current, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.12,
+        ease: 'power2.out'
+      }, 0.46);
+
+      // 6. Identity Paragraph on right (Scroll ~52% -> 64%)
+      mainTl.to(aboutIdentityBodyRef.current, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.12,
+        ease: 'power2.out'
+      }, 0.52);
+
+      // 7. Gold Divider line on right (Scroll ~60% -> 70%)
+      mainTl.to(aboutDividerRef.current, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.10,
+        ease: 'power2.out'
+      }, 0.60);
+
+      // 8. "WE TURN" Eyebrow on right (Scroll ~66% -> 76%)
+      mainTl.to(aboutImpactEyebrowRef.current, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.10,
+        ease: 'power2.out'
+      }, 0.66);
+
+      // 9. "IDEAS INTO IMPACT." Headline on right (Scroll ~72% -> 82%)
+      mainTl.to(aboutImpactHeadlineRef.current, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.12,
+        ease: 'power2.out'
+      }, 0.72);
+
+      // 10. "BRAND | DESIGN | VISUAL" Tags on left (Scroll ~76% -> 86%)
       mainTl.to(aboutTagsRef.current, {
         autoAlpha: 1,
         y: 0,
-        duration: 0.06,
+        duration: 0.10,
         ease: 'power2.out'
-      }, 0.36);
+      }, 0.76);
 
-      // =========================================================================
-      // [STABLE ABOUT HOLD ZONE: 0.38 -> 0.65]
-      // Full About section sits rock-solid in the viewport.
-      // Nothing else moves until user explicitly scrolls past 0.65!
-      // =========================================================================
-
-      // =========================================================================
-      // PHASE 5: The Black Screen Transition (Starts ONLY when user scrolls past 0.65)
-      // Panel sweeps DOWN from TOP directly over the hero in the pinned viewport
-      // =========================================================================
-      mainTl
-        .to(craftingPanelRef.current, {
-          yPercent: 0,
-          ease: 'none',
-          duration: 0.28
-        }, 0.65)
-        .to(craftingHeadlineWrapRef.current, {
-          y: 0,
-          autoAlpha: 1,
-          ease: 'power2.out',
-          duration: 0.26
-        }, 0.65);
-
-      // Progressive typography assembly (0.67 -> 0.93)
-      // 1. Wireframe "I" enters (0.67 -> 0.71)
-      mainTl.to(craftingWireframeI.current, {
+      // 11. "SCROLL TO SEE MORE" Indicator at About bottom (Scroll ~78% -> 88%)
+      mainTl.to(aboutScrollHintRef.current, {
         autoAlpha: 1,
         y: 0,
-        scale: 1,
-        duration: 0.04,
+        duration: 0.10,
         ease: 'power2.out'
-      }, 0.67);
-
-      // 2. "I" turns solid + "NG" reveals -> "CRAFTING" complete (0.71 -> 0.76)
-      mainTl
-        .to(craftingWireframeI.current, { autoAlpha: 0, duration: 0.02 }, 0.71)
-        .to(craftingSolidI.current, { autoAlpha: 1, duration: 0.02 }, 0.71)
-        .to(craftingWord1NG.current, { autoAlpha: 1, y: 0, duration: 0.05, ease: 'power2.out' }, 0.72);
-
-      // 3. Wireframe "D" enters (0.74 -> 0.78)
-      mainTl.to(craftingWireframeD.current, {
-        autoAlpha: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.04,
-        ease: 'power2.out'
-      }, 0.74);
-
-      // 4. "D" turns solid + "IGITAL" reveals -> "CRAFTING DIGITAL" complete (0.78 -> 0.83)
-      mainTl
-        .to(craftingWireframeD.current, { autoAlpha: 0, duration: 0.02 }, 0.78)
-        .to(craftingSolidD.current, { autoAlpha: 1, duration: 0.02 }, 0.78)
-        .to(craftingWord2IGITAL.current, { autoAlpha: 1, y: 0, duration: 0.05, ease: 'power2.out' }, 0.79);
-
-      // 5. Wireframe "E" enters (0.80 -> 0.84)
-      mainTl.to(craftingWireframeE.current, {
-        autoAlpha: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.04,
-        ease: 'power2.out'
-      }, 0.80);
-
-      // 6. "E" turns solid + "XPERIENCES" reveals -> "CRAFTING DIGITAL EXPERIENCES" complete (0.84 -> 0.88)
-      mainTl
-        .to(craftingWireframeE.current, { autoAlpha: 0, duration: 0.02 }, 0.84)
-        .to(craftingSolidE.current, { autoAlpha: 1, duration: 0.02 }, 0.84)
-        .to(craftingWord3XPERIENCES.current, { autoAlpha: 1, y: 0, duration: 0.04, ease: 'power2.out' }, 0.85);
-
-      // 7. "TH" + Wireframe "A" enters (0.86 -> 0.90)
-      mainTl
-        .to(craftingWord4TH.current, { autoAlpha: 1, y: 0, duration: 0.03, ease: 'power2.out' }, 0.86)
-        .to(craftingWireframeA.current, { autoAlpha: 1, y: 0, scale: 1, duration: 0.04, ease: 'power2.out' }, 0.87);
-
-      // 8. "A" turns solid + "T" reveals -> "THAT" complete (0.90 -> 0.93)
-      mainTl
-        .to(craftingWireframeA.current, { autoAlpha: 0, duration: 0.02 }, 0.90)
-        .to(craftingSolidA.current, { autoAlpha: 1, duration: 0.02 }, 0.90)
-        .to(craftingWord4T.current, { autoAlpha: 1, y: 0, duration: 0.03, ease: 'power2.out' }, 0.91);
-
-      // 9. "CONVERT." reveals -> Full statement assembled! (0.93 -> 0.97)
-      mainTl.to(craftingWord5CONVERT.current, {
-        autoAlpha: 1,
-        y: 0,
-        duration: 0.04,
-        ease: 'power2.out'
-      }, 0.93);
+      }, 0.78);
 
       // Refresh ScrollTrigger calculations
       const timer = setTimeout(() => {
@@ -624,7 +491,7 @@ export function HomePage({ onReplay }) {
       snapTo(0, 2.0);
     } else if (item === 'ABOUT' && containerRef.current) {
       const maxScroll = containerRef.current.offsetHeight - window.innerHeight;
-      snapTo(maxScroll * 0.42, 2.4);
+      snapTo(maxScroll, 2.4);
     } else if (item === 'SERVICES' || item === 'STUDIO' || item === 'WHY US') {
       const sectionEl = document.getElementById('services');
       if (sectionEl) {
@@ -689,7 +556,7 @@ export function HomePage({ onReplay }) {
                 e.preventDefault();
                 if (containerRef.current) {
                   const maxScroll = containerRef.current.offsetHeight - window.innerHeight;
-                  snapTo(maxScroll * 0.42, 2.2);
+                  snapTo(maxScroll, 2.2);
                 }
               }}
             >
@@ -867,86 +734,22 @@ export function HomePage({ onReplay }) {
           </div>
         </div>
 
-        {/* Layer 5: Integrated Crafting Black Panel Scroll Transition (Animates in from TOP) */}
-        <div ref={craftingPanelRef} className="crafting-black-panel">
-          
-          {/* Chapter Manifesto Marker */}
-          <div className="crafting-chapter-tag">
-            <span className="crafting-chapter-dash" />
-            <span className="crafting-chapter-text">AAR VISUALS • MANIFESTO</span>
-          </div>
-
-          {/* Progressive Animated Headline (Animates in from BOTTOM) */}
-          <div ref={craftingHeadlineWrapRef} className="crafting-headline-wrap">
-            <h2 className="crafting-headline">
-              
-              {/* WORD 1: CRAFTING (CRAFT + I [wireframe/solid] + NG) */}
-              <span className="crafting-word">
-                <span ref={craftingWord1CRAFT} className="crafting-glyph-solid">CRAFT</span>
-                
-                <span className="crafting-special-char-wrap">
-                  <span ref={craftingWireframeI} className="crafting-glyph-wireframe">I</span>
-                  <span ref={craftingSolidI} className="crafting-glyph-solid crafting-glyph-solid--accent">I</span>
-                </span>
-                
-                <span ref={craftingWord1NG} className="crafting-glyph-solid">NG</span>
-              </span>
-
-              {/* WORD 2: DIGITAL (D [wireframe/solid] + IGITAL) */}
-              <span className="crafting-word">
-                <span className="crafting-special-char-wrap">
-                  <span ref={craftingWireframeD} className="crafting-glyph-wireframe">D</span>
-                  <span ref={craftingSolidD} className="crafting-glyph-solid crafting-glyph-solid--accent">D</span>
-                </span>
-                
-                <span ref={craftingWord2IGITAL} className="crafting-glyph-solid">IGITAL</span>
-              </span>
-
-              {/* WORD 3: EXPERIENCES (E [wireframe/solid] + XPERIENCES) */}
-              <span className="crafting-word">
-                <span className="crafting-special-char-wrap">
-                  <span ref={craftingWireframeE} className="crafting-glyph-wireframe">E</span>
-                  <span ref={craftingSolidE} className="crafting-glyph-solid crafting-glyph-solid--accent">E</span>
-                </span>
-                
-                <span ref={craftingWord3XPERIENCES} className="crafting-glyph-solid">XPERIENCES</span>
-              </span>
-
-              {/* WORD 4: THAT (TH + A [wireframe/solid] + T) */}
-              <span className="crafting-word">
-                <span ref={craftingWord4TH} className="crafting-glyph-solid">TH</span>
-                
-                <span className="crafting-special-char-wrap">
-                  <span ref={craftingWireframeA} className="crafting-glyph-wireframe">A</span>
-                  <span ref={craftingSolidA} className="crafting-glyph-solid crafting-glyph-solid--accent">A</span>
-                </span>
-                
-                <span ref={craftingWord4T} className="crafting-glyph-solid">T</span>
-              </span>
-
-              {/* WORD 5: CONVERT */}
-              <span className="crafting-word">
-                <span ref={craftingWord5CONVERT} className="crafting-glyph-solid crafting-glyph-solid--gold">
-                  CONVERT<span className="crafting-dot">.</span>
-                </span>
-              </span>
-
-            </h2>
-          </div>
-
-          {/* Bottom Subtext */}
-          <div className="crafting-footer-note">
-            <span>TACTILE CLARITY</span>
-            <span className="crafting-footer-sep">•</span>
-            <span>UNCOMPROMISING PRECISION</span>
-          </div>
-
+        {/* About Bottom Scroll Hint */}
+        <div className="about-scroll-hint" ref={aboutScrollHintRef}>
+          <span className="about-scroll-hint__text">SCROLL TO SEE MORE</span>
+          <div className="about-scroll-hint__line" />
         </div>
 
       </div>
     </div>
 
-    {/* Section 2: WHY US Physical Assembly Scroll Sequence */}
+    {/* Section 2: SCATTERED CHARACTER ASSEMBLY (Skiper31) */}
+    <Skiper31 />
+
+    {/* Section 3: MULTI-SCALE PINNED ZOOM PARALLAX */}
+    <ZoomParallax />
+
+    {/* Section 4: WHY US Physical Assembly Scroll Sequence */}
     <WhyUsSection />
 
     {/* Section 3: SELECTED WORK / ASYMMETRIC PROJECT ARCHIVE */}

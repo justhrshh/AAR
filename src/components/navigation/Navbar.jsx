@@ -22,18 +22,10 @@ export function Navbar({ onReplay, onNavigate }) {
         { id: 'work', name: 'WORK' }
       ];
 
-      // Check dark backgrounds (Crafting Black Panel & WhyUs section)
+      // Check dark backgrounds (WhyUs section and Services)
       let isDark = false;
-      const blackPanelEl = document.querySelector('.crafting-black-panel');
-      if (blackPanelEl && scrollY > 200) {
-        const bRect = blackPanelEl.getBoundingClientRect();
-        if (bRect.top <= 60 && bRect.bottom >= 60) {
-          isDark = true;
-        }
-      }
-
       const whyUsEl = document.getElementById('whyus') || document.getElementById('services');
-      if (!isDark && whyUsEl) {
+      if (whyUsEl) {
         const rect = whyUsEl.getBoundingClientRect();
         if (rect.top <= 60 && rect.bottom >= 60) {
           isDark = true;
@@ -85,14 +77,19 @@ export function Navbar({ onReplay, onNavigate }) {
   const scrollToSection = (sectionId) => {
     setMenuOpen(false);
 
+    if (onNavigate) {
+      onNavigate(sectionId);
+      return;
+    }
+
     if (sectionId === 'TOP') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
     if (sectionId === 'ABOUT') {
-      const totalScrollHeight = window.innerHeight * 2.8;
-      window.scrollTo({ top: totalScrollHeight * 0.55, behavior: 'smooth' });
+      const totalScrollHeight = window.innerHeight * 1.4;
+      window.scrollTo({ top: totalScrollHeight, behavior: 'smooth' });
       return;
     }
 

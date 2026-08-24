@@ -35,7 +35,7 @@ const DEFAULT_IMAGES = [
   }
 ];
 
-export function CraftingTransition({ images = DEFAULT_IMAGES }) {
+export function ZoomParallax({ images = DEFAULT_IMAGES }) {
   const sectionRef = useRef(null);
   const cardsRef = useRef([]);
 
@@ -112,5 +112,5 @@ export function CraftingTransition({ images = DEFAULT_IMAGES }) {
   );
 }
 
-export { CraftingTransition as ZoomParallax };
-export default CraftingTransition;
+export { ZoomParallax as CraftingTransition };
+export default ZoomParallax;
