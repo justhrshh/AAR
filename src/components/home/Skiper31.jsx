@@ -39,7 +39,7 @@ export const Skiper31 = () => {
     offset: ["start end", "center 0%"],
   });
 
-  const text = "see more from ";
+  const text = "BEYOND THE FRAME";
   const characters = text.split("");
   const centerIndex = Math.floor(characters.length / 2);
 
@@ -47,7 +47,7 @@ export const Skiper31 = () => {
 
   return (
     <section className="relative w-full bg-[#ede8e1]">
-      {/* Animated Headline Block ("SEE MORE FROM ") with expansive luxury spacing */}
+      {/* Animated Headline Block ("BEYOND THE FRAME") with expansive luxury spacing */}
       <div
         ref={headerRef}
         className="relative w-full min-h-[60vh] pt-[65vh] sm:pt-[75vh] pb-[50vh] sm:pb-[60vh] px-6 flex flex-col items-center justify-center bg-[#ede8e1]"
