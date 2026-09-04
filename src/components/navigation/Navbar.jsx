@@ -16,21 +16,21 @@ export function Navbar({ onReplay, onNavigate }) {
       // Section tracking for active state & dark theme detection
       const sections = [
         { id: 'contact', name: 'CONTACT' },
+        { id: 'team', name: 'TEAM' },
         { id: 'studio', name: 'STUDIO' },
         { id: 'services', name: 'SERVICES' },
-        { id: 'whyus', name: 'SERVICES' },
         { id: 'work', name: 'WORK' }
       ];
 
-      // Check dark backgrounds (WhyUs section and Services)
+      // Check for sections explicitly marked as dark theme under the navbar
       let isDark = false;
-      const whyUsEl = document.getElementById('whyus') || document.getElementById('services');
-      if (whyUsEl) {
-        const rect = whyUsEl.getBoundingClientRect();
+      const darkEls = document.querySelectorAll('[data-theme="dark"], .aar-theme--dark');
+      darkEls.forEach((el) => {
+        const rect = el.getBoundingClientRect();
         if (rect.top <= 60 && rect.bottom >= 60) {
           isDark = true;
         }
-      }
+      });
       setIsDarkSection(isDark);
 
       // Check current visible section
@@ -125,7 +125,7 @@ export function Navbar({ onReplay, onNavigate }) {
     { label: 'WORK', target: 'work' },
     { label: 'SERVICES', target: 'services' },
     { label: 'STUDIO', target: 'studio' },
-    { label: 'ABOUT', target: 'ABOUT' },
+    { label: 'TEAM', target: 'team' },
     { label: 'CONTACT', target: 'contact' }
   ];
 
@@ -156,23 +156,6 @@ export function Navbar({ onReplay, onNavigate }) {
             <span>S</span>
           </div>
         </a>
-
-        {/* Desktop Nav Links */}
-        <nav className="aar-navbar-nav">
-          {NAV_ITEMS.map(({ label, target }) => {
-            const isActive = activeSection === label;
-            return (
-              <a
-                key={label}
-                href={`#${target.toLowerCase()}`}
-                className={`aar-navbar-nav__link ${isActive ? 'aar-navbar-nav__link--active' : ''}`}
-                onClick={(e) => handleLinkClick(e, target)}
-              >
-                {label}
-              </a>
-            );
-          })}
-        </nav>
 
         {/* Right Menu Button */}
         <button

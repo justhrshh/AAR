@@ -5,7 +5,7 @@
 .aar-studio-section {
   position: relative;
   width: 100%;
-  padding: 140px clamp(36px, 6vw, 100px) 120px;
+  padding: 100px clamp(40px, 9vw, 160px) 100px;
   background-color: var(--paper, #ede8e1);
   color: var(--ink, #0d0d0d);
   box-sizing: border-box;
@@ -13,39 +13,46 @@
 }
 
 .studio-section-container {
-  max-width: 1440px;
+  max-width: 1180px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 90px;
+  gap: 56px;
 }
 
 /* ─────────────────────────────────────────────────────────────
-   HEADER
+   HEADER & EXACT REFERENCE ARTWORK LOCKUP
 ───────────────────────────────────────────────────────────── */
 .studio-header {
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: 20px;
 }
 
-.studio-header__eyebrow {
+.studio-header__eyebrow-center {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.studio-header__eyebrow-dash {
-  width: 24px;
-  height: 2px;
+.studio-eyebrow-line {
+  width: 36px;
+  height: 1px;
   background-color: var(--gold, #c9962c);
+  opacity: 0.6;
+}
+
+.studio-eyebrow-diamond {
+  color: var(--gold, #c9962c);
+  font-size: 7px;
+  line-height: 1;
 }
 
 .studio-header__eyebrow-text {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.26em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--muted, #6e6b66);
 }
@@ -54,42 +61,101 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  gap: 60px;
-  padding-bottom: 44px;
+  gap: 40px;
+  padding-bottom: 32px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.studio-header__title {
-  font-family: 'Cinzel', 'Playfair Display', serif;
-  font-size: clamp(48px, 7.5vw, 104px);
-  font-weight: 700;
-  line-height: 0.94;
-  letter-spacing: -0.02em;
+/* Reference Lockup - Scaled Down Exact Match */
+.studio-lockup-container {
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  line-height: 0.82;
+}
+
+.studio-lockup-row1 {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.studio-lockup-the {
+  font-family: 'Montserrat', 'Plus Jakarta Sans', sans-serif;
+  font-weight: 900;
+  font-size: clamp(28px, 4vw, 54px);
+  color: #0d0d0d;
+  letter-spacing: -0.04em;
   text-transform: uppercase;
-  margin: 0;
 }
 
-.studio-header__title--gold {
-  color: var(--gold, #c9962c);
-  font-style: italic;
-  font-family: 'Instrument Serif', 'Playfair Display', serif;
+.studio-lockup-script {
+  font-family: 'Alex Brush', 'Pinyon Script', cursive;
   font-weight: 400;
+  font-size: clamp(34px, 4.6vw, 66px);
+  color: var(--gold, #c9962c);
+  line-height: 0.7;
+  transform: rotate(-5deg) translateY(-3px) translateX(-3px);
+  letter-spacing: 0.02em;
 }
 
-.studio-header__title-dot {
+.studio-lockup-row2 {
+  display: inline-flex;
+  align-items: baseline;
+  position: relative;
+  z-index: 2;
+  margin-top: -3px;
+}
+
+.studio-lockup-philoso {
+  font-family: 'Montserrat', 'Plus Jakarta Sans', sans-serif;
+  font-weight: 900;
+  font-size: clamp(30px, 4.2vw, 60px);
+  color: #0d0d0d;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.studio-lockup-phy-box {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.studio-lockup-phy-gold {
+  font-family: 'Montserrat', 'Plus Jakarta Sans', sans-serif;
+  font-weight: 900;
+  font-size: clamp(30px, 4.2vw, 60px);
   color: var(--gold, #c9962c);
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+  padding: 0 3px;
+}
+
+.studio-vector-overlay-precision {
+  position: absolute;
+  top: -20px;
+  left: -18px;
+  width: calc(100% + 28px);
+  height: calc(100% + 28px);
+  pointer-events: none;
+  z-index: 3;
 }
 
 .studio-header__lead-col {
   display: flex;
   flex-direction: column;
-  max-width: 400px;
-  gap: 20px;
+  max-width: 360px;
+  gap: 16px;
 }
 
 .studio-header__lead {
-  font-size: 15.5px;
-  line-height: 1.7;
+  font-size: 13.5px;
+  line-height: 1.6;
   color: var(--muted, #6e6b66);
   margin: 0;
 }
@@ -97,14 +163,14 @@
 .studio-header__coords {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding-top: 14px;
+  gap: 3px;
+  padding-top: 10px;
   border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .studio-coords-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 700;
   letter-spacing: 0.2em;
   color: var(--gold, #c9962c);
@@ -112,7 +178,7 @@
 
 .studio-coords-val {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 600;
 }
 
@@ -122,15 +188,15 @@
 .studio-manifesto-block {
   display: grid;
   grid-template-columns: 1.1fr 1.3fr;
-  gap: 80px;
+  gap: 50px;
   align-items: flex-start;
 }
 
 .studio-manifesto-title {
   font-family: 'Cinzel', 'Playfair Display', serif;
-  font-size: clamp(26px, 3.5vw, 44px);
+  font-size: clamp(19px, 2.4vw, 29px);
   font-weight: 700;
-  line-height: 1.15;
+  line-height: 1.25;
   letter-spacing: -0.01em;
   text-transform: uppercase;
   margin: 0;
@@ -139,12 +205,12 @@
 .studio-manifesto-right {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 14px;
 }
 
 .studio-manifesto-right p {
-  font-size: 15.5px;
-  line-height: 1.75;
+  font-size: 13.5px;
+  line-height: 1.65;
   color: var(--muted, #6e6b66);
   margin: 0;
 }
@@ -155,12 +221,12 @@
 .studio-principles-block {
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: 28px;
 }
 
 .studio-principles-tag {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.24em;
   color: var(--gold, #c9962c);
@@ -169,7 +235,7 @@
 .studio-principles-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
+  gap: 24px;
 }
 
 .studio-principle-node {

@@ -123,34 +123,17 @@ export function StudioPage() {
       <section className="studio-visual-pause-section">
         <div className="studio-visual-pause-container">
           
-          <div className="studio-sculpture-card">
-            {/* Background Texture & Flow Lines */}
-            <div className="studio-sculpture-bg" />
-            
-            {/* Big Watermark Typographic Monument */}
-            <div className="studio-sculpture-watermark">AAR</div>
-
-            {/* Central Badge */}
-            <div className="studio-sculpture-content">
-              <div className="studio-seal-wrap">
-                <div className="studio-seal-ring">
-                  <span className="studio-seal-star">✦</span>
-                </div>
-              </div>
-
-              <span className="studio-sculpture-eyebrow">AAR VISUALS ATELIER</span>
-              <h2 className="studio-sculpture-headline">WHERE VISION FINDS VISIBILITY.</h2>
-              
-              <div className="studio-sculpture-meta-bar">
-                <span>INDEPENDENT CREATIVE PRACTICE</span>
-                <span className="studio-sculpture-dot">•</span>
-                <span>NEW DELHI</span>
-                <span className="studio-sculpture-dot">•</span>
-                <span>EST. 2026</span>
-              </div>
-            </div>
-
+        {/* ── 04. VISUAL PAUSE / STUDIO BANNER ── */}
+        <div className="studio-sculpture-block">
+          <div className="studio-banner-wrap relative w-full overflow-hidden rounded-2xl border border-[#0d0d0d]/10 shadow-[0_20px_50px_-15px_rgba(13,13,13,0.15)] bg-[#141416]">
+            <img
+              src="https://res.cloudinary.com/hspt0e7x/image/upload/v1788494920/d66c00be-dc24-4f7a-aefd-0f14792efc89_dtyptq.png"
+              alt="AAR Visuals Atelier — Where Vision Finds Visibility"
+              className="w-full h-auto object-cover block"
+              loading="lazy"
+            />
           </div>
+        </div>
 
         </div>
       </section>

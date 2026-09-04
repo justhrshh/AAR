@@ -1,0 +1,717 @@
+/* =============================================================================
+   AAR VISUALS — TEAM & ATELIER SECTION STYLES
+   ============================================================================= */
+
+.aar-team-section {
+  position: relative;
+  width: 100%;
+  padding: 100px clamp(40px, 9vw, 160px) 100px;
+  background-color: var(--paper, #ede8e1);
+  color: var(--ink, #0d0d0d);
+  box-sizing: border-box;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  overflow-x: clip;
+  z-index: 1;
+  isolation: isolate;
+}
+
+/* ── Ambient Flow Artwork Background for Team Section ── */
+.team-bg-flow-layer {
+  position: absolute;
+  top: 0%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  pointer-events: none;
+  z-index: 0;
+  /* Feathered blend at both top and bottom edges (eliminates sharp cuts) */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.25) 80px, rgba(0, 0, 0, 0.85) 180px, rgba(0, 0, 0, 1) 260px, rgba(0, 0, 0, 1) 75%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.25) 80px, rgba(0, 0, 0, 0.85) 180px, rgba(0, 0, 0, 1) 260px, rgba(0, 0, 0, 1) 75%, transparent 100%);
+}
+
+.team-bg-flow-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform: translateY(0px) scale(1);
+  transform-origin: center top;
+  opacity: 0.5;
+}
+
+.team-section-container {
+  position: relative;
+  z-index: 2;
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   HEADER
+───────────────────────────────────────────────────────────── */
+.team-header {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.team-header__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.team-header__eyebrow-dash {
+  width: 20px;
+  height: 2px;
+  background-color: var(--gold, #c9962c);
+}
+
+.team-header__eyebrow-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted, #6e6b66);
+}
+
+.team-header__main-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Reference Lockup - Exact Match to Reference */
+.team-lockup-container {
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  line-height: 0.82;
+}
+
+.team-lockup-row1 {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.team-lockup-the {
+  font-family: 'Montserrat', 'Plus Jakarta Sans', sans-serif;
+  font-weight: 900;
+  font-size: clamp(28px, 4vw, 54px);
+  color: #0d0d0d;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.team-lockup-script {
+  font-family: 'Alex Brush', 'Pinyon Script', cursive;
+  font-weight: 400;
+  font-size: clamp(34px, 4.6vw, 66px);
+  color: var(--gold, #c9962c);
+  line-height: 0.7;
+  transform: rotate(-5deg) translateY(-3px) translateX(-3px);
+  letter-spacing: 0.02em;
+}
+
+.team-lockup-row2 {
+  display: inline-flex;
+  align-items: baseline;
+  position: relative;
+  z-index: 2;
+  margin-top: -3px;
+  gap: 10px;
+}
+
+.team-lockup-behind {
+  font-family: 'Montserrat', 'Plus Jakarta Sans', sans-serif;
+  font-weight: 900;
+  font-size: clamp(28px, 4vw, 56px);
+  color: #0d0d0d;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.team-lockup-vision-box {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.team-lockup-vision-gold {
+  font-family: 'Montserrat', 'Plus Jakarta Sans', sans-serif;
+  font-weight: 900;
+  font-size: clamp(28px, 4vw, 56px);
+  color: var(--gold, #c9962c);
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+  padding: 0 4px;
+}
+
+.team-vector-overlay-precision {
+  position: absolute;
+  top: -20px;
+  left: -18px;
+  width: calc(100% + 28px);
+  height: calc(100% + 28px);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.team-header__desc-col {
+  display: flex;
+  flex-direction: column;
+  max-width: 360px;
+  gap: 16px;
+}
+
+.team-header__desc {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--muted, #6e6b66);
+  margin: 0;
+}
+
+.team-header__meta-box {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.team-meta-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--gold, #c9962c);
+}
+
+.team-meta-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   CAROUSEL WRAPPER & CARDS — LUXURY EDITORIAL CONSOLE
+───────────────────────────────────────────────────────────── */
+.team-carousel-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.team-carousel-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: 44px;
+  background: radial-gradient(circle at 65% 50%, rgba(201, 150, 44, 0.14) 0%, rgba(180, 120, 30, 0.05) 45%, transparent 70%);
+  filter: blur(36px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.team-carousel-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  display: flex;
+  flex-direction: column;
+  min-height: 620px;
+  background: radial-gradient(110% 120% at 85% 15%, rgba(201, 150, 44, 0.16) 0%, transparent 55%),
+              radial-gradient(90% 100% at 15% 85%, rgba(180, 120, 30, 0.10) 0%, transparent 50%),
+              linear-gradient(160deg, #181615 0%, #121110 50%, #0a0a09 100%);
+  border: 1px solid rgba(201, 150, 44, 0.24);
+  box-shadow: 0 35px 85px -15px rgba(0, 0, 0, 0.65),
+              0 0 0 1px rgba(255, 255, 255, 0.05),
+              inset 0 1px 0 rgba(255, 255, 255, 0.12),
+              inset 0 0 50px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 1;
+}
+
+@media (min-width: 1024px) {
+  .team-carousel-card {
+    flex-direction: row;
+    aspect-ratio: 16 / 9;
+    min-height: 580px;
+    border-radius: 36px;
+  }
+}
+
+/* Left Chip Rail */
+.team-rail-left {
+  width: 100%;
+  min-height: 380px;
+  position: relative;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: hidden;
+  padding: 44px 24px 36px;
+  background: linear-gradient(180deg, rgba(24, 22, 20, 0.94) 0%, rgba(14, 13, 12, 0.98) 100%);
+}
+
+@media (min-width: 768px) {
+  .team-rail-left {
+    min-height: 440px;
+    padding: 50px 36px 40px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .team-rail-left {
+    width: 42%;
+    height: 100%;
+    padding-left: 48px;
+    border-right: 1px solid rgba(201, 150, 44, 0.14);
+  }
+}
+
+/* Rail Header Badge */
+.team-rail-badge {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: rgba(201, 150, 44, 0.85);
+  text-transform: uppercase;
+  z-index: 45;
+}
+
+@media (min-width: 1024px) {
+  .team-rail-badge {
+    left: 48px;
+    top: 28px;
+  }
+}
+
+.team-rail-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--gold, #c9962c);
+  box-shadow: 0 0 8px #c9962c;
+}
+
+.team-rail-gradient-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: linear-gradient(to bottom, #181615 15%, rgba(24, 22, 21, 0.85) 60%, transparent);
+  z-index: 40;
+  pointer-events: none;
+}
+
+.team-rail-gradient-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: linear-gradient(to top, #121110 15%, rgba(18, 17, 16, 0.85) 60%, transparent);
+  z-index: 40;
+  pointer-events: none;
+}
+
+.team-rail-track-area {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+@media (min-width: 1024px) {
+  .team-rail-track-area {
+    justify-content: flex-start;
+  }
+}
+
+/* Chip Buttons */
+.team-chip-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 22px 10px 14px;
+  border-radius: 9999px;
+  transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: left;
+  border: 1px solid rgba(201, 150, 44, 0.16);
+  background: rgba(255, 255, 255, 0.035);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.team-chip-btn--active {
+  background: linear-gradient(135deg, #e6c582 0%, #c9962c 50%, #9e7019 100%);
+  color: #0b0a09;
+  border-color: rgba(255, 245, 215, 0.85);
+  box-shadow: 0 8px 28px -2px rgba(201, 150, 44, 0.5),
+              inset 0 1px 1px rgba(255, 255, 255, 0.7),
+              inset 0 -1px 2px rgba(0, 0, 0, 0.25);
+  transform: scale(1.04) translateX(4px);
+  z-index: 10;
+}
+
+.team-chip-btn--inactive {
+  background: rgba(255, 255, 255, 0.035);
+  color: rgba(240, 235, 227, 0.75);
+  border-color: rgba(201, 150, 44, 0.16);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.team-chip-btn--inactive:hover {
+  border-color: rgba(201, 150, 44, 0.5);
+  color: #ffffff;
+  background: rgba(201, 150, 44, 0.12);
+  transform: translateX(6px);
+}
+
+.team-chip-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.team-chip-btn--active .team-chip-icon-box {
+  background: #0d0c0b;
+  color: #dfb76c;
+  border: 1px solid rgba(201, 150, 44, 0.6);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+.team-chip-btn--inactive .team-chip-icon-box {
+  background: rgba(201, 150, 44, 0.08);
+  color: #c9962c;
+  border: 1px solid rgba(201, 150, 44, 0.2);
+}
+
+.team-chip-btn--inactive:hover .team-chip-icon-box {
+  background: rgba(201, 150, 44, 0.2);
+  color: #dfb76c;
+  border-color: rgba(201, 150, 44, 0.5);
+}
+
+.team-chip-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 13.5px;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.team-chip-btn--active .team-chip-name {
+  color: #0b0a09;
+  font-weight: 800;
+}
+
+.team-chip-role-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.team-chip-btn--active .team-chip-role-tag {
+  color: #2b2212;
+  font-weight: 700;
+}
+
+.team-chip-btn--inactive .team-chip-role-tag {
+  color: rgba(201, 150, 44, 0.85);
+}
+
+/* Right Stack Deck */
+.team-deck-right {
+  flex: 1;
+  min-height: 480px;
+  position: relative;
+  background: radial-gradient(circle at 50% 45%, rgba(201, 150, 44, 0.16) 0%, rgba(201, 150, 44, 0.03) 50%, transparent 75%),
+              linear-gradient(145deg, rgba(22, 20, 18, 0.85) 0%, rgba(12, 11, 10, 0.98) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  overflow: hidden;
+  border-top: 1px solid rgba(201, 150, 44, 0.12);
+}
+
+@media (min-width: 1024px) {
+  .team-deck-right {
+    height: 100%;
+    border-top: none;
+    padding: 36px 40px;
+  }
+}
+
+/* Ambient Backlight for 3D Stage */
+.team-deck-ambient-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  width: 440px;
+  height: 440px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 150, 44, 0.22) 0%, rgba(180, 120, 30, 0.07) 45%, transparent 70%);
+  filter: blur(48px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.team-card-frame-stage {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 4 / 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* 3D Stack Cards */
+.team-member-3d-card {
+  position: absolute;
+  inset: 0;
+  border-radius: 26px;
+  overflow: hidden;
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  background-color: #141312;
+  transform-origin: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+@media (min-width: 768px) {
+  .team-member-3d-card {
+    border-radius: 32px;
+  }
+}
+
+.team-member-3d-card--active {
+  border: 2px solid rgba(201, 150, 44, 0.5);
+  box-shadow: 0 30px 75px -10px rgba(0, 0, 0, 0.8),
+              0 0 35px rgba(201, 150, 44, 0.22),
+              inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.team-member-3d-card--ambient {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  filter: brightness(0.65);
+}
+
+.team-member-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.team-member-overlay-content {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 44px 30px 30px;
+  background: linear-gradient(to top, rgba(10, 9, 8, 0.98) 0%, rgba(10, 9, 8, 0.82) 50%, rgba(10, 9, 8, 0.2) 80%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+
+.team-member-badge {
+  background: linear-gradient(135deg, #dfb76c 0%, #c9962c 100%);
+  color: #0b0a09;
+  padding: 4px 13px;
+  border-radius: 9999px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  width: fit-content;
+  box-shadow: 0 4px 14px rgba(201, 150, 44, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  margin-bottom: 10px;
+}
+
+.team-member-name {
+  color: #ffffff;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: clamp(22px, 2.6vw, 30px);
+  line-height: 1.15;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.01em;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+}
+
+.team-member-bio {
+  color: rgba(245, 240, 232, 0.88);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  font-size: 13.5px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Live Location Capsule */
+.team-live-marker {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(14, 13, 11, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(201, 150, 44, 0.35);
+  border-radius: 9999px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  z-index: 30;
+  transition: opacity 0.3s ease;
+}
+
+.team-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--gold, #c9962c);
+  box-shadow: 0 0 10px #c9962c;
+  animation: team-pulse-gold 2s infinite;
+}
+
+@keyframes team-pulse-gold {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 10px #c9962c;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 0.7;
+    box-shadow: 0 0 16px #dfb76c;
+  }
+}
+
+.team-live-text {
+  color: rgba(245, 240, 232, 0.9);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Deck Footer with Live Index & Controls */
+.team-deck-footer {
+  position: absolute;
+  bottom: 24px;
+  left: 36px;
+  right: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 30;
+  pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+  .team-deck-footer {
+    left: 20px;
+    right: 20px;
+    bottom: 16px;
+  }
+}
+
+.team-deck-counter {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.team-deck-counter-curr {
+  color: var(--gold, #c9962c);
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.team-deck-counter-sep {
+  color: rgba(201, 150, 44, 0.4);
+}
+
+.team-deck-counter-total {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.team-deck-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.team-deck-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(201, 150, 44, 0.25);
+  color: rgba(245, 240, 232, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.team-deck-btn:hover {
+  background: rgba(201, 150, 44, 0.2);
+  border-color: rgba(201, 150, 44, 0.65);
+  color: #ffffff;
+  transform: scale(1.08);
+  box-shadow: 0 0 16px rgba(201, 150, 44, 0.35);
+}
+
+.team-deck-btn:active {
+  transform: scale(0.95);
+}

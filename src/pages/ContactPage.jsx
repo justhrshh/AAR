@@ -111,10 +111,10 @@ export function ContactPage() {
               <span className="contact-info-label">DIGITAL ARCHIVES</span>
               <div className="contact-social-grid">
                 {[
-                  { name: 'INSTAGRAM', handle: '@aarvisuals', url: 'https://instagram.com' },
-                  { name: 'BEHANCE', handle: 'aarvisuals', url: 'https://behance.net' },
-                  { name: 'LINKEDIN', handle: 'AAR Visuals', url: 'https://linkedin.com' },
-                  { name: 'DRIBBBLE', handle: 'aarvisuals', url: 'https://dribbble.com' }
+                  { name: 'INSTAGRAM', handle: '@_aarvisuals', url: 'https://www.instagram.com/_aarvisuals/' },
+                  { name: 'FACEBOOK', handle: 'AAR Visuals', url: 'https://www.facebook.com/profile.php?id=61593983872811' },
+                  { name: 'X / TWITTER', handle: '@AARVISUALS01', url: 'https://x.com/AARVISUALS01' },
+                  { name: 'THREADS', handle: '@_aarvisuals', url: 'https://www.threads.com/@_aarvisuals?hl=en' }
                 ].map(soc => (
                   <a key={soc.name} href={soc.url} target="_blank" rel="noopener noreferrer" className="contact-social-node">
                     <span className="contact-social-name">{soc.name}</span>

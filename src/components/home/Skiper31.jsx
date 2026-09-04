@@ -1,35 +1,5 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { cn } from "../../lib/utils";
-
-const CharacterV1 = ({
-  char,
-  index,
-  centerIndex,
-  scrollYProgress,
-}) => {
-  const isSpace = char === " ";
-  const distanceFromCenter = index - centerIndex;
-
-  // Horizontal scatter assembly
-  const x = useTransform(scrollYProgress, [0, 0.75], [distanceFromCenter * 85, 0]);
-  // Subtle vertical glide into resting position at the top
-  const y = useTransform(scrollYProgress, [0, 0.75], [130 + Math.abs(distanceFromCenter) * 10, 0]);
-  // 3D perspective rotation
-  const rotateX = useTransform(scrollYProgress, [0, 0.75], [distanceFromCenter * 75, 0]);
-  // Opacity & scale entrance
-  const opacity = useTransform(scrollYProgress, [0, 0.35], [0, 1]);
-  const scale = useTransform(scrollYProgress, [0, 0.75], [0.9, 1]);
-
-  return (
-    <motion.span
-      className={cn("inline-block text-[#c9962c] font-black tracking-tight", isSpace && "w-3 sm:w-5")}
-      style={{ x, y, rotateX, opacity, scale }}
-    >
-      {char}
-    </motion.span>
-  );
-};
 
 export const Skiper31 = () => {
   const headerRef = useRef(null);
@@ -39,37 +9,34 @@ export const Skiper31 = () => {
     offset: ["start end", "center 0%"],
   });
 
-  const text = "BEYOND THE FRAME";
-  const characters = text.split("");
-  const centerIndex = Math.floor(characters.length / 2);
-
-  const containerY = useTransform(headerProgress, [0, 0.8], [120, 0]);
+  const containerY = useTransform(headerProgress, [0, 0.8], [40, 0]);
+  const opacity = useTransform(headerProgress, [0, 0.35], [0, 1]);
+  const scale = useTransform(headerProgress, [0, 0.8], [0.96, 1]);
 
   return (
-    <section className="relative w-full bg-[#ede8e1]">
-      {/* Animated Headline Block ("BEYOND THE FRAME") with expansive luxury spacing */}
+    <section className="relative w-full bg-[#ede8e1] overflow-hidden">
+      {/* Background delicate radial gold warmth */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[40vh] bg-gradient-to-r from-transparent via-[#c9962c]/[0.05] to-transparent pointer-events-none blur-3xl" />
+
       <div
         ref={headerRef}
-        className="relative w-full min-h-[60vh] pt-[65vh] sm:pt-[75vh] pb-[50vh] sm:pb-[60vh] px-6 flex flex-col items-center justify-center bg-[#ede8e1]"
+        className="relative w-full min-h-[22vh] sm:min-h-[26vh] pt-28 sm:pt-32 lg:pt-[16vh] pb-8 sm:pb-12 lg:pb-[11vh] px-6 flex flex-col items-center justify-center bg-[#ede8e1]"
       >
         <motion.div
-          className="w-full max-w-5xl text-center text-5xl sm:text-7xl md:text-8xl font-black uppercase tracking-tighter text-[#0d0d0d]"
-          style={{ perspective: "800px", y: containerY }}
+          className="relative w-full max-w-[88vw] sm:max-w-[78vw] lg:max-w-[840px] flex flex-col items-center select-none"
+          style={{ y: containerY, opacity, scale }}
         >
-          {characters.map((char, index) => (
-            <CharacterV1
-              key={index}
-              char={char}
-              index={index}
-              centerIndex={centerIndex}
-              scrollYProgress={headerProgress}
-            />
-          ))}
+          <h2 className="sr-only">Our Creative Capabilities — Chapter 01 / Service Disciplines</h2>
+          <img
+            src="/images/our-creative-capabilities.png"
+            alt="Our Creative Capabilities"
+            className="w-full h-auto object-contain select-none pointer-events-none"
+            draggable="false"
+          />
         </motion.div>
       </div>
     </section>
   );
 };
 
-export { CharacterV1 };
 export default Skiper31;

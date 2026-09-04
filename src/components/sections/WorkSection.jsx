@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { PROJECTS } from '../../data/projects';
+import { ProjectShowcase } from './ProjectShowcase';
+import { ViewportVideo } from '../common/ViewportVideo';
 import './WorkSection.css';
 
 const CATEGORIES = ['ALL', 'BRANDING', 'DIGITAL', 'MOTION', 'ART DIRECTION'];
@@ -10,7 +12,7 @@ export function WorkSection() {
 
   const filteredProjects = activeCategory === 'ALL'
     ? PROJECTS
-    : PROJECTS.filter(p => p.categoryFilter === activeCategory || p.services.some(s => s.toUpperCase().includes(activeCategory)));
+    : PROJECTS.filter(p => p.categoryFilter === activeCategory || p.services?.some(s => s.toUpperCase().includes(activeCategory)));
 
   const openCaseStudy = (project) => {
     setSelectedProject(project);
@@ -34,11 +36,14 @@ export function WorkSection() {
           </div>
 
           <div className="work-header__main-row">
-            <h2 className="work-header__title">
-              SELECTED<br />
-              <span className="work-header__title--gold">PROJECTS</span>
-              <span className="work-header__title-dot">.</span>
-            </h2>
+            <div className="work-header__title-wrap">
+              <h2 className="sr-only">Selected Projects</h2>
+              <img
+                src="/images/selected-projects-title.png"
+                alt="Selected Projects"
+                className="work-header__title-img"
+              />
+            </div>
 
             <div className="work-header__desc-col">
               <p className="work-header__desc">
@@ -56,6 +61,11 @@ export function WorkSection() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* ── 02. SHOWCASE & FILTER ZONE (WITH CUSTOM BG BELOW THE DIVIDER) ── */}
+        <div className="work-showcase-zone">
+          <div className="work-showcase-bg-layer" />
 
           {/* Filter Bar */}
           <div className="work-filter-bar">
@@ -73,137 +83,12 @@ export function WorkSection() {
               ))}
             </div>
           </div>
-        </div>
 
-        {/* ── 02. ASYMMETRIC PROJECT COMPOSITIONS ── */}
-        <div className="work-gallery-feed">
-          {filteredProjects.map((project, index) => {
-            const compType = index % 5;
-
-            // Comp 0: Horizontal wide visual with vertical text lockup
-            if (compType === 0) {
-              return (
-                <article key={project.id} className="work-comp work-comp--horizontal" onClick={() => openCaseStudy(project)}>
-                  <div className="work-comp__media-wrap">
-                    <img src={project.heroImage} alt={project.title} className="work-comp__img" loading="lazy" />
-                    <div className="work-comp__tag-badge">{project.category}</div>
-                  </div>
-
-                  <div className="work-comp__meta-side">
-                    <div className="work-comp__index">PROJ / {project.number}</div>
-                    <h3 className="work-comp__title">{project.title}</h3>
-                    <p className="work-comp__excerpt">{project.excerpt}</p>
-                    
-                    <div className="work-comp__services-list">
-                      {project.services.map((s, i) => (
-                        <span key={i} className="work-comp__service-tag">{s}</span>
-                      ))}
-                    </div>
-
-                    <button type="button" className="work-comp__cta-btn">
-                      <span>VIEW CASE STUDY</span>
-                      <span className="work-comp__cta-arrow">→</span>
-                    </button>
-                  </div>
-                </article>
-              );
-            }
-
-            // Comp 1: Split composition with overlapping title
-            if (compType === 1) {
-              return (
-                <article key={project.id} className="work-comp work-comp--split" onClick={() => openCaseStudy(project)}>
-                  <div className="work-comp__split-left">
-                    <div className="work-comp__index">PROJ / {project.number} • {project.year}</div>
-                    <h3 className="work-comp__title work-comp__title--overlap">{project.title}</h3>
-                    <div className="work-comp__client-tag">{project.client}</div>
-                    <p className="work-comp__excerpt">{project.excerpt}</p>
-                    
-                    <button type="button" className="work-comp__cta-btn">
-                      <span>VIEW CASE STUDY</span>
-                      <span className="work-comp__cta-arrow">→</span>
-                    </button>
-                  </div>
-
-                  <div className="work-comp__split-right">
-                    <div className="work-comp__media-wrap work-comp__media-wrap--tall">
-                      <img src={project.heroImage} alt={project.title} className="work-comp__img" loading="lazy" />
-                    </div>
-                  </div>
-                </article>
-              );
-            }
-
-            // Comp 2: Editorial stacked composition
-            if (compType === 2) {
-              return (
-                <article key={project.id} className="work-comp work-comp--stacked" onClick={() => openCaseStudy(project)}>
-                  <div className="work-comp__top-bar">
-                    <span className="work-comp__index">PROJ / {project.number}</span>
-                    <h3 className="work-comp__title">{project.title}</h3>
-                    <span className="work-comp__year">{project.year}</span>
-                  </div>
-
-                  <div className="work-comp__media-wrap work-comp__media-wrap--wide">
-                    <img src={project.heroImage} alt={project.title} className="work-comp__img" loading="lazy" />
-                  </div>
-
-                  <div className="work-comp__bottom-meta">
-                    <span className="work-comp__category-text">{project.category}</span>
-                    <p className="work-comp__excerpt">{project.excerpt}</p>
-                    <button type="button" className="work-comp__cta-btn">
-                      <span>VIEW CASE STUDY</span>
-                      <span className="work-comp__cta-arrow">→</span>
-                    </button>
-                  </div>
-                </article>
-              );
-            }
-
-            // Comp 3: Full-width takeover visual
-            if (compType === 3) {
-              return (
-                <article key={project.id} className="work-comp work-comp--takeover" onClick={() => openCaseStudy(project)}>
-                  <div className="work-comp__takeover-media">
-                    <img src={project.heroImage} alt={project.title} className="work-comp__img" loading="lazy" />
-                    <div className="work-comp__takeover-overlay" />
-                  </div>
-
-                  <div className="work-comp__takeover-content">
-                    <div className="work-comp__index">PROJ / {project.number} • {project.year}</div>
-                    <h3 className="work-comp__takeover-title">{project.title}</h3>
-                    <p className="work-comp__takeover-subtitle">{project.subtitle}</p>
-                    <button type="button" className="work-comp__cta-btn work-comp__cta-btn--light">
-                      <span>VIEW CASE STUDY</span>
-                      <span className="work-comp__cta-arrow">→</span>
-                    </button>
-                  </div>
-                </article>
-              );
-            }
-
-            // Comp 4: Minimal archival presentation
-            return (
-              <article key={project.id} className="work-comp work-comp--minimal" onClick={() => openCaseStudy(project)}>
-                <div className="work-comp__min-col work-comp__min-col--meta">
-                  <div className="work-comp__index">PROJ / {project.number}</div>
-                  <h3 className="work-comp__title">{project.title}</h3>
-                  <span className="work-comp__sub">{project.subtitle}</span>
-                  <div className="work-comp__client-tag">{project.client}</div>
-                  <button type="button" className="work-comp__cta-btn">
-                    <span>VIEW CASE STUDY</span>
-                    <span className="work-comp__cta-arrow">→</span>
-                  </button>
-                </div>
-
-                <div className="work-comp__min-col work-comp__min-col--media">
-                  <div className="work-comp__media-wrap">
-                    <img src={project.heroImage} alt={project.title} className="work-comp__img" loading="lazy" />
-                  </div>
-                </div>
-              </article>
-            );
-          })}
+          {/* Draggable Card Presentation Showcase */}
+          <ProjectShowcase
+            projects={filteredProjects}
+            onSelectProject={openCaseStudy}
+          />
         </div>
 
       </div>
@@ -250,7 +135,7 @@ export function WorkSection() {
                   <div className="modal-meta-item">
                     <span className="modal-meta-label">SERVICES</span>
                     <div className="modal-services-wrap">
-                      {selectedProject.services.map((s, i) => (
+                      {(selectedProject.services || []).map((s, i) => (
                         <span key={i} className="modal-service-pill">{s}</span>
                       ))}
                     </div>
@@ -258,7 +143,18 @@ export function WorkSection() {
                 </div>
 
                 <div className="modal-hero-img-wrap">
-                  <img src={selectedProject.heroImage} alt={selectedProject.title} className="modal-hero-img" />
+                  {selectedProject.heroVideo || selectedProject.video ? (
+                    <ViewportVideo
+                      src={selectedProject.heroVideo || selectedProject.video}
+                      loop
+                      muted
+                      playsInline
+                      controls
+                      className="modal-hero-video"
+                    />
+                  ) : (
+                    <img src={selectedProject.heroImage} alt={selectedProject.title} className="modal-hero-img" />
+                  )}
                 </div>
               </div>
 
@@ -268,15 +164,15 @@ export function WorkSection() {
                 <div className="modal-context-grid">
                   <div className="modal-context-card">
                     <h4>THE OVERVIEW</h4>
-                    <p>{selectedProject.context.overview}</p>
+                    <p>{selectedProject.context?.overview}</p>
                   </div>
                   <div className="modal-context-card">
                     <h4>THE CORE CHALLENGE</h4>
-                    <p>{selectedProject.context.challenge}</p>
+                    <p>{selectedProject.context?.challenge}</p>
                   </div>
                   <div className="modal-context-card modal-context-card--gold">
                     <h4>AAR CONTRIBUTION</h4>
-                    <p>{selectedProject.context.contribution}</p>
+                    <p>{selectedProject.context?.contribution}</p>
                   </div>
                 </div>
               </div>
@@ -284,13 +180,13 @@ export function WorkSection() {
               {/* Art Direction Philosophy */}
               <div className="modal-direction-block">
                 <div className="modal-section-tag">02 / ART DIRECTION PHILOSOPHY</div>
-                <h2 className="modal-direction-headline">{selectedProject.creativeDirection.headline}</h2>
-                <p className="modal-direction-desc">{selectedProject.creativeDirection.philosophy}</p>
+                <h2 className="modal-direction-headline">{selectedProject.creativeDirection?.headline}</h2>
+                <p className="modal-direction-desc">{selectedProject.creativeDirection?.philosophy}</p>
 
                 <div className="modal-palette-row">
                   <span className="modal-palette-label">CALIBRATED PALETTE:</span>
                   <div className="modal-palette-swatches">
-                    {selectedProject.creativeDirection.palette.map((c, i) => (
+                    {(selectedProject.creativeDirection?.palette || []).map((c, i) => (
                       <div key={i} className="modal-swatch-item">
                         <div className="modal-swatch-box" style={{ backgroundColor: c }} />
                         <span className="modal-swatch-hex">{c}</span>
@@ -300,9 +196,90 @@ export function WorkSection() {
                 </div>
               </div>
 
-              {/* Gallery Images */}
+              {/* Gallery Media */}
               <div className="modal-gallery-block">
-                {selectedProject.gallery.map((item, idx) => {
+                {(selectedProject.gallery || []).map((item, idx) => {
+                  if (item.type === 'video-full' || (item.video && item.type !== 'video-split')) {
+                    return (
+                      <div key={idx} className="modal-gallery-item modal-gallery-item--video-full">
+                        <div className="modal-video-container">
+                          <ViewportVideo
+                            src={item.video}
+                            loop
+                            muted
+                            playsInline
+                            controls
+                            className="modal-gallery-video"
+                          />
+                        </div>
+                        {item.caption && <span className="modal-gallery-caption">{item.caption}</span>}
+                      </div>
+                    );
+                  }
+                  if (item.type === 'video-trio' || item.type === 'video-3' || item.type === 'video-quad' || item.type === 'video-grid' || (item.videos && Array.isArray(item.videos))) {
+                    const count = item.videos.length;
+                    const gridClass = count === 2 
+                      ? 'modal-gallery-item--video-split'
+                      : count === 4 
+                      ? 'modal-gallery-item--video-quad'
+                      : 'modal-gallery-item--video-trio';
+
+                    return (
+                      <div key={idx} className={`modal-gallery-item ${gridClass}`}>
+                        {item.videos.map((vid, vIdx) => (
+                          <div key={vIdx} className="modal-trio-col">
+                            <div className="modal-video-container">
+                              <ViewportVideo
+                                src={typeof vid === 'string' ? vid : vid.src}
+                                loop
+                                muted
+                                playsInline
+                                controls
+                                className="modal-gallery-video modal-trio-video"
+                              />
+                            </div>
+                            {(vid.caption || item.captions?.[vIdx]) && (
+                              <span className="modal-gallery-caption">
+                                {vid.caption || item.captions[vIdx]}
+                              </span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    );
+                  }
+                  if (item.type === 'video-split') {
+                    return (
+                      <div key={idx} className="modal-gallery-item modal-gallery-item--video-split">
+                        <div className="modal-video-col">
+                          <div className="modal-video-container">
+                            <ViewportVideo
+                              src={item.videoLeft}
+                              loop
+                              muted
+                              playsInline
+                              controls
+                              className="modal-gallery-video"
+                            />
+                          </div>
+                          {item.captionLeft && <span className="modal-gallery-caption">{item.captionLeft}</span>}
+                        </div>
+                        <div className="modal-video-col">
+                          <div className="modal-video-container">
+                            <ViewportVideo
+                              src={item.videoRight}
+                              loop
+                              muted
+                              playsInline
+                              controls
+                              className="modal-gallery-video"
+                            />
+                          </div>
+                          {item.captionRight && <span className="modal-gallery-caption">{item.captionRight}</span>}
+                        </div>
+                      </div>
+                    );
+                  }
                   if (item.type === 'full-bleed') {
                     return (
                       <div key={idx} className="modal-gallery-item modal-gallery-item--full">

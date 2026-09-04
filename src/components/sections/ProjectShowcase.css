@@ -1,0 +1,501 @@
+/* =============================================================================
+   AAR VISUALS — PROJECT SHOWCASE (PHASE 2: 3-COLUMN ALTERNATING EDITORIAL)
+   ============================================================================= */
+
+.project-showcase {
+  position: relative;
+  width: 100%;
+  /* padding-top: 30px; */
+  padding-bottom: 60px;
+  box-sizing: border-box;
+}
+
+.project-showcase-empty {
+  padding: 100px 0;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: var(--muted, #6e6b66);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   DESKTOP 3-COLUMN EDITORIAL COMPOSITION (≥ 1024px)
+   NAME  ←→  DRAGGABLE STACK  ←→  DETAILS
+───────────────────────────────────────────────────────────── */
+.project-showcase-desktop {
+  display: none;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  column-gap: clamp(28px, 3.8vw, 56px);
+  min-height: 620px;
+  padding: 16px 0;
+}
+
+@media (min-width: 1024px) {
+  .project-showcase-desktop {
+    display: grid;
+    grid-template-columns: minmax(280px, 360px) auto minmax(280px, 360px);
+    justify-content: center;
+  }
+}
+
+.project-showcase-col {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 400px;
+}
+
+.project-showcase-col--left {
+  align-items: flex-end;
+  justify-content: end;
+  text-align: left;
+  margin-top: 36px;
+}
+
+.project-showcase-col--center {
+  align-items: center;
+  justify-content: center;
+  width: auto;
+}
+
+.project-showcase-col--right {
+  align-items: flex-start;
+  justify-content: start;
+  text-align: left;
+  margin-top: -86px;
+}
+
+.project-showcase-col-inner {
+  width: 100%;
+  max-width: 380px;
+}
+
+@media (min-width: 1280px) {
+  .project-showcase-col-inner {
+    max-width: 420px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   BLOCK 1: DOMINANT PROJECT NAME
+───────────────────────────────────────────────────────────── */
+.project-name-block {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.project-name-block--right {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.project-name-block--left {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.project-name-block--center {
+  align-items: center;
+  text-align: center;
+}
+
+/* Meta line above title */
+.project-name-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.project-name-block--right .project-name-meta {
+  flex-direction: row-reverse;
+}
+
+.project-meta-dash {
+  width: 20px;
+  height: 2px;
+  background-color: var(--gold, #c9962c);
+  flex-shrink: 0;
+}
+
+.project-meta-index {
+  color: var(--gold, #c9962c);
+}
+
+.project-meta-bullet {
+  color: rgba(13, 13, 13, 0.25);
+}
+
+.project-meta-year {
+  color: rgba(13, 13, 13, 0.5);
+}
+
+/* Large Dominant Project Name */
+.project-dominant-title {
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: clamp(24px, 2.5vw, 38px);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  color: var(--ink, #0d0d0d);
+  text-transform: uppercase;
+  margin: 0;
+  word-break: keep-all;
+  overflow-wrap: normal;
+  hyphens: none;
+}
+
+/* Subtitle / Discipline */
+.project-name-subtitle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold, #c9962c);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   BLOCK 2: SUPPORTING PROJECT DETAILS
+───────────────────────────────────────────────────────────── */
+.project-details-block {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.project-details-block--right {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.project-details-block--left {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.project-details-block--center {
+  align-items: center;
+  text-align: center;
+}
+
+.project-details-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.project-details-block--right .project-details-meta {
+  flex-direction: row-reverse;
+}
+
+.project-details-category {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold, #c9962c);
+}
+
+.project-details-desc {
+  font-size: 14px;
+  line-height: 1.68;
+  color: var(--muted, #6e6b66);
+  margin: 0;
+  max-width: 360px;
+}
+
+.project-details-services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.project-details-block--right .project-details-services {
+  justify-content: flex-end;
+}
+
+.project-details-block--left .project-details-services {
+  justify-content: flex-start;
+}
+
+.project-details-block--center .project-details-services {
+  justify-content: center;
+}
+
+.project-details-pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background-color: rgba(13, 13, 13, 0.05);
+  color: var(--ink, #0d0d0d);
+  border: 1px solid rgba(13, 13, 13, 0.08);
+}
+
+/* CTA Button */
+.project-details-cta-wrap {
+  margin-top: 10px;
+}
+
+.project-details-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  background-color: var(--ink, #0d0d0d);
+  color: #ede8e1;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.project-details-cta-btn:hover {
+  background-color: var(--gold, #c9962c);
+  color: #0d0d0d;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(201, 150, 44, 0.28);
+}
+
+.project-details-cta-arrow {
+  transition: transform 0.3s ease;
+}
+
+.project-details-cta-btn:hover .project-details-cta-arrow {
+  transform: translateX(4px);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   CENTER DRAGGABLE STACK
+───────────────────────────────────────────────────────────── */
+.project-stack-container {
+  position: relative;
+  width: 310px;
+  height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 640px) {
+  .project-stack-container {
+    width: 330px;
+    height: 510px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .project-stack-container {
+    width: 340px;
+    height: 530px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .project-stack-container {
+    width: 360px;
+    height: 550px;
+  }
+}
+
+.project-stack-card-wrapper {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Physical Card Frame */
+.project-stack-card {
+  width: 260px;
+  height: 368px;
+  background-color: #faf7f2;
+  border-radius: 20px;
+  padding: 12px;
+  box-shadow: 0 28px 65px -15px rgba(13, 13, 13, 0.32), 0 10px 24px -8px rgba(13, 13, 13, 0.16);
+  border: 1px solid rgba(13, 13, 13, 0.14);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color 0.3s ease;
+}
+
+@media (min-width: 640px) {
+  .project-stack-card {
+    width: 280px;
+    height: 395px;
+    padding: 13px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .project-stack-card {
+    width: 295px;
+    height: 415px;
+    padding: 14px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .project-stack-card {
+    width: 310px;
+    height: 435px;
+    padding: 14px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .project-stack-card {
+    width: 325px;
+    height: 455px;
+    padding: 15px;
+  }
+}
+
+.project-stack-card:hover {
+  border-color: rgba(13, 13, 13, 0.3);
+}
+
+/* Image Viewport */
+.project-stack-media {
+  position: relative;
+  width: 100%;
+  flex: 1 1 auto;
+  border-radius: 14px;
+  overflow: hidden;
+  background-color: #141416;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.project-stack-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.project-stack-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  pointer-events: none;
+}
+
+/* Card Bottom Metadata */
+.project-stack-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 6px 0;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.project-stack-card-num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--gold, #c9962c);
+}
+
+.project-stack-card-hint {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(13, 13, 13, 0.45);
+}
+
+/* Subtle Stack Hint Indicator */
+.project-stack-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(13, 13, 13, 0.42);
+}
+
+.project-stack-hint-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--gold, #c9962c);
+  animation: pulse-hint 2.4s infinite ease-in-out;
+}
+
+@keyframes pulse-hint {
+  0%, 100% { opacity: 0.4; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   MOBILE / TABLET VERTICAL LAYOUT (< 1024px)
+   STRICT ORDER: NAME -> CARDS -> DETAILS
+───────────────────────────────────────────────────────────── */
+.project-showcase-mobile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 28px;
+}
+
+@media (min-width: 1024px) {
+  .project-showcase-mobile {
+    display: none;
+  }
+}
+
+.project-showcase-mobile-top {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
+}
+
+.project-showcase-mobile-center {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.project-showcase-mobile-bottom {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
+}

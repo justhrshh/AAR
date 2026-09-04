@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Navbar } from '../navigation/Navbar';
-import { WhyUsSection } from './WhyUsSection';
 import { Skiper31 } from './Skiper31';
 import { ZoomParallax } from './ZoomParallax';
 import { WorkSection } from '../sections/WorkSection';
 import { ServicesSection } from '../sections/ServicesSection';
 import { StudioSection } from '../sections/StudioSection';
+import { TeamSection } from '../sections/TeamSection';
+import { JoinMicroSection } from './JoinMicroSection';
 import { ContactSection } from '../sections/ContactSection';
 import { Footer } from '../common/Footer';
 import './HomePage.css';
@@ -749,22 +750,25 @@ export function HomePage({ onReplay }) {
     {/* Section 3: MULTI-SCALE PINNED ZOOM PARALLAX */}
     <ZoomParallax />
 
-    {/* Section 4: WHY US Physical Assembly Scroll Sequence */}
-    <WhyUsSection />
-
-    {/* Section 3: SELECTED WORK / ASYMMETRIC PROJECT ARCHIVE */}
+    {/* Section 4: SELECTED WORK / ASYMMETRIC PROJECT ARCHIVE */}
     <WorkSection />
 
-    {/* Section 4: CAPABILITIES & 5-STEP METHODOLOGY */}
+    {/* Section 5: CAPABILITIES & 5-STEP METHODOLOGY */}
     <ServicesSection />
 
-    {/* Section 5: STUDIO PHILOSOPHY & PRINCIPLES */}
+    {/* Section 6: STUDIO PHILOSOPHY & PRINCIPLES */}
     <StudioSection />
 
-    {/* Section 6: BESPOKE CONTACT & INQUIRY */}
+    {/* Section 7: THE ATELIER & LEADERSHIP */}
+    <TeamSection />
+
+    {/* Section 8.5: JOIN OUR TALENT / MICRO RECRUITMENT TEASER */}
+    <JoinMicroSection />
+
+    {/* Section 9: BESPOKE CONTACT & INQUIRY */}
     <ContactSection />
 
-    {/* Section 7: SHARED EDITORIAL FOOTER */}
+    {/* Section 10: SHARED EDITORIAL FOOTER */}
     <Footer theme="light" />
     </>
   );

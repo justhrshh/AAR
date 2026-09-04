@@ -70,9 +70,10 @@
 
 .services-hero__title--gold {
   color: var(--gold, #c9962c);
-  font-style: italic;
-  font-family: 'Instrument Serif', 'Playfair Display', serif;
-  font-weight: 400;
+  font-style: normal;
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
 .services-hero__title-dot {
@@ -182,12 +183,19 @@
 
 .service-item-trigger:hover .service-item-name {
   color: var(--gold, #c9962c);
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
 }
 
 .service-item-title-group {
   display: flex;
   align-items: baseline;
   gap: 28px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.service-item-trigger:hover .service-item-title-group,
+.service-item-card--open .service-item-title-group {
+  transform: translateX(18px);
 }
 
 .service-item-num {
@@ -204,7 +212,7 @@
   font-weight: 700;
   letter-spacing: -0.01em;
   margin: 0;
-  transition: color 0.25s ease;
+  transition: color 0.25s ease, font-family 0.25s ease;
 }
 
 .service-item-status {
@@ -513,9 +521,10 @@
 
 .services-cta-title--gold {
   color: var(--gold, #c9962c);
-  font-style: italic;
-  font-family: 'Instrument Serif', 'Playfair Display', serif;
-  font-weight: 400;
+  font-style: normal;
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
 .services-cta-desc {

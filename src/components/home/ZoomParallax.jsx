@@ -1,61 +1,19 @@
 import React, { useRef, useLayoutEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { CAPABILITIES } from "../../data/capabilities";
+import { ProjectCardFrame } from "./ProjectCardFrame";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const DEFAULT_IMAGES = [
-  {
-    category: "MOTION",
-    num: "04",
-    src: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop",
-    alt: "Motion Abstract Fluid System"
-  },
-  {
-    category: "DIGITAL",
-    num: "01",
-    src: "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=1200&auto=format&fit=crop",
-    alt: "Digital Fluid Wave Topology"
-  },
-  {
-    category: "BRANDING",
-    num: "02",
-    src: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000&auto=format&fit=crop",
-    alt: "Branding Tactile Color Diffusion"
-  },
-  {
-    category: "ARCHITECTURE",
-    num: "03",
-    src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1000&auto=format&fit=crop",
-    alt: "Architectural Pavilion Forms"
-  },
-  {
-    category: "PRODUCT",
-    num: "06",
-    src: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=1000&auto=format&fit=crop",
-    alt: "Product Industrial Hardware"
-  },
-  {
-    category: "ILLUSTRATION",
-    num: "05",
-    src: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?q=80&w=1200&auto=format&fit=crop",
-    alt: "Classical Botanical Illustration"
-  },
-  {
-    category: "EXPERIMENTS",
-    num: "07",
-    src: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1000&auto=format&fit=crop",
-    alt: "Experimental Atmospheric Architecture"
-  }
-];
-
-export function ZoomParallax({ images = DEFAULT_IMAGES }) {
+export function ZoomParallax({ items = CAPABILITIES }) {
   const sectionRef = useRef(null);
   const cardsRef = useRef([]);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const scales = [4.8, 5.5, 6.5, 5.5, 6.5, 8.5, 9.5];
+      // Calibrated sweet spot so center card (index 0) just covers screen cleanly (5.8x)
+      const scales = [5.8, 6.6, 7.5, 6.6, 7.5, 9.5, 10.5];
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -69,7 +27,7 @@ export function ZoomParallax({ images = DEFAULT_IMAGES }) {
         },
       });
 
-      // When animation starts, all text overlays and taglines smoothly fade out
+      // When animation starts, all text overlays, wireframes, and taglines smoothly fade out
       tl.to(
         "[data-parallax-fade]",
         {
@@ -103,60 +61,63 @@ export function ZoomParallax({ images = DEFAULT_IMAGES }) {
   return (
     <div
       ref={sectionRef}
+      id="capabilities"
       className="relative w-full h-screen overflow-hidden flex items-center justify-center bg-[#ede8e1]"
     >
+      {/* Dynamic Gradient Wave Background Graphic Layer with seamless edge blending */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none -z-20 overflow-hidden">
+        <img
+          src="/images/parallax-bg.jpg"
+          alt="Abstract Gradient Waves"
+          className="w-full h-full object-cover select-none"
+          style={{
+            maskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.2) 6%, rgba(0,0,0,0.85) 18%, rgba(0,0,0,1) 30%, rgba(0,0,0,1) 75%, rgba(0,0,0,0.7) 90%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.2) 6%, rgba(0,0,0,0.85) 18%, rgba(0,0,0,1) 30%, rgba(0,0,0,1) 75%, rgba(0,0,0,0.7) 90%, transparent 100%)',
+          }}
+        />
+        {/* Soft atmospheric gradient transitions that dissolve seamlessly into #ede8e1 */}
+        <div className="absolute top-0 left-0 right-0 h-48 bg-gradient-to-b from-[#ede8e1] via-[#ede8e1]/70 to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#f1e9e2] via-[#f1e9e2]/70 to-transparent pointer-events-none" />
+      </div>
+
       {/* ----------------- PERIPHERAL HUD OVERLAYS ----------------- */}
       {/* Top Right: Category Filters */}
       <div
         data-parallax-fade
-        className="hidden lg:flex absolute top-32 right-24 sm:top-36 sm:right-98 flex-col items-start gap-2.5 pointer-events-none z-20 text-[10px] font-bold tracking-widest uppercase will-change-transform"
+        className="hidden lg:flex absolute top-28 right-12 sm:top-32 sm:right-20 lg:right-24 flex-col items-start gap-2 pointer-events-none z-20 text-[10px] font-bold tracking-widest uppercase will-change-transform"
       >
         <span className="text-[#c9962c] flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-[#c9962c]" /> ALL
         </span>
-        <span className="text-[#0d0d0d]/40">BRANDING</span>
-        <span className="text-[#0d0d0d]/40">DIGITAL</span>
-        <span className="text-[#0d0d0d]/40">MOTION</span>
-        <span className="text-[#0d0d0d]/40">ARCHITECTURE</span>
-        <span className="text-[#0d0d0d]/40">ILLUSTRATION</span>
-        <span className="text-[#0d0d0d]/40">EXPERIMENTS</span>
+        <span className="text-[#0d0d0d]/40">WEB DEVELOPMENT</span>
+        <span className="text-[#0d0d0d]/40">DIGITAL MARKETING</span>
+        <span className="text-[#0d0d0d]/40">SOCIAL MEDIA MANAGEMENT</span>
+        <span className="text-[#0d0d0d]/40">AI VIDEOS</span>
+        <span className="text-[#0d0d0d]/40">VIDEO EDITING & MOTION</span>
+        <span className="text-[#0d0d0d]/40">UI/UX DESIGN</span>
+        <span className="text-[#0d0d0d]/40">GRAPHIC DESIGN</span>
       </div>
 
       {/* Left Mid: Philosophy Badge with Vertical Line & Dot */}
       <div
         data-parallax-fade
-        className="hidden md:flex absolute left-8 sm:left-12 lg:left-24 top-[40%] -translate-y-1/2 flex-col items-start gap-4 pointer-events-none z-20 will-change-transform"
+        className="hidden md:flex absolute left-8 sm:left-12 lg:left-14 top-[40%] -translate-y-1/2 flex-col items-start gap-3.5 pointer-events-none z-20 will-change-transform"
       >
         <div className="text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] text-[#0d0d0d]/55 leading-[1.65] uppercase">
           IDEAS<br />
           TURNED<br />
           INTO VISIONS
         </div>
-        <div className="flex flex-col items-center gap-2 pl-0.5">
-          <div className="w-[1px] h-14 sm:h-16 bg-[#0d0d0d]/25" />
-          <span className="w-2 h-2 rounded-full bg-[#c9962c]" />
+        <div className="flex flex-col items-center gap-1.5">
+          <div className="w-[1.5px] h-10 bg-[#0d0d0d]/25" />
+          <div className="w-2 h-2 rounded-full bg-[#c9962c]" />
         </div>
       </div>
 
-      {/* Bottom Left: Scroll Cue */}
+      {/* Bottom Center: Coordinates & Location Bar */}
       <div
         data-parallax-fade
-        className="absolute bottom-8 left-8 sm:bottom-50 sm:left-22 lg:left-24 flex flex-col items-start gap-2.5 pointer-events-none z-20 will-change-transform"
-      >
-        <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-[#0d0d0d]/30 flex items-center justify-center text-[#0d0d0d]/70">
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        </div>
-        <div className="text-[9px] sm:text-[10px] font-bold tracking-[0.18em] text-[#0d0d0d]/50 uppercase leading-tight">
-          SCROLL TO<br />EXPLORE
-        </div>
-      </div>
-
-      {/* Bottom Horizontal Bar: Socials & Coordinates */}
-      <div
-        data-parallax-fade
-        className="hidden sm:flex absolute bottom-2 right-8 sm:bottom-10 sm:right-12 left-48 lg:left-52 items-center justify-between pointer-events-none z-20 text-[10px] font-semibold tracking-[0.4em] text-[#0d0d0d]/50 uppercase will-change-transform"
+        className="hidden sm:flex absolute bottom-6 right-8 sm:bottom-8 sm:right-12 left-44 sm:left-48 lg:left-52 items-center justify-between pointer-events-none z-20 text-[10px] font-semibold tracking-[0.2em] text-[#0d0d0d]/50 uppercase will-change-transform"
       >
         <div className="flex items-center gap-5">
           <span>IG</span>
@@ -175,66 +136,28 @@ export function ZoomParallax({ images = DEFAULT_IMAGES }) {
         </div>
       </div>
 
-      {/* ----------------- PARALLAX CARD MATRIX ----------------- */}
-      {images.map(({ src, alt, category, num }, index) => {
+      {/* ----------------- PARALLAX CARD MATRIX (7 SERVICES) ----------------- */}
+      {items.map((project, index) => {
         return (
           <div
-            key={index}
+            key={project.id || index}
             ref={(el) => (cardsRef.current[index] = el)}
-            className={`absolute top-0 flex h-full w-full items-center justify-center will-change-transform ${
-              index === 1 ? '[&>div]:!-top-[29vh] [&>div]:!left-[5vw] [&>div]:!h-[26vh] [&>div]:!w-[32vw]' : ''
+            className={`absolute top-0 flex h-full w-full items-center justify-center pointer-events-none will-change-transform ${
+              index === 1 ? '[&>div]:!-top-[20vh] md:[&>div]:!-top-[30vh] [&>div]:!left-[2vw] md:[&>div]:!left-[5vw] [&>div]:!w-[34vw] md:[&>div]:!w-[29vw] md:[&>div]:!h-[23vh]' : ''
             } ${
-              index === 2 ? '[&>div]:!-top-[10vh] [&>div]:!-left-[24vw] [&>div]:!h-[38vh] [&>div]:!w-[18vw]' : ''
+              index === 2 ? '[&>div]:!-top-[7vh] md:[&>div]:!-top-[8vh] [&>div]:!-left-[28vw] md:[&>div]:!-left-[24vw] [&>div]:!w-[30vw] md:[&>div]:!w-[22vw] md:[&>div]:!h-[26vh]' : ''
             } ${
-              index === 3 ? '[&>div]:!left-[26vw] [&>div]:!h-[22vh] [&>div]:!w-[23vw]' : ''
+              index === 3 ? '[&>div]:!-top-[2vh] md:[&>div]:!-top-[2vh] [&>div]:!left-[28vw] md:[&>div]:!left-[24.5vw] [&>div]:!w-[28vw] md:[&>div]:!w-[18.5vw] md:[&>div]:!h-[19vh]' : ''
             } ${
-              index === 4 ? '[&>div]:!top-[26vh] [&>div]:!left-[4vw] [&>div]:!h-[22vh] [&>div]:!w-[18vw]' : ''
+              index === 4 ? '[&>div]:!top-[17vh] md:[&>div]:!top-[29vh] [&>div]:!left-[2vw] md:[&>div]:!left-[4vw] [&>div]:!w-[28vw] md:[&>div]:!w-[17vw] md:[&>div]:!h-[19vh]' : ''
             } ${
-              index === 5 ? '[&>div]:!top-[26vh] [&>div]:!-left-[21vw] [&>div]:!h-[22vh] [&>div]:!w-[26vw]' : ''
+              index === 5 ? '[&>div]:!top-[17vh] md:[&>div]:!top-[29vh] [&>div]:!-left-[28vw] md:[&>div]:!-left-[17vw] [&>div]:!w-[28vw] md:[&>div]:!w-[19.5vw] md:[&>div]:!h-[19vh]' : ''
             } ${
-              index === 6 ? '[&>div]:!top-[22vh] [&>div]:!left-[25vw] [&>div]:!h-[14vh] [&>div]:!w-[14vw]' : ''
+              index === 6 ? '[&>div]:!top-[16vh] md:[&>div]:!top-[27vh] [&>div]:!left-[28vw] md:[&>div]:!left-[24.5vw] [&>div]:!w-[28vw] md:[&>div]:!w-[19.5vw] md:[&>div]:!h-[17.5vh]' : ''
             }`}
           >
-            <div className="relative h-[22vh] w-[22vw] group cursor-pointer">
-              {/* Heading Tagline Above Card — 100% Seamless Transparent Background */}
-              <div
-                data-parallax-fade
-                className="absolute -top-6 left-0 flex items-center gap-1.5 pointer-events-none z-10 will-change-transform"
-              >
-                <span className="w-3.5 h-[2px] bg-[#c9962c]" />
-                <span className="text-[10px] sm:text-[11px] font-bold tracking-widest text-[#0d0d0d] uppercase">
-                  {category}
-                </span>
-                <span className="text-[9px] sm:text-[10px] font-semibold tracking-wider text-[#0d0d0d]/40">
-                  / {num}
-                </span>
-              </div>
-
-              {/* Offset Architectural Outline Frame */}
-              <div
-                className="absolute inset-0 translate-x-3 translate-y-3 sm:translate-x-4 sm:translate-y-4 rounded-xl border-[1.5px] border-[#0d0d0d]/40 pointer-events-none -z-10 transition-transform duration-500 ease-out group-hover:translate-x-4 group-hover:translate-y-4"
-              />
-
-              {/* Foreground Image Card with 3D Shadow & Hover Zoom */}
-              <div
-                className="relative w-full h-full overflow-hidden rounded-xl bg-[#ede8e1] transition-all duration-500 ease-out group-hover:shadow-[0_45px_90px_-15px_rgba(13,13,13,0.55)]"
-                style={{
-                  boxShadow: "0 35px 70px -12px rgba(13, 13, 13, 0.4), 0 18px 36px -8px rgba(13, 13, 13, 0.28)",
-                }}
-              >
-                <img
-                  src={src || '/placeholder.svg'}
-                  alt={alt || `Parallax image ${index + 1}`}
-                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-
-                {/* Floating Arrow Action Button (↗) */}
-                <div className="absolute top-2.5 right-2.5 sm:top-3.5 sm:right-3.5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/90 backdrop-blur-md text-[#0d0d0d] flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 group-hover:scale-100 scale-75 transition-all duration-300 pointer-events-none">
-                  <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
-                  </svg>
-                </div>
-              </div>
+            <div className="relative w-[28vw] aspect-[16/10] h-auto md:aspect-auto md:w-[20vw] md:h-[19vh] pointer-events-auto">
+              <ProjectCardFrame project={project} index={index} />
             </div>
           </div>
         );

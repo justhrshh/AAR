@@ -44,7 +44,7 @@ export function ContactSection() {
         <div className="contact-header">
           <div className="contact-header__eyebrow">
             <span className="contact-header__eyebrow-dash" />
-            <span className="contact-header__eyebrow-text">CHAPTER 05 / INITIATE INQUIRY</span>
+            <span className="contact-header__eyebrow-text">CHAPTER 06 / INITIATE INQUIRY</span>
           </div>
 
           <div className="contact-header__main-row">
@@ -104,10 +104,10 @@ export function ContactSection() {
               <span className="contact-channel-label">DIGITAL ARCHIVES</span>
               <div className="contact-social-pills">
                 {[
-                  { name: 'INSTAGRAM', handle: '@aarvisuals', url: 'https://instagram.com' },
-                  { name: 'BEHANCE', handle: 'aarvisuals', url: 'https://behance.net' },
-                  { name: 'LINKEDIN', handle: 'AAR Visuals', url: 'https://linkedin.com' },
-                  { name: 'DRIBBBLE', handle: 'aarvisuals', url: 'https://dribbble.com' }
+                  { name: 'INSTAGRAM', handle: '@_aarvisuals', url: 'https://www.instagram.com/_aarvisuals/' },
+                  { name: 'FACEBOOK', handle: 'AAR Visuals', url: 'https://www.facebook.com/profile.php?id=61593983872811' },
+                  { name: 'X / TWITTER', handle: '@AARVISUALS01', url: 'https://x.com/AARVISUALS01' },
+                  { name: 'THREADS', handle: '@_aarvisuals', url: 'https://www.threads.com/@_aarvisuals?hl=en' }
                 ].map(soc => (
                   <a key={soc.name} href={soc.url} target="_blank" rel="noopener noreferrer" className="contact-social-card">
                     <span className="contact-social-platform">{soc.name}</span>
