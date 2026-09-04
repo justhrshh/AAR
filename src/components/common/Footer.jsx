@@ -240,7 +240,7 @@ export function Footer({ theme = 'light' }) {
                 </li>
                 <li>
                   <a
-                    href="https://wa.me/911145678900"
+                    href="https://web.whatsapp.com/send?phone=917011191450"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="aar-footer-nav-btn aar-footer-nav-btn--link"
@@ -256,13 +256,13 @@ export function Footer({ theme = 'light' }) {
               <h3 className="aar-footer-col__title">DIRECT & LEGAL</h3>
               <ul className="aar-footer-nav-list">
                 <li>
-                  <a href="mailto:studio@aarvisuals.com" className="aar-footer-nav-btn">
-                    studio@aarvisuals.com
+                  <a href="mailto:aarvisuals01@gmail.com" className="aar-footer-nav-btn">
+                    aarvisuals01@gmail.com
                   </a>
                 </li>
                 <li>
-                  <a href="tel:+911145678900" className="aar-footer-nav-btn">
-                    +91 (0) 11 4567 8900
+                  <a href="tel:+917011191450" className="aar-footer-nav-btn">
+                    +91 70111 91450
                   </a>
                 </li>
                 <li>

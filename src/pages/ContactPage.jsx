@@ -22,6 +22,8 @@ export function ContactPage() {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const toggleService = (svc) => {
     setFormData(prev => ({
@@ -32,227 +34,295 @@ export function ContactPage() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email) return;
-    setSubmitted(true);
+
+    setIsSubmitting(true);
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: '66c2669b-0f41-4e10-9361-a21a4c3efa0a',
+          subject: `New Project Inquiry from ${formData.name}`,
+          from_name: formData.name,
+          name: formData.name,
+          email: formData.email,
+          company: formData.company || 'N/A',
+          services: formData.services.length ? formData.services.join(', ') : 'Not specified',
+          timeline: formData.timeline,
+          message: formData.message || 'No additional message'
+        })
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        setErrorMessage(result.message || 'Unable to dispatch. Please email us directly at aarvisuals01@gmail.com');
+      }
+    } catch (err) {
+      setErrorMessage('Network error. Please reach us directly at aarvisuals01@gmail.com');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="aar-contact-page">
       <Navbar />
 
-      {/* ── 01. HERO STATEMENT ── */}
-      <section className="contact-hero">
-        <div className="contact-hero__container">
-          
-          <div className="contact-hero__eyebrow">
-            <span className="contact-hero__eyebrow-dash" />
-            <span className="contact-hero__eyebrow-text">INITIATE INQUIRY / 2026</span>
-          </div>
+      <main className="contact-page-main">
+        <div className="contact-page-container">
 
-          <div className="contact-hero__main">
-            <h1 className="contact-hero__title">
-              HAVE SOMETHING<br />
-              WORTH MAKING<br />
-              <span className="contact-hero__title--gold">VISIBLE</span>
-              <span className="contact-hero__title-dot">?</span>
-            </h1>
+          {/* ── 01. SIDE-BY-SIDE: EDITORIAL HEADING & PROJECT BRIEFING FORM ── */}
+          <div className="contact-hero-split-grid">
+            
+            {/* Left Column: Heading, Statement, Availability & Direct Contacts */}
+            <div className="contact-heading-col">
+              <div className="contact-hero__eyebrow">
+                <span className="contact-hero__eyebrow-dash" />
+                <span className="contact-hero__eyebrow-text">INITIATE INQUIRY / 2026</span>
+              </div>
 
-            <div className="contact-hero__status-col">
+              <h1 className="contact-hero__title">
+                HAVE SOMETHING<br />
+                WORTH MAKING<br />
+                <span className="contact-hero__title--gold">VISIBLE</span>
+                <span className="contact-hero__title-dot">?</span>
+              </h1>
+
               <div className="contact-availability-badge">
                 <span className="contact-availability-dot" />
                 <span className="contact-availability-text">ACCEPTING SELECT Q3/Q4 COMMISSIONS</span>
               </div>
+
               <p className="contact-hero__body">
-                We review every project proposal carefully. For prospective partnerships, lectures, or press inquiries, please use the form below or reach our directors directly.
+                We review every project proposal carefully. For prospective partnerships, bespoke commissions, or press inquiries, please use the briefing form or reach our studio directors directly.
               </p>
-            </div>
-          </div>
 
-        </div>
-      </section>
-
-      {/* ── 02. ENQUIRY FORM & DIRECT CHANNELS GRID ── */}
-      <section className="contact-main-section">
-        <div className="contact-main-container">
-
-          {/* Left Column: Direct Studio Information */}
-          <div className="contact-info-col">
-            <div className="contact-info-block">
-              <span className="contact-info-label">DIRECT INQUIRIES</span>
-              <a href="mailto:studio@aarvisuals.com" className="contact-info-link contact-info-link--large">
-                studio@aarvisuals.com
-              </a>
-              <span className="contact-info-sub">Typical response within 24 hours</span>
-            </div>
-
-            <div className="contact-info-block">
-              <span className="contact-info-label">STUDIO DIRECT</span>
-              <a href="tel:+911145678900" className="contact-info-link">
-                +91 (0) 11 4567 8900
-              </a>
-              <a href="https://wa.me/911145678900" target="_blank" rel="noopener noreferrer" className="contact-info-link">
-                WhatsApp Studio Dispatch →
-              </a>
-            </div>
-
-            <div className="contact-info-block">
-              <span className="contact-info-label">PHYSICAL ATELIER</span>
-              <p className="contact-info-address">
-                AAR Visuals Atelier<br />
-                Hauz Khas Design District<br />
-                New Delhi 110016, India
-              </p>
-              <span className="contact-info-sub">Visits strictly by prior appointment</span>
-            </div>
-
-            <div className="contact-info-block">
-              <span className="contact-info-label">DIGITAL ARCHIVES</span>
-              <div className="contact-social-grid">
-                {[
-                  { name: 'INSTAGRAM', handle: '@_aarvisuals', url: 'https://www.instagram.com/_aarvisuals/' },
-                  { name: 'FACEBOOK', handle: 'AAR Visuals', url: 'https://www.facebook.com/profile.php?id=61593983872811' },
-                  { name: 'X / TWITTER', handle: '@AARVISUALS01', url: 'https://x.com/AARVISUALS01' },
-                  { name: 'THREADS', handle: '@_aarvisuals', url: 'https://www.threads.com/@_aarvisuals?hl=en' }
-                ].map(soc => (
-                  <a key={soc.name} href={soc.url} target="_blank" rel="noopener noreferrer" className="contact-social-node">
-                    <span className="contact-social-name">{soc.name}</span>
-                    <span className="contact-social-handle">{soc.handle}</span>
+              {/* Direct Studio Quick Contact Box */}
+              <div className="contact-direct-quick-block">
+                <div className="contact-direct-quick-item">
+                  <span className="contact-direct-label">STUDIO DIRECT EMAIL</span>
+                  <a href="mailto:aarvisuals01@gmail.com" className="contact-direct-link contact-direct-link--mail">
+                    aarvisuals01@gmail.com
                   </a>
-                ))}
+                  <span className="contact-direct-sub">Typical response within 24 hours</span>
+                </div>
+
+                <div className="contact-direct-quick-item">
+                  <span className="contact-direct-label">STUDIO DIRECT PHONE</span>
+                  <a href="tel:+917011191450" className="contact-direct-link">
+                    +91 70111 91450
+                  </a>
+                  <a 
+                    href="https://web.whatsapp.com/send?phone=917011191450" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="contact-direct-whatsapp-link"
+                  >
+                    WhatsApp Studio Dispatch →
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Right Column: Bespoke Project Enquiry Form */}
-          <div className="contact-form-col">
-            <div className="contact-form-card">
-              
-              {submitted ? (
-                <div className="contact-success-state">
-                  <div className="contact-success-icon">✦</div>
-                  <h3 className="contact-success-title">INQUIRY RECEIVED.</h3>
-                  <p className="contact-success-text">
-                    Thank you for reaching out to AAR Visuals. A studio principal will review your brief and be in touch within one business day.
-                  </p>
-                  <button onClick={() => setSubmitted(false)} className="contact-reset-btn">
-                    <span>SEND ANOTHER MESSAGE</span>
-                    <span>→</span>
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="contact-form">
-                  <div className="contact-form-header">
-                    <span className="contact-form-title">PROJECT BRIEFING FORM</span>
-                    <span className="contact-form-required">* MANDATORY FIELDS</span>
+            {/* Right Column: Project Briefing Form */}
+            <div className="contact-form-col">
+              <div className="contact-form-wrapper">
+                
+                {submitted ? (
+                  <div className="contact-submitted-state">
+                    <div className="contact-submitted-icon">✦</div>
+                    <h2 className="contact-submitted-title">INQUIRY RECEIVED.</h2>
+                    <p className="contact-submitted-text">
+                      Thank you for reaching out to AAR Visuals. A studio principal will review your brief and be in touch within one business day.
+                    </p>
+                    <button onClick={() => setSubmitted(false)} className="contact-submitted-reset-btn" type="button">
+                      <span>SEND ANOTHER MESSAGE</span>
+                      <span>→</span>
+                    </button>
                   </div>
-
-                  {/* Input 1: Name */}
-                  <div className="contact-field-group">
-                    <label className="contact-label">01 / YOUR NAME *</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Helena Vance"
-                      value={formData.name}
-                      onChange={e => setFormData({ ...formData, name: e.target.value })}
-                      className="contact-input"
-                    />
-                  </div>
-
-                  {/* Input 2: Email & Organization */}
-                  <div className="contact-field-row">
-                    <div className="contact-field-group">
-                      <label className="contact-label">02 / EMAIL ADDRESS *</label>
-                      <input
-                        type="email"
-                        required
-                        placeholder="helena@brand.com"
-                        value={formData.email}
-                        onChange={e => setFormData({ ...formData, email: e.target.value })}
-                        className="contact-input"
-                      />
+                ) : (
+                  <form onSubmit={handleSubmit} className="contact-bespoke-form">
+                    <div className="contact-form-top-bar">
+                      <span className="contact-form-tag">PROJECT BRIEFING FORM</span>
+                      <span className="contact-form-req-hint">* MANDATORY FIELDS</span>
                     </div>
 
-                    <div className="contact-field-group">
-                      <label className="contact-label">03 / ORGANIZATION / BRAND</label>
+                    {errorMessage && (
+                      <div className="contact-form-error-alert" role="alert">
+                        <span>⚠ {errorMessage}</span>
+                      </div>
+                    )}
+
+                    <div className="contact-form-group">
+                      <label className="contact-form-label">01 / YOUR NAME *</label>
                       <input
                         type="text"
-                        placeholder="Company or Studio Name"
-                        value={formData.company}
-                        onChange={e => setFormData({ ...formData, company: e.target.value })}
-                        className="contact-input"
+                        required
+                        placeholder="e.g. Helena Vance"
+                        value={formData.name}
+                        onChange={e => setFormData({ ...formData, name: e.target.value })}
+                        className="contact-form-input"
                       />
                     </div>
-                  </div>
 
-                  {/* Scope of Interest Checkboxes */}
-                  <div className="contact-field-group">
-                    <label className="contact-label">04 / SCOPE OF COLLABORATION</label>
-                    <div className="contact-services-selector">
-                      {SERVICE_OPTIONS.map(svc => {
-                        const isChecked = formData.services.includes(svc);
-                        return (
-                          <button
-                            type="button"
-                            key={svc}
-                            className={`contact-svc-btn ${isChecked ? 'contact-svc-btn--active' : ''}`}
-                            onClick={() => toggleService(svc)}
-                          >
-                            <span className="contact-svc-checkbox">{isChecked ? '✓' : '+'}</span>
-                            <span>{svc}</span>
-                          </button>
-                        );
-                      })}
+                    <div className="contact-form-row">
+                      <div className="contact-form-group">
+                        <label className="contact-form-label">02 / EMAIL ADDRESS *</label>
+                        <input
+                          type="email"
+                          required
+                          placeholder="helena@brand.com"
+                          value={formData.email}
+                          onChange={e => setFormData({ ...formData, email: e.target.value })}
+                          className="contact-form-input"
+                        />
+                      </div>
+
+                      <div className="contact-form-group">
+                        <label className="contact-form-label">03 / ORGANIZATION / BRAND</label>
+                        <input
+                          type="text"
+                          placeholder="Company or Studio Name"
+                          value={formData.company}
+                          onChange={e => setFormData({ ...formData, company: e.target.value })}
+                          className="contact-form-input"
+                        />
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Timeline Selection */}
-                  <div className="contact-field-group">
-                    <label className="contact-label">05 / ESTIMATED LAUNCH HORIZON</label>
-                    <div className="contact-timeline-options">
-                      {['Immediate (1–2 Months)', 'Within 3 Months', 'Q4 2026', 'Flexible / Retainer'].map(t => (
-                        <label key={t} className="contact-timeline-label">
-                          <input
-                            type="radio"
-                            name="timeline"
-                            value={t}
-                            checked={formData.timeline === t}
-                            onChange={e => setFormData({ ...formData, timeline: e.target.value })}
-                            className="contact-radio"
-                          />
-                          <span>{t}</span>
-                        </label>
-                      ))}
+                    <div className="contact-form-group">
+                      <label className="contact-form-label">04 / SCOPE OF COLLABORATION</label>
+                      <div className="contact-service-chips">
+                        {SERVICE_OPTIONS.map(svc => {
+                          const isChecked = formData.services.includes(svc);
+                          return (
+                            <button
+                              type="button"
+                              key={svc}
+                              className={`contact-chip-btn ${isChecked ? 'contact-chip-btn--active' : ''}`}
+                              onClick={() => toggleService(svc)}
+                            >
+                              <span className="contact-chip-symbol">{isChecked ? '✓' : '+'}</span>
+                              <span>{svc}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Message */}
-                  <div className="contact-field-group">
-                    <label className="contact-label">06 / PROJECT VISION & DETAILS</label>
-                    <textarea
-                      rows={5}
-                      placeholder="Describe your project, objectives, aesthetic requirements, and any critical milestones..."
-                      value={formData.message}
-                      onChange={e => setFormData({ ...formData, message: e.target.value })}
-                      className="contact-textarea"
-                    />
-                  </div>
+                    <div className="contact-form-group">
+                      <label className="contact-form-label">05 / ESTIMATED LAUNCH HORIZON</label>
+                      <div className="contact-timeline-radios">
+                        {['Immediate (1–2 Months)', 'Within 3 Months', 'Q4 2026', 'Flexible / Retainer'].map(t => (
+                          <label key={t} className="contact-radio-item">
+                            <input
+                              type="radio"
+                              name="timeline"
+                              value={t}
+                              checked={formData.timeline === t}
+                              onChange={e => setFormData({ ...formData, timeline: e.target.value })}
+                              className="contact-native-radio"
+                            />
+                            <span>{t}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
 
-                  {/* Submit Button */}
-                  <button type="submit" className="contact-submit-btn">
-                    <span>DISPATCH PROJECT INQUIRY</span>
-                    <span className="contact-submit-arrow">→</span>
-                  </button>
-                </form>
-              )}
+                    <div className="contact-form-group">
+                      <label className="contact-form-label">06 / PROJECT VISION & DETAILS</label>
+                      <textarea
+                        rows={5}
+                        placeholder="Describe your project, objectives, aesthetic requirements, and any critical milestones..."
+                        value={formData.message}
+                        onChange={e => setFormData({ ...formData, message: e.target.value })}
+                        className="contact-form-textarea"
+                      />
+                    </div>
+
+                    <button 
+                      type="submit" 
+                      className="contact-dispatch-btn"
+                      disabled={isSubmitting}
+                    >
+                      <span>{isSubmitting ? 'DISPATCHING INQUIRY...' : 'DISPATCH PROJECT INQUIRY'}</span>
+                      <span className="contact-dispatch-arrow">{isSubmitting ? '✦' : '→'}</span>
+                    </button>
+                  </form>
+                )}
+
+              </div>
+            </div>
+
+          </div>
+
+          {/* ── 02. DIRECT ATELIER CHANNELS & DIGITAL ARCHIVES (BELOW FORM) ── */}
+          <div className="contact-below-channels">
+            <div className="contact-below-channels-grid">
+              
+              {/* 01. Physical Atelier */}
+              <div className="contact-below-node">
+                <span className="contact-below-label">PHYSICAL ATELIER</span>
+                <p className="contact-below-address">
+                  AAR Visuals Atelier<br />
+                  Hauz Khas Design District<br />
+                  New Delhi 110016, India
+                </p>
+                <span className="contact-below-sub">Visits strictly by prior appointment</span>
+              </div>
+
+              {/* 02. Studio Direct Contacts */}
+              <div className="contact-below-node">
+                <span className="contact-below-label">STUDIO DIRECT</span>
+                <a href="mailto:aarvisuals01@gmail.com" className="contact-below-val">
+                  aarvisuals01@gmail.com
+                </a>
+                <a href="tel:+917011191450" className="contact-below-val">
+                  +91 70111 91450
+                </a>
+                <a 
+                  href="https://web.whatsapp.com/send?phone=917011191450" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="contact-below-val contact-below-val--gold"
+                >
+                  WhatsApp Studio Dispatch →
+                </a>
+              </div>
+
+              {/* 03. Digital Archives */}
+              <div className="contact-below-node contact-below-node--wide">
+                <span className="contact-below-label">DIGITAL ARCHIVES</span>
+                <div className="contact-social-pills">
+                  {[
+                    { name: 'INSTAGRAM', handle: '@_aarvisuals', url: 'https://www.instagram.com/_aarvisuals/' },
+                    { name: 'FACEBOOK', handle: 'AAR Visuals', url: 'https://www.facebook.com/profile.php?id=61593983872811' },
+                    { name: 'X / TWITTER', handle: '@AARVISUALS01', url: 'https://x.com/AARVISUALS01' },
+                    { name: 'THREADS', handle: '@_aarvisuals', url: 'https://www.threads.com/@_aarvisuals?hl=en' }
+                  ].map(soc => (
+                    <a key={soc.name} href={soc.url} target="_blank" rel="noopener noreferrer" className="contact-social-card">
+                      <span className="contact-social-platform">{soc.name}</span>
+                      <span className="contact-social-user">{soc.handle}</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
 
             </div>
           </div>
 
         </div>
-      </section>
+      </main>
 
       <Footer theme="light" />
     </div>

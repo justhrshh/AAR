@@ -86,17 +86,48 @@ export function JoinPage() {
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
 
     setIsSubmitting(true);
-    // Simulate brief submission delay
-    setTimeout(() => {
+    setFormErrors({});
+
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append("access_key", "23bbd896-0b88-4a14-a488-0af01b47f083");
+      formDataToSend.append("subject", `New Atelier Application: ${formData.fullName} (${formData.role})`);
+      formDataToSend.append("from_name", formData.fullName);
+      formDataToSend.append("name", formData.fullName);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("phone", formData.phone);
+      formDataToSend.append("role", formData.role);
+      formDataToSend.append("portfolio_url", formData.portfolioUrl);
+      formDataToSend.append("bio", formData.bio);
+      formDataToSend.append("linkedin_url", formData.linkedinUrl || "N/A");
+      formDataToSend.append("social_url", formData.socialUrl || "N/A");
+
+      if (formData.resumeFile) {
+        formDataToSend.append("attachment", formData.resumeFile);
+      }
+
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formDataToSend
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setFormSubmitted(true);
+        scrollToElement(formRef);
+      } else {
+        setFormErrors({ submit: result.message || "Failed to submit. Please reach us directly at aarvisuals01@gmail.com" });
+      }
+    } catch (err) {
+      setFormErrors({ submit: "Network error. Please reach us directly at aarvisuals01@gmail.com" });
+    } finally {
       setIsSubmitting(false);
-      setFormSubmitted(true);
-      scrollToElement(formRef);
-    }, 800);
+    }
   };
 
   const resetForm = () => {
@@ -627,6 +658,11 @@ export function JoinPage() {
 
                   {/* Submit Button */}
                   <div className="join-form-submit-wrap">
+                    {formErrors.submit && (
+                      <div className="join-form-error-banner" style={{ background: '#fef2f2', border: '1px solid #f87171', color: '#b91c1c', padding: '12px 16px', borderRadius: '10px', fontSize: '13px', fontWeight: '600', marginBottom: '16px', width: '100%', boxSizing: 'border-box' }}>
+                        ⚠ {formErrors.submit}
+                      </div>
+                    )}
                     <button 
                       type="submit" 
                       disabled={isSubmitting}

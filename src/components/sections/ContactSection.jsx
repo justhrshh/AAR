@@ -20,6 +20,8 @@ export function ContactSection() {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const toggleService = (svc) => {
     setFormData(prev => ({
@@ -30,24 +32,60 @@ export function ContactSection() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email) return;
-    setSubmitted(true);
+
+    setIsSubmitting(true);
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: '66c2669b-0f41-4e10-9361-a21a4c3efa0a',
+          subject: `New Project Inquiry from ${formData.name}`,
+          from_name: formData.name,
+          name: formData.name,
+          email: formData.email,
+          company: formData.company || 'N/A',
+          services: formData.services.length ? formData.services.join(', ') : 'Not specified',
+          timeline: formData.timeline,
+          message: formData.message || 'No additional message'
+        })
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        setErrorMessage(result.message || 'Unable to dispatch. Please reach us directly at aarvisuals01@gmail.com');
+      }
+    } catch (err) {
+      setErrorMessage('Network error. Please reach us directly at aarvisuals01@gmail.com');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <section id="contact" className="aar-contact-section">
       <div className="contact-section-container">
 
-        {/* ── 01. HERO STATEMENT ── */}
-        <div className="contact-header">
-          <div className="contact-header__eyebrow">
-            <span className="contact-header__eyebrow-dash" />
-            <span className="contact-header__eyebrow-text">CHAPTER 06 / INITIATE INQUIRY</span>
-          </div>
+        {/* ── 01. SIDE-BY-SIDE: EDITORIAL HEADING & PROJECT BRIEFING FORM ── */}
+        <div className="contact-hero-split-grid">
+          
+          {/* Left Column: Heading, Statement, Availability & Direct Contacts */}
+          <div className="contact-heading-col">
+            <div className="contact-header__eyebrow">
+              <span className="contact-header__eyebrow-dash" />
+              <span className="contact-header__eyebrow-text">CHAPTER 06 / INITIATE INQUIRY</span>
+            </div>
 
-          <div className="contact-header__main-row">
             <h2 className="contact-header__title">
               HAVE SOMETHING<br />
               WORTH MAKING<br />
@@ -55,70 +93,43 @@ export function ContactSection() {
               <span className="contact-header__title-dot">?</span>
             </h2>
 
-            <div className="contact-header__status-col">
-              <div className="contact-status-badge">
-                <span className="contact-status-dot" />
-                <span className="contact-status-text">ACCEPTING SELECT Q3/Q4 COMMISSIONS</span>
+            <div className="contact-status-badge">
+              <span className="contact-status-dot" />
+              <span className="contact-status-text">ACCEPTING SELECT Q3/Q4 COMMISSIONS</span>
+            </div>
+
+            <p className="contact-header__body">
+              We review every project proposal carefully. For prospective partnerships, bespoke commissions, or press inquiries, please use the briefing form or connect with our studio directors directly.
+            </p>
+
+            {/* Direct Studio Quick Contact Box */}
+            <div className="contact-direct-quick-block">
+              <div className="contact-direct-quick-item">
+                <span className="contact-direct-label">STUDIO DIRECT EMAIL</span>
+                <a href="mailto:aarvisuals01@gmail.com" className="contact-direct-link contact-direct-link--mail">
+                  aarvisuals01@gmail.com
+                </a>
+                <span className="contact-direct-sub">Typical response within 24 hours</span>
               </div>
-              <p className="contact-header__body">
-                We review every project proposal carefully. For prospective partnerships, lectures, or press inquiries, please use the form below or reach our directors directly.
-              </p>
-            </div>
-          </div>
-        </div>
 
-        {/* ── 02. FORM & DIRECT CHANNELS GRID ── */}
-        <div className="contact-grid">
-          
-          {/* Left Column: Direct Info */}
-          <div className="contact-channels-col">
-            <div className="contact-channel-node">
-              <span className="contact-channel-label">DIRECT INQUIRIES</span>
-              <a href="mailto:studio@aarvisuals.com" className="contact-channel-val contact-channel-val--big">
-                studio@aarvisuals.com
-              </a>
-              <span className="contact-channel-sub">Typical response within 24 hours</span>
-            </div>
-
-            <div className="contact-channel-node">
-              <span className="contact-channel-label">STUDIO DIRECT</span>
-              <a href="tel:+911145678900" className="contact-channel-val">
-                +91 (0) 11 4567 8900
-              </a>
-              <a href="https://wa.me/911145678900" target="_blank" rel="noopener noreferrer" className="contact-channel-val">
-                WhatsApp Studio Dispatch →
-              </a>
-            </div>
-
-            <div className="contact-channel-node">
-              <span className="contact-channel-label">PHYSICAL ATELIER</span>
-              <p className="contact-channel-address">
-                AAR Visuals Atelier<br />
-                Hauz Khas Design District<br />
-                New Delhi 110016, India
-              </p>
-              <span className="contact-channel-sub">Visits strictly by prior appointment</span>
-            </div>
-
-            <div className="contact-channel-node">
-              <span className="contact-channel-label">DIGITAL ARCHIVES</span>
-              <div className="contact-social-pills">
-                {[
-                  { name: 'INSTAGRAM', handle: '@_aarvisuals', url: 'https://www.instagram.com/_aarvisuals/' },
-                  { name: 'FACEBOOK', handle: 'AAR Visuals', url: 'https://www.facebook.com/profile.php?id=61593983872811' },
-                  { name: 'X / TWITTER', handle: '@AARVISUALS01', url: 'https://x.com/AARVISUALS01' },
-                  { name: 'THREADS', handle: '@_aarvisuals', url: 'https://www.threads.com/@_aarvisuals?hl=en' }
-                ].map(soc => (
-                  <a key={soc.name} href={soc.url} target="_blank" rel="noopener noreferrer" className="contact-social-card">
-                    <span className="contact-social-platform">{soc.name}</span>
-                    <span className="contact-social-user">{soc.handle}</span>
-                  </a>
-                ))}
+              <div className="contact-direct-quick-item">
+                <span className="contact-direct-label">STUDIO DIRECT PHONE</span>
+                <a href="tel:+917011191450" className="contact-direct-link">
+                  +91 70111 91450
+                </a>
+                <a 
+                  href="https://web.whatsapp.com/send?phone=917011191450" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="contact-direct-whatsapp-link"
+                >
+                  WhatsApp Studio Dispatch →
+                </a>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Minimal Form */}
+          {/* Right Column: Project Briefing Form */}
           <div className="contact-form-col">
             <div className="contact-form-wrapper">
               
@@ -129,7 +140,7 @@ export function ContactSection() {
                   <p className="contact-submitted-text">
                     Thank you for reaching out to AAR Visuals. A studio principal will review your brief and be in touch within one business day.
                   </p>
-                  <button onClick={() => setSubmitted(false)} className="contact-submitted-reset-btn">
+                  <button onClick={() => setSubmitted(false)} className="contact-submitted-reset-btn" type="button">
                     <span>SEND ANOTHER MESSAGE</span>
                     <span>→</span>
                   </button>
@@ -140,6 +151,12 @@ export function ContactSection() {
                     <span className="contact-form-tag">PROJECT BRIEFING FORM</span>
                     <span className="contact-form-req-hint">* MANDATORY FIELDS</span>
                   </div>
+
+                  {errorMessage && (
+                    <div className="contact-form-error-alert" role="alert">
+                      <span>⚠ {errorMessage}</span>
+                    </div>
+                  )}
 
                   <div className="contact-form-group">
                     <label className="contact-form-label">01 / YOUR NAME *</label>
@@ -228,9 +245,13 @@ export function ContactSection() {
                     />
                   </div>
 
-                  <button type="submit" className="contact-dispatch-btn">
-                    <span>DISPATCH PROJECT INQUIRY</span>
-                    <span className="contact-dispatch-arrow">→</span>
+                  <button 
+                    type="submit" 
+                    className="contact-dispatch-btn"
+                    disabled={isSubmitting}
+                  >
+                    <span>{isSubmitting ? 'DISPATCHING INQUIRY...' : 'DISPATCH PROJECT INQUIRY'}</span>
+                    <span className="contact-dispatch-arrow">{isSubmitting ? '✦' : '→'}</span>
                   </button>
                 </form>
               )}
@@ -238,6 +259,61 @@ export function ContactSection() {
             </div>
           </div>
 
+        </div>
+
+        {/* ── 02. DIRECT ATELIER DETAILS & DIGITAL ARCHIVES (BELOW FORM) ── */}
+        <div className="contact-below-channels">
+          <div className="contact-below-channels-grid">
+            
+            {/* 01. Physical Atelier */}
+            <div className="contact-below-node">
+              <span className="contact-below-label">PHYSICAL ATELIER</span>
+              <p className="contact-below-address">
+                AAR Visuals Atelier<br />
+                Hauz Khas Design District<br />
+                New Delhi 110016, India
+              </p>
+              <span className="contact-below-sub">Visits strictly by prior appointment</span>
+            </div>
+
+            {/* 02. Studio Direct Contacts */}
+            <div className="contact-below-node">
+              <span className="contact-below-label">STUDIO DIRECT</span>
+              <a href="mailto:aarvisuals01@gmail.com" className="contact-below-val">
+                aarvisuals01@gmail.com
+              </a>
+              <a href="tel:+917011191450" className="contact-below-val">
+                +91 70111 91450
+              </a>
+              <a 
+                href="https://web.whatsapp.com/send?phone=917011191450" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="contact-below-val contact-below-val--gold"
+              >
+                WhatsApp Studio Dispatch →
+              </a>
+            </div>
+
+            {/* 03. Digital Archives */}
+            <div className="contact-below-node contact-below-node--wide">
+              <span className="contact-below-label">DIGITAL ARCHIVES</span>
+              <div className="contact-social-pills">
+                {[
+                  { name: 'INSTAGRAM', handle: '@_aarvisuals', url: 'https://www.instagram.com/_aarvisuals/' },
+                  { name: 'FACEBOOK', handle: 'AAR Visuals', url: 'https://www.facebook.com/profile.php?id=61593983872811' },
+                  { name: 'X / TWITTER', handle: '@AARVISUALS01', url: 'https://x.com/AARVISUALS01' },
+                  { name: 'THREADS', handle: '@_aarvisuals', url: 'https://www.threads.com/@_aarvisuals?hl=en' }
+                ].map(soc => (
+                  <a key={soc.name} href={soc.url} target="_blank" rel="noopener noreferrer" className="contact-social-card">
+                    <span className="contact-social-platform">{soc.name}</span>
+                    <span className="contact-social-user">{soc.handle}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+          </div>
         </div>
 
       </div>
