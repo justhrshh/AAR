@@ -1,15 +1,44 @@
-import React, { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { ROLES } from '../data/roles';
 import { JOIN_BENEFITS } from '../data/joinBenefits';
 import { JOIN_PROCESS } from '../data/joinProcess';
+import { SplitText } from '../components/ui/SplitText';
+import { TypewriterText } from '../components/ui/TypewriterText';
 import { Footer } from '../components/common/Footer';
 import './JoinPage.css';
+
+// ── EDITORIAL PINNED HIGHLIGHT BOX (Reference: media_1788622751110.png) ──
+const EditorialPinBox = ({ children, className = '' }) => (
+  <span className={`join-pin-box ${className}`}>
+    <span className="join-pin-box__stem join-pin-box__stem--tl" aria-hidden="true">
+      <span className="join-pin-box__dot" />
+    </span>
+    <span className="join-pin-box__content">{children}</span>
+    <span className="join-pin-box__stem join-pin-box__stem--br" aria-hidden="true">
+      <span className="join-pin-box__dot" />
+    </span>
+  </span>
+);
 
 export function JoinPage() {
   const navigate = useNavigate();
   const [activeRoleIndex, setActiveRoleIndex] = useState(0);
   const [selectedRole, setSelectedRole] = useState('graphic-design');
+
+  // Handle mobile device back button / swipe back gesture to take user home
+  useEffect(() => {
+    window.history.pushState({ page: 'join' }, '', window.location.pathname);
+    const handlePopState = () => {
+      navigate('/');
+      window.scrollTo(0, 0);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [navigate]);
   
   // Application Form State
   const [formData, setFormData] = useState({
@@ -26,6 +55,7 @@ export function JoinPage() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formErrors, setFormErrors] = useState({});
+  const [showOptionalFields, setShowOptionalFields] = useState(false);
 
   const formRef = useRef(null);
   const rolesRef = useRef(null);
@@ -56,7 +86,12 @@ export function JoinPage() {
     if (!formData.email.trim() || !formData.email.includes('@')) errors.email = 'Valid email is required';
     if (!formData.phone.trim()) errors.phone = 'Phone number is required';
     if (!formData.portfolioUrl.trim()) errors.portfolioUrl = 'Portfolio / Website URL is required';
-    if (!formData.bio.trim()) errors.bio = 'Please share a brief introduction';
+    
+    // Bio is required on desktop or if user intentionally expanded additional fields on mobile
+    const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+    if ((!isMobile || showOptionalFields) && !formData.bio.trim()) {
+      errors.bio = 'Please share a brief introduction';
+    }
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -78,7 +113,7 @@ export function JoinPage() {
       formDataToSend.append("phone", formData.phone);
       formDataToSend.append("role", formData.role);
       formDataToSend.append("portfolio_url", formData.portfolioUrl);
-      formDataToSend.append("bio", formData.bio);
+      formDataToSend.append("bio", formData.bio.trim() || "Mobile portfolio applicant");
       formDataToSend.append("linkedin_url", formData.linkedinUrl || "N/A");
       formDataToSend.append("social_url", formData.socialUrl || "N/A");
 
@@ -121,12 +156,12 @@ export function JoinPage() {
       {/* ── STICKY EDITORIAL TOP BAR ── */}
       <header className="join-nav">
         <div className="join-nav__container">
-          <a href="/" className="join-nav__brand" onClick={(e) => { e.preventDefault(); navigate('/'); }}>
+          <Link to="/" className="join-nav__brand" onClick={(e) => { e.preventDefault(); navigate('/'); window.scrollTo(0, 0); }}>
             <img src="/images/aar_logo.png" alt="AAR" className="join-nav__logo" />
             <div className="join-nav__brand-sub">
               <span>V</span><span>I</span><span>S</span><span>U</span><span>A</span><span>L</span><span>S</span>
             </div>
-          </a>
+          </Link>
 
           <div className="join-nav__tag">
             <span className="join-nav__tag-dot" />
@@ -134,9 +169,14 @@ export function JoinPage() {
           </div>
 
           <div className="join-nav__actions">
-            <button onClick={() => navigate('/')} className="join-nav__btn join-nav__btn--ghost">
-              ← RETURN HOME
-            </button>
+            <Link 
+              to="/" 
+              onClick={(e) => { e.preventDefault(); navigate('/'); window.scrollTo(0, 0); }} 
+              className="join-nav__btn join-nav__btn--ghost"
+            >
+              <span className="join-nav__back-desktop">← RETURN HOME</span>
+              <span className="join-nav__back-mobile">← HOME</span>
+            </Link>
             <button onClick={() => scrollToElement(formRef)} className="join-nav__btn join-nav__btn--primary">
               APPLY NOW ↗
             </button>
@@ -144,23 +184,48 @@ export function JoinPage() {
         </div>
       </header>
 
-      {/* ── SECTION 01: HERO ── */}
+      {/* ── SECTION 01: HERO WITH ARCHITECTURAL WAVES & ARTWORK ── */}
       <section className="join-hero">
+        {/* Subtle Ambient Architectural Contour Background Waves */}
+        <div className="join-hero__ambient-waves" aria-hidden="true">
+          <svg viewBox="0 0 1440 700" fill="none" preserveAspectRatio="none" className="w-full h-full">
+            <path d="M-100,520 C240,460 480,180 840,240 C1200,300 1340,110 1600,160" stroke="#c9962c" strokeWidth="1.2" opacity="0.22" />
+            <path d="M-100,560 C260,500 510,220 870,280 C1230,340 1370,150 1600,200" stroke="#c9962c" strokeWidth="1.0" opacity="0.18" />
+            <path d="M-100,600 C280,540 540,260 900,320 C1260,380 1400,190 1600,240" stroke="#c9962c" strokeWidth="0.8" opacity="0.14" />
+            <path d="M-100,640 C300,580 570,300 930,360 C1290,420 1430,230 1600,280" stroke="#c9962c" strokeWidth="0.7" opacity="0.10" />
+          </svg>
+        </div>
+
         <div className="join-hero__container">
           
+          {/* Left Column: Narrative & Action */}
           <div className="join-hero__content">
             <div className="join-hero__badge">
               <span className="join-hero__badge-dash" />
-              <span>OPPORTUNITIES & COLLABORATIVE NETWORK</span>
+              <TypewriterText
+                words={[
+                  "CHAPTER 05 / ATELIER TALENT INTAKE",
+                  "OPPORTUNITIES & COLLABORATIVE NETWORK",
+                  "FOR PEOPLE WHO MAKE THINGS THAT MATTER",
+                  "WHERE INDIVIDUAL VISION FINDS VISIBILITY"
+                ]}
+                speed={50}
+                pauseTime={2800}
+                loop={true}
+                cursorChar="|"
+                className="join-hero__badge-text"
+              />
             </div>
 
             <h1 className="join-hero__headline">
-              JOIN OUR <br />
-              <span className="join-hero__headline--gold">TALENT.</span>
+              <span className="join-heading-lead"><SplitText text="JOIN OUR" type="words" delay={0.15} stagger={0.04} /></span> <br />
+              <EditorialPinBox className="join-hero__headline--pin">
+                <SplitText text="Talent." type="words" delay={0.35} />
+              </EditorialPinBox>
             </h1>
 
             <p className="join-hero__copy">
-              Designers, developers, editors, marketers and creators — if you have the skills to turn ideas into something people can see, we want to hear from you.
+              Designers, developers, animators, strategists and obsessive makers — we're assembling an international network for practitioners who care about the depth of the work as much as the idea.
             </p>
 
             <div className="join-hero__ctas">
@@ -168,7 +233,7 @@ export function JoinPage() {
                 onClick={() => scrollToElement(rolesRef)}
                 className="join-hero__cta join-hero__cta--primary"
               >
-                <span>EXPLORE OPPORTUNITIES</span>
+                <span>EXPLORE DISCIPLINES</span>
                 <span className="join-hero__cta-arrow">↓</span>
               </button>
 
@@ -180,59 +245,89 @@ export function JoinPage() {
                 <span className="join-hero__cta-arrow">↗</span>
               </button>
             </div>
-          </div>
 
-          {/* Art-Directed Creative Hero Visual Composition */}
-          <div className="join-hero__visual-wrap">
-            <div className="join-hero-canvas">
-              <div className="join-canvas__card join-canvas__card--main">
-                <img 
-                  src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop" 
-                  alt="Creative Architecture" 
-                  className="join-canvas__img"
-                />
-                <div className="join-canvas__overlay">
-                  <span className="join-canvas__tag">DISCIPLINE OVER SHORTCUTS</span>
-                  <span className="join-canvas__meta">09 CREATIVE DOMAINS</span>
-                </div>
+            {/* Editorial Metrics Strip matching Selected Projects reference */}
+            <div className="join-hero__metrics-strip">
+              <div className="join-metric-item">
+                <span className="join-metric-val">09</span>
+                <span className="join-metric-label">CREATIVE PRACTICES</span>
               </div>
-
-              <div className="join-canvas__card join-canvas__card--floating">
-                <div className="join-floating-badge">
-                  <span className="join-floating-badge__icon">✦</span>
-                  <div>
-                    <strong>FREEDOM + IMPACT</strong>
-                    <p>REAL PROJECTS IN THE WORLD</p>
-                  </div>
-                </div>
+              <div className="join-metric-item">
+                <span className="join-metric-val">100%</span>
+                <span className="join-metric-label">DIRECT ATTRIBUTION</span>
               </div>
-
-              <div className="join-canvas__card join-canvas__card--code">
-                <div className="join-code-preview">
-                  <span className="join-code-line"><span className="code-kw">const</span> talent = <span className="code-fn">collaborate</span>({'{'}</span>
-                  <span className="join-code-line code-indent">craft: <span className="code-str">"uncompromising"</span>,</span>
-                  <span className="join-code-line code-indent">vision: <span className="code-str">"to_visibility"</span></span>
-                  <span className="join-code-line">{'}'});</span>
-                </div>
+              <div className="join-metric-item">
+                <span className="join-metric-val">48H</span>
+                <span className="join-metric-label">REVIEW DISPATCH</span>
               </div>
             </div>
           </div>
 
+          {/* Right Column: Art-Directed Editorial Showcase Plate with user-uploaded Image */}
+          <motion.div 
+            initial={{ opacity: 0, y: 35, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="join-hero__visual-wrap"
+          >
+            <div className="join-hero-art-plate">
+              
+              {/* Technical Corner Brackets */}
+              <span className="join-art-corner join-art-corner--tl" />
+              <span className="join-art-corner join-art-corner--tr" />
+              <span className="join-art-corner join-art-corner--bl" />
+              <span className="join-art-corner join-art-corner--br" />
+
+              {/* Floating Badge Top-Right */}
+              <div className="join-art-badge join-art-badge--top">
+                <span className="join-art-badge__icon">✦</span>
+                <div className="join-art-badge__content">
+                  <span className="join-art-badge__title">ATELIER CULTURE</span>
+                  <span className="join-art-badge__sub">TOGETHER WE CAN MAKE EVERYTHING BETTER</span>
+                </div>
+              </div>
+
+              {/* Illustration Art Container */}
+              <div className="join-art-img-wrap">
+                <img 
+                  src="/images/join_team_illustration.png" 
+                  alt="Join Our Creative Talent" 
+                  className="join-art-team-img"
+                />
+              </div>
+
+              {/* Floating Pill Bottom-Left */}
+              <div className="join-art-badge join-art-badge--bottom">
+                <span className="join-art-badge__dot" />
+                <span>09 DISCIPLINES • WORLDWIDE COLLABORATION</span>
+              </div>
+
+              {/* Fine Bottom Caption */}
+              <div className="join-art-caption">
+                <span>AAR VISUALS ATELIER • TALENT INTAKE</span>
+                <span>COMMISSION COHORT 2026</span>
+              </div>
+
+            </div>
+          </motion.div>
+
         </div>
       </section>
 
-      {/* ── SECTION 02: WHY JOIN US ── */}
+      {/* ── SECTION 02: WHY JOIN US (EDITORIAL CARDS) ── */}
       <section className="join-why-section">
         <div className="join-why-container">
           
           <div className="join-section-header">
             <span className="join-section-tag">01 / WHY AAR</span>
             <h2 className="join-section-title">
-              CREATE WORK <br />
-              <span className="join-section-title--gold">THAT MATTERS.</span>
+              <span className="join-heading-lead"><SplitText text="CREATE WORK" type="words" delay={0.1} /></span> <br />
+              <EditorialPinBox className="join-section-title--pin">
+                <SplitText text="That matters." type="words" delay={0.25} />
+              </EditorialPinBox>
             </h2>
             <p className="join-section-desc">
-              AAR Visuals works across design, technology, content and marketing to help brands become more visible. Working with us means contributing to real projects and collaborating across different creative disciplines.
+              AAR Visuals operates at the intersection of brand identity, digital architecture, and kinetic motion. Working with us means contributing to real projects with uncompromising craft.
             </p>
           </div>
 
@@ -241,34 +336,34 @@ export function JoinPage() {
               <span className="join-why-num">01</span>
               <h3 className="join-why-heading">REAL CLIENT WORK</h3>
               <p className="join-why-text">
-                Work on projects that actually go into the world, command audiences, and shape modern brand identities.
+                Work on commissions that launch globally, command audiences, and shape modern brand identities without artificial corporate bureaucracy.
               </p>
               <div className="join-why-corner" />
             </div>
 
             <div className="join-why-card">
               <span className="join-why-num">02</span>
-              <h3 className="join-why-heading">CREATIVE COLLABORATION</h3>
+              <h3 className="join-why-heading">RADICAL CRAFT</h3>
               <p className="join-why-text">
-                Work alongside passionate specialists from visual design, 3D, code, motion, and digital marketing.
+                Collaborate with obsessive specialists who value mathematical layout tension, customized typography, and tactile sensorial physics.
               </p>
               <div className="join-why-corner" />
             </div>
 
             <div className="join-why-card">
               <span className="join-why-num">03</span>
-              <h3 className="join-why-heading">BUILD YOUR PORTFOLIO</h3>
+              <h3 className="join-why-heading">PORTFOLIO IMPACT</h3>
               <p className="join-why-text">
-                Create work you can genuinely be proud to showcase—built with high craft, deep typography, and intention.
+                Build case studies you will be proud of for decades. Every collaborator receives direct public credit and attribution for their contributions.
               </p>
               <div className="join-why-corner" />
             </div>
 
             <div className="join-why-card">
               <span className="join-why-num">04</span>
-              <h3 className="join-why-heading">KEEP GROWING</h3>
+              <h3 className="join-why-heading">FLUID AUTONOMY</h3>
               <p className="join-why-text">
-                Learn, experiment, adopt modern AI tools, and expand your capabilities without arbitrary corporate ceilings.
+                Flexible project-based and retainer partnerships tailored for global remote talent, independent directors, and visionary studios.
               </p>
               <div className="join-why-corner" />
             </div>
@@ -277,18 +372,20 @@ export function JoinPage() {
         </div>
       </section>
 
-      {/* ── SECTION 03: WHO WE'RE LOOKING FOR (ROLES) ── */}
+      {/* ── SECTION 03: WHO WE'RE LOOKING FOR (ROLES ACCORDION) ── */}
       <section className="join-roles-section" ref={rolesRef}>
         <div className="join-roles-container">
           
-          <div className="join-section-header">
+          <div className="join-section-header join-roles-header">
             <span className="join-section-tag">02 / WHO WE'RE LOOKING FOR</span>
             <h2 className="join-section-title">
-              BRING YOUR <br />
-              <span className="join-section-title--gold">CRAFT.</span>
+              <span className="join-heading-lead"><SplitText text="BRING YOUR" type="words" delay={0.1} /></span> <br />
+              <EditorialPinBox className="join-section-title--pin">
+                <SplitText text="Craft." type="words" delay={0.25} />
+              </EditorialPinBox>
             </h2>
             <p className="join-section-desc">
-              We look for specialists with sharp instincts, technical mastery, and pride in execution across 9 key creative disciplines.
+              We look for specialists with sharp instincts, technical precision, and obsessive execution across 9 primary creative practices.
             </p>
           </div>
 
@@ -371,11 +468,13 @@ export function JoinPage() {
           <div className="join-section-header">
             <span className="join-section-tag">03 / WHAT YOU GET</span>
             <h2 className="join-section-title">
-              MORE THAN <br />
-              <span className="join-section-title--gold">A ROLE.</span>
+              <span className="join-heading-lead"><SplitText text="MORE THAN" type="words" delay={0.1} /></span> <br />
+              <EditorialPinBox className="join-section-title--pin">
+                <SplitText text="A role." type="words" delay={0.25} />
+              </EditorialPinBox>
             </h2>
             <p className="join-section-desc">
-              We provide the framework, client momentum, and collaborative network so you can do the best work of your career.
+              We provide the framework, client momentum, and collaborative network so you can do the most defining work of your career.
             </p>
           </div>
 
@@ -395,15 +494,17 @@ export function JoinPage() {
         </div>
       </section>
 
-      {/* ── SECTION 05: HOW IT WORKS ── */}
+      {/* ── SECTION 05: THE INTAKE PROCESS ── */}
       <section className="join-process-section">
         <div className="join-process-container">
           
           <div className="join-section-header">
             <span className="join-section-tag">04 / THE INTAKE PROCESS</span>
             <h2 className="join-section-title">
-              HOW IT <br />
-              <span className="join-section-title--gold">WORKS.</span>
+              <span className="join-heading-lead"><SplitText text="HOW IT" type="words" delay={0.1} /></span> <br />
+              <EditorialPinBox className="join-section-title--pin">
+                <SplitText text="Works." type="words" delay={0.25} />
+              </EditorialPinBox>
             </h2>
             <p className="join-section-desc">
               A transparent, straightforward path from portfolio submission to active creative collaboration.
@@ -427,7 +528,7 @@ export function JoinPage() {
         </div>
       </section>
 
-      {/* ── SECTION 06: APPLICATION FORM ── */}
+      {/* ── SECTION 06: BESPOKE APPLICATION FORM ── */}
       <section className="join-apply-section" ref={formRef}>
         <div className="join-apply-container">
           
@@ -435,13 +536,15 @@ export function JoinPage() {
             {!formSubmitted ? (
               <>
                 <div className="join-apply-header">
-                  <span className="join-section-tag">05 / APPLICATION</span>
+                  <span className="join-section-tag">05 / INTAKE PROTOCOL</span>
                   <h2 className="join-apply-title">
-                    LET’S CREATE <br />
-                    <span className="join-apply-title--gold">SOMETHING.</span>
+                    <span className="join-heading-lead"><SplitText text="LET’S CREATE" type="words" delay={0.1} /></span> <br />
+                    <EditorialPinBox className="join-apply-title--pin">
+                      <SplitText text="Something." type="words" delay={0.25} />
+                    </EditorialPinBox>
                   </h2>
                   <p className="join-apply-desc">
-                    Think you’d be a good fit for AAR Visuals? Tell us a little about yourself, your craft, and your best work.
+                    Ready to build enduring visual systems with AAR Visuals? Tell us about yourself, your craft, and your best work.
                   </p>
                 </div>
 
@@ -451,7 +554,7 @@ export function JoinPage() {
                   <div className="join-form-row">
                     <div className="join-form-group">
                       <label htmlFor="fullName" className="join-form-label">
-                        FULL NAME <span className="req">*</span>
+                        01 / FULL NAME <span className="req">*</span>
                       </label>
                       <input
                         type="text"
@@ -459,7 +562,7 @@ export function JoinPage() {
                         name="fullName"
                         value={formData.fullName}
                         onChange={handleInputChange}
-                        placeholder="e.g. Alex Sharma"
+                        placeholder="e.g. Helena Vance"
                         className={`join-form-input ${formErrors.fullName ? 'join-form-input--error' : ''}`}
                       />
                       {formErrors.fullName && <span className="join-form-error">{formErrors.fullName}</span>}
@@ -467,7 +570,7 @@ export function JoinPage() {
 
                     <div className="join-form-group">
                       <label htmlFor="email" className="join-form-label">
-                        EMAIL ADDRESS <span className="req">*</span>
+                        02 / EMAIL ADDRESS <span className="req">*</span>
                       </label>
                       <input
                         type="email"
@@ -475,7 +578,7 @@ export function JoinPage() {
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        placeholder="e.g. alex@example.com"
+                        placeholder="e.g. helena@studio.com"
                         className={`join-form-input ${formErrors.email ? 'join-form-input--error' : ''}`}
                       />
                       {formErrors.email && <span className="join-form-error">{formErrors.email}</span>}
@@ -486,7 +589,7 @@ export function JoinPage() {
                   <div className="join-form-row">
                     <div className="join-form-group">
                       <label htmlFor="phone" className="join-form-label">
-                        PHONE / WHATSAPP <span className="req">*</span>
+                        03 / PHONE / WHATSAPP <span className="req">*</span>
                       </label>
                       <input
                         type="tel"
@@ -502,7 +605,7 @@ export function JoinPage() {
 
                     <div className="join-form-group">
                       <label htmlFor="role" className="join-form-label">
-                        PRIMARY CRAFT / ROLE <span className="req">*</span>
+                        04 / PRIMARY CRAFT <span className="req">*</span>
                       </label>
                       <select
                         id="role"
@@ -513,10 +616,10 @@ export function JoinPage() {
                       >
                         {ROLES.map((r) => (
                           <option key={r.id} value={r.id}>
-                            {r.number} — {r.title} ({r.category})
+                            {r.number} — {r.title}
                           </option>
                         ))}
-                        <option value="other">10 — Other Creative Specialist</option>
+                        <option value="other">10 — Other Specialist</option>
                       </select>
                     </div>
                   </div>
@@ -524,7 +627,7 @@ export function JoinPage() {
                   {/* Row 3: Portfolio URL */}
                   <div className="join-form-group">
                     <label htmlFor="portfolioUrl" className="join-form-label">
-                      PORTFOLIO URL / BEHANCE / GITHUB / DRIVE <span className="req">*</span>
+                      05 / PORTFOLIO / WORK LINK <span className="req">*</span>
                     </label>
                     <input
                       type="url"
@@ -538,61 +641,72 @@ export function JoinPage() {
                     {formErrors.portfolioUrl && <span className="join-form-error">{formErrors.portfolioUrl}</span>}
                   </div>
 
-                  {/* Row 4: Bio / Statement */}
-                  <div className="join-form-group">
-                    <label htmlFor="bio" className="join-form-label">
-                      SHORT INTRODUCTION & EXPERTISE <span className="req">*</span>
-                    </label>
-                    <textarea
-                      id="bio"
-                      name="bio"
-                      rows="4"
-                      value={formData.bio}
-                      onChange={handleInputChange}
-                      placeholder="Tell us about your background, the tools you love, and the kind of work you want to create..."
-                      className={`join-form-textarea ${formErrors.bio ? 'join-form-input--error' : ''}`}
-                    />
-                    {formErrors.bio && <span className="join-form-error">{formErrors.bio}</span>}
-                  </div>
-
-
-                  {/* Row 6: LinkedIn & Socials (OPTIONAL) */}
-                  <div className="join-form-row">
+                  {/* Secondary Fields: Bio & Socials (Desktop: always visible. Mobile: hidden by default for breathing space) */}
+                  <div className={`join-form-optional-block ${showOptionalFields ? 'join-form-optional-block--open' : ''}`}>
+                    {/* Bio / Statement */}
                     <div className="join-form-group">
-                      <label htmlFor="linkedinUrl" className="join-form-label">
-                        LINKEDIN PROFILE <span className="opt">(OPTIONAL)</span>
+                      <label htmlFor="bio" className="join-form-label">
+                        06 / SHORT INTRODUCTION & FOCUS <span className="req">*</span>
                       </label>
-                      <input
-                        type="url"
-                        id="linkedinUrl"
-                        name="linkedinUrl"
-                        value={formData.linkedinUrl}
+                      <textarea
+                        id="bio"
+                        name="bio"
+                        rows="3"
+                        value={formData.bio}
                         onChange={handleInputChange}
-                        placeholder="https://linkedin.com/in/..."
-                        className="join-form-input"
+                        placeholder="Tell us about your background, tools you obsess over, and work you want to build..."
+                        className={`join-form-textarea ${formErrors.bio ? 'join-form-input--error' : ''}`}
                       />
+                      {formErrors.bio && <span className="join-form-error">{formErrors.bio}</span>}
                     </div>
 
-                    <div className="join-form-group">
-                      <label htmlFor="socialUrl" className="join-form-label">
-                        INSTAGRAM / DRIBBBLE / X <span className="opt">(OPTIONAL)</span>
-                      </label>
-                      <input
-                        type="url"
-                        id="socialUrl"
-                        name="socialUrl"
-                        value={formData.socialUrl}
-                        onChange={handleInputChange}
-                        placeholder="https://instagram.com/..."
-                        className="join-form-input"
-                      />
+                    {/* LinkedIn & Socials */}
+                    <div className="join-form-row">
+                      <div className="join-form-group">
+                        <label htmlFor="linkedinUrl" className="join-form-label">
+                          07 / LINKEDIN <span className="opt">(OPTIONAL)</span>
+                        </label>
+                        <input
+                          type="url"
+                          id="linkedinUrl"
+                          name="linkedinUrl"
+                          value={formData.linkedinUrl}
+                          onChange={handleInputChange}
+                          placeholder="linkedin.com/in/..."
+                          className="join-form-input"
+                        />
+                      </div>
+
+                      <div className="join-form-group">
+                        <label htmlFor="socialUrl" className="join-form-label">
+                          08 / INSTAGRAM / X <span className="opt">(OPTIONAL)</span>
+                        </label>
+                        <input
+                          type="url"
+                          id="socialUrl"
+                          name="socialUrl"
+                          value={formData.socialUrl}
+                          onChange={handleInputChange}
+                          placeholder="instagram.com/..."
+                          className="join-form-input"
+                        />
+                      </div>
                     </div>
                   </div>
+
+                  {/* Mobile-only toggle button for optional fields */}
+                  <button
+                    type="button"
+                    className="join-form-mobile-toggle"
+                    onClick={() => setShowOptionalFields((prev) => !prev)}
+                  >
+                    <span>{showOptionalFields ? '− HIDE OPTIONAL FIELDS' : '+ ADD NOTE OR SOCIAL LINKS (OPTIONAL)'}</span>
+                  </button>
 
                   {/* Submit Button */}
                   <div className="join-form-submit-wrap">
                     {formErrors.submit && (
-                      <div className="join-form-error-banner" style={{ background: '#fef2f2', border: '1px solid #f87171', color: '#b91c1c', padding: '12px 16px', borderRadius: '10px', fontSize: '13px', fontWeight: '600', marginBottom: '16px', width: '100%', boxSizing: 'border-box' }}>
+                      <div className="join-form-error-banner">
                         ⚠ {formErrors.submit}
                       </div>
                     )}
@@ -601,11 +715,11 @@ export function JoinPage() {
                       disabled={isSubmitting}
                       className="join-form-submit-btn"
                     >
-                      <span>{isSubmitting ? 'TRANSMITTING APPLICATION...' : 'SEND APPLICATION'}</span>
+                      <span>{isSubmitting ? 'TRANSMITTING APPLICATION...' : 'DISPATCH APPLICATION'}</span>
                       <span className="join-form-submit-arrow">↗</span>
                     </button>
                     <span className="join-form-privacy-note">
-                      We respect your privacy. Portfolios are reviewed exclusively by our creative directors.
+                      We respect your privacy. Submissions are reviewed exclusively by AAR Visuals principals within 48 hours.
                     </span>
                   </div>
 
@@ -617,11 +731,11 @@ export function JoinPage() {
                 <div className="join-success-badge">✓</div>
                 <h2 className="join-success-title">APPLICATION RECEIVED.</h2>
                 <p className="join-success-desc">
-                  Thanks for reaching out, <strong>{formData.fullName}</strong>. We'll review your portfolio and get back to you if there’s a fit for upcoming projects.
+                  Thank you for reaching out, <strong>{formData.fullName}</strong>. Our creative directors will review your portfolio and reach out regarding active project commissions.
                 </p>
                 <div className="join-success-meta">
                   <span>DISCIPLINE: {formData.role.toUpperCase()}</span>
-                  <span>ESTIMATED REVIEW: 48–72 HOURS</span>
+                  <span>ESTIMATED REVIEW: 48 HOURS</span>
                 </div>
                 <button onClick={resetForm} className="join-success-btn">
                   SUBMIT ANOTHER APPLICATION
@@ -633,16 +747,18 @@ export function JoinPage() {
         </div>
       </section>
 
-      {/* ── SECTION 07: FINAL CTA ── */}
+      {/* ── SECTION 07: FINAL EDITORIAL CALLOUT ── */}
       <section className="join-final-cta-section">
         <div className="join-final-cta-container">
           <span className="join-final-cta-eyebrow">AAR CREATIVE NETWORK</span>
           <h2 className="join-final-cta-heading">
-            HAVE SOMETHING <br />
-            <span className="join-final-cta-heading--gold">TO BRING?</span>
+            <span className="join-heading-lead"><SplitText text="HAVE SOMETHING" type="words" delay={0.1} /></span> <br />
+            <EditorialPinBox className="join-final-cta-heading--pin">
+              <SplitText text="To bring?" type="words" delay={0.25} />
+            </EditorialPinBox>
           </h2>
           <p className="join-final-cta-sub">
-            We’re building a creative network around the work. Maybe you belong in it.
+            We’re building a creative network around enduring work. Maybe you belong in it.
           </p>
           <button 
             onClick={() => scrollToElement(formRef)}

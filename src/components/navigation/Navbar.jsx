@@ -16,7 +16,6 @@ export function Navbar({ onReplay, onNavigate }) {
       // Section tracking for active state & dark theme detection
       const sections = [
         { id: 'contact', name: 'CONTACT' },
-        { id: 'team', name: 'TEAM' },
         { id: 'studio', name: 'STUDIO' },
         { id: 'services', name: 'SERVICES' },
         { id: 'work', name: 'WORK' }
@@ -125,7 +124,6 @@ export function Navbar({ onReplay, onNavigate }) {
     { label: 'WORK', target: 'work' },
     { label: 'SERVICES', target: 'services' },
     { label: 'STUDIO', target: 'studio' },
-    { label: 'TEAM', target: 'team' },
     { label: 'CONTACT', target: 'contact' }
   ];
 

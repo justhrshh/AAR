@@ -9,7 +9,12 @@ import { ScrollToTop } from './components/common/ScrollToTop';
 
 export function App() {
   const [loaderKey, setLoaderKey] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(() => {
+    if (typeof window !== 'undefined' && window.location.pathname !== '/' && window.location.pathname !== '') {
+      return true;
+    }
+    return false;
+  });
 
   const handleLoaderComplete = useCallback(() => {
     setTimeout(() => setIsLoaded(true), 500);

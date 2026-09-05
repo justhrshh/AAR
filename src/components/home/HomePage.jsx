@@ -7,7 +7,6 @@ import { ZoomParallax } from './ZoomParallax';
 import { WorkSection } from '../sections/WorkSection';
 import { ServicesSection } from '../sections/ServicesSection';
 import { StudioSection } from '../sections/StudioSection';
-import { TeamSection } from '../sections/TeamSection';
 import { JoinMicroSection } from './JoinMicroSection';
 import { ContactSection } from '../sections/ContactSection';
 import { Footer } from '../common/Footer';
@@ -845,9 +844,6 @@ export function HomePage({ onReplay }) {
 
     {/* Section 6: STUDIO PHILOSOPHY & PRINCIPLES */}
     <StudioSection />
-
-    {/* Section 7: THE ATELIER & LEADERSHIP */}
-    <TeamSection />
 
     {/* Section 8.5: JOIN OUR TALENT / MICRO RECRUITMENT TEASER */}
     <JoinMicroSection />

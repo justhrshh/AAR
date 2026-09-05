@@ -92,8 +92,11 @@ export function SplitText({
                     display: 'inline-block',
                     overflow: 'hidden',
                     verticalAlign: 'bottom',
-                    paddingBottom: '0.08em',
-                    marginBottom: '-0.08em',
+                    paddingTop: '0.35em',
+                    marginTop: '-0.35em',
+                    paddingBottom: '0.25em',
+                    marginBottom: '-0.25em',
+                    paddingRight: '0.08em',
                   }}
                 >
                   <motion.span
@@ -128,8 +131,10 @@ export function SplitText({
                         display: 'inline-block',
                         overflow: 'hidden',
                         verticalAlign: 'bottom',
-                        paddingBottom: '0.08em',
-                        marginBottom: '-0.08em',
+                        paddingTop: '0.35em',
+                        marginTop: '-0.35em',
+                        paddingBottom: '0.25em',
+                        marginBottom: '-0.25em',
                       }}
                     >
                       <motion.span

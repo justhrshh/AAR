@@ -159,11 +159,6 @@ export function Footer({ theme = 'light' }) {
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => scrollTo('team')} className="aar-footer-nav-btn">
-                    Atelier & Team
-                  </button>
-                </li>
-                <li>
                   <Link to="/join" className="aar-footer-nav-btn aar-footer-nav-btn--link">
                     Join Talent <ArrowUpRight className="inline w-3 h-3 ml-0.5 opacity-70" />
                   </Link>
