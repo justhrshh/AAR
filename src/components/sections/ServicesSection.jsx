@@ -193,13 +193,25 @@ export function ServicesSection() {
 
         {/* ── 01. SERVICES HERO STATEMENT ── */}
         <div className="services-header">
-          <div className="services-header__eyebrow">
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="services-header__eyebrow"
+          >
             <span className="services-header__eyebrow-dash" />
             <span className="services-header__eyebrow-text">CHAPTER 03 / CAPABILITIES & METHODOLOGY</span>
-          </div>
+          </motion.div>
 
           <div className="services-header__main-row">
-            <h2 className="services-header__title">
+            <motion.h2
+              initial={{ opacity: 0, y: 35 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="services-header__title"
+            >
               WHAT WE DO<br />
               <span className="services-header__title-line2">
                 <span className="services-header__title-for">FOR</span>
@@ -227,9 +239,15 @@ export function ServicesSection() {
                   </span>
                 </span>
               </span>
-            </h2>
+            </motion.h2>
 
-            <div className="services-header__desc-col">
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.65, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="services-header__desc-col"
+            >
               <p className="services-header__desc">
                 We operate at the precise intersection of brand architecture, sensory digital craft, and kinetic storytelling.
               </p>
@@ -237,7 +255,7 @@ export function ServicesSection() {
                 <span className="services-meta-label">CAPABILITY MATRIX</span>
                 <span className="services-meta-val">05 SPECIALIZED CREATIVE PILLARS</span>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
 
@@ -247,12 +265,16 @@ export function ServicesSection() {
             className="services-accordion"
             onMouseLeave={handleAccordionMouseLeave}
           >
-            {SERVICES_DATA.map((svc) => {
+            {SERVICES_DATA.map((svc, sIdx) => {
               const isOpen = openService === svc.id;
 
               return (
-                <div
+                <motion.div
                   key={svc.id}
+                  initial={{ opacity: 0, y: 26 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.5, delay: sIdx * 0.07, ease: [0.22, 1, 0.36, 1] }}
                   className={`service-card ${isOpen ? 'service-card--open' : ''}`}
                   onMouseEnter={() => handleItemMouseEnter(svc.id)}
                 >
@@ -366,7 +388,7 @@ export function ServicesSection() {
                       </motion.div>
                     )}
                   </AnimatePresence>
-                </div>
+                </motion.div>
               );
             })}
           </div>
@@ -374,17 +396,30 @@ export function ServicesSection() {
 
         {/* ── 03. 5-STEP CREATIVE PROCESS ── */}
         <div className="services-process-block">
-          <div className="services-process-intro">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="services-process-intro"
+          >
             <span className="services-process-tag">HOW WE WORK</span>
             <h3 className="services-process-title">A DELIBERATE, HUMAN PROCESS.</h3>
             <p className="services-process-desc">
               Every project follows an uncompromising trajectory from deep discovery through radical design and rigorous technical execution.
             </p>
-          </div>
+          </motion.div>
 
           <div className="services-process-grid">
             {PROCESS_STEPS.map((step, idx) => (
-              <div key={idx} className="process-node">
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.55, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                className="process-node"
+              >
                 <div className="process-node__top">
                   <span className="process-node__num">{step.num}</span>
                   <span className="process-node__phase">{step.phase}</span>
@@ -392,32 +427,38 @@ export function ServicesSection() {
                 <h4 className="process-node__headline">{step.headline}</h4>
                 <p className="process-node__text">{step.text}</p>
                 <div className="process-node__line" />
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
 
         {/* ── 04. TEXT REVEAL CARD CTA (CONTAINER WIDTH, PRESERVING GLOBAL PADDING) ── */}
-        <div className="w-full bg-[#0E0E10] border border-white/[0.08] rounded-2xl py-10 sm:py-12 pl-8 sm:pl-12 lg:pl-14 pr-6 sm:pr-8 lg:pr-10 relative overflow-hidden shadow-2xl">
-          <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-8">
+        <motion.div
+          initial={{ opacity: 0, y: 40, scale: 0.98 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+          className="hidden md:block w-full bg-[#0E0E10] border border-white/[0.08] rounded-2xl py-8 sm:py-12 px-4 sm:pl-12 sm:pr-8 lg:pl-14 lg:pr-10 relative overflow-hidden shadow-2xl mt-12 sm:mt-20"
+        >
+          <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8">
             {/* Text Reveal Interaction with generous left clearance */}
             <div className="w-full lg:w-auto flex-1 flex items-center justify-start overflow-hidden">
               <TextRevealCard
                 text="You know the business"
                 revealText="I know the chemistry "
-                className="bg-transparent border-none p-0 w-full max-w-none shadow-none pl-2 sm:pl-4 lg:pl-6"
+                className="bg-transparent border-none p-0 w-full max-w-none shadow-none pl-1 sm:pl-4 lg:pl-6"
               />
             </div>
 
             {/* Cleanly Aligned Action Button */}
-            <div className="flex-shrink-0 flex items-center justify-center">
-              <button onClick={scrollToContact} className="services-cta-btn">
+            <div className="w-full sm:w-auto flex-shrink-0 flex items-center justify-center sm:justify-end">
+              <button onClick={scrollToContact} className="services-cta-btn w-full sm:w-auto justify-center">
                 <span>INITIATE PROJECT</span>
                 <span>→</span>
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
 
       </div>
     </section>

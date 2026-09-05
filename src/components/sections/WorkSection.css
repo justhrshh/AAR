@@ -810,10 +810,13 @@
 
 .modal-hero-img {
   width: 100%;
-  max-height: 80vh;
-  object-fit: cover;
+  height: auto;
+  max-height: 85vh;
+  object-fit: contain;
   border-radius: 12px;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+  display: block;
+  margin: 0 auto;
 }
 
 .modal-video-container {
@@ -971,22 +974,27 @@
 
 .modal-gallery-item--full img {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
+  height: auto;
+  max-height: 85vh;
+  object-fit: contain;
   border-radius: 8px;
+  display: block;
+  margin: 0 auto;
 }
 
 .modal-gallery-item--split {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
+  align-items: start;
 }
 
 .modal-gallery-item--split img {
   width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
   border-radius: 6px;
+  display: block;
 }
 
 .modal-gallery-caption {
@@ -1018,9 +1026,11 @@
 
 .modal-gallery-item--quote img {
   width: 100%;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
+  height: auto;
+  max-height: 85vh;
+  object-fit: contain;
   border-radius: 6px;
+  display: block;
 }
 
 /* Modal Outcome */
@@ -1074,6 +1084,10 @@
    RESPONSIVE BREAKPOINTS
 ───────────────────────────────────────────────────────────── */
 @media (max-width: 1024px) {
+  .work-showcase-bg-layer {
+    display: none !important;
+  }
+
   .work-header__main-row {
     flex-direction: column;
     align-items: flex-start;
@@ -1101,7 +1115,7 @@
 
 @media (max-width: 768px) {
   .aar-work-section {
-    padding: 100px 24px 80px;
+    padding: 80px 20px 60px;
   }
 
   .work-filter-bar {
@@ -1116,5 +1130,28 @@
 
   .modal-meta-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .aar-work-section {
+    padding: 70px 16px 50px;
+  }
+
+  .case-study-modal-body {
+    padding: 24px 14px;
+    gap: 40px;
+  }
+
+  .case-study-modal-header {
+    padding: 16px 14px;
+  }
+
+  .modal-hero-title {
+    font-size: 26px;
+  }
+
+  .work-header__stats {
+    gap: 24px;
   }
 }

@@ -11,6 +11,8 @@ import { TeamSection } from '../sections/TeamSection';
 import { JoinMicroSection } from './JoinMicroSection';
 import { ContactSection } from '../sections/ContactSection';
 import { Footer } from '../common/Footer';
+import { SplitText } from '../ui/SplitText';
+import { TypewriterText } from '../ui/TypewriterText';
 import './HomePage.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -98,7 +100,56 @@ export function HomePage({ onReplay }) {
     });
   }, []);
 
-  // Draw a specific frame to the canvas with frame caching
+  // Offscreen pre-rendered feather mask canvas (cached for peak 60fps performance)
+  const maskCanvasRef = useRef(null);
+
+  const getMaskCanvas = useCallback(() => {
+    if (maskCanvasRef.current) return maskCanvasRef.current;
+    const w = 1920;
+    const h = 1080;
+    const mask = document.createElement('canvas');
+    mask.width = w;
+    mask.height = h;
+    const mCtx = mask.getContext('2d');
+    if (!mCtx) return null;
+
+    // 1. Horizontal gradient: velvet-smooth fade into paper cream at left & right borders
+    const hGrad = mCtx.createLinearGradient(0, 0, w, 0);
+    hGrad.addColorStop(0, 'rgba(0,0,0,0)');
+    hGrad.addColorStop(0.12, 'rgba(0,0,0,1)');
+    hGrad.addColorStop(0.88, 'rgba(0,0,0,1)');
+    hGrad.addColorStop(1, 'rgba(0,0,0,0)');
+    mCtx.fillStyle = hGrad;
+    mCtx.fillRect(0, 0, w, h);
+
+    // 2. Vertical gradient: micro-feather at top (0-16px) & bottom (1055-1080px) preserving 100% of orbital rings & shadow
+    mCtx.globalCompositeOperation = 'destination-in';
+    const vGrad = mCtx.createLinearGradient(0, 0, 0, h);
+    vGrad.addColorStop(0, 'rgba(0,0,0,0)');
+    vGrad.addColorStop(0.015, 'rgba(0,0,0,1)');
+    vGrad.addColorStop(0.975, 'rgba(0,0,0,1)');
+    vGrad.addColorStop(1, 'rgba(0,0,0,0)');
+    mCtx.fillStyle = vGrad;
+    mCtx.fillRect(0, 0, w, h);
+
+    // 3. Elliptical radial corner dissolution ensuring all 4 far corners smoothly dissolve without dark vignette
+    mCtx.save();
+    mCtx.scale(1.0, h / w);
+    const cyScaled = (h * 0.5) * (w / h);
+    const rGrad = mCtx.createRadialGradient(w * 0.5, cyScaled, 320, w * 0.5, cyScaled, 860);
+    rGrad.addColorStop(0, 'rgba(0,0,0,1)');
+    rGrad.addColorStop(0.55, 'rgba(0,0,0,1)');
+    rGrad.addColorStop(0.80, 'rgba(0,0,0,0.45)');
+    rGrad.addColorStop(1, 'rgba(0,0,0,0)');
+    mCtx.fillStyle = rGrad;
+    mCtx.fillRect(0, 0, w, cyScaled * 2);
+    mCtx.restore();
+
+    maskCanvasRef.current = mask;
+    return mask;
+  }, []);
+
+  // Draw a specific frame to the canvas with frame caching & seamless feathering
   const renderFrame = useCallback((frameNumber) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -113,9 +164,18 @@ export function HomePage({ onReplay }) {
     if (img && img.complete && img.naturalWidth > 0) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      // Seamless atmospheric feathering: zeros out alpha at canvas borders with 0.2 RGB discontinuity
+      const mask = getMaskCanvas();
+      if (mask) {
+        ctx.globalCompositeOperation = 'destination-in';
+        ctx.drawImage(mask, 0, 0, canvas.width, canvas.height);
+        ctx.globalCompositeOperation = 'source-over';
+      }
+
       lastRenderedFrameRef.current = clampedIndex;
     }
-  }, []);
+  }, [getMaskCanvas]);
 
   // Preload frames
   useEffect(() => {
@@ -535,42 +595,65 @@ export function HomePage({ onReplay }) {
           
           {/* Left Column */}
           <div className="hero-left" ref={heroLeftRef}>
-            <div className="hero-eyebrow">
-              <span className="hero-eyebrow__dash" />
-              <span className="hero-eyebrow__text">CREATIVE VISUAL STUDIO</span>
+            <div className="hero-left__top">
+              <div className="hero-eyebrow">
+                <span className="hero-eyebrow__dash" />
+                <TypewriterText
+                  words={[
+                    "CREATIVE VISUAL STUDIO",
+                    "IDENTITY & MOTION SYSTEMS",
+                    "BESPOKE DIGITAL ARCHITECTURE",
+                    "SENSORIAL BRAND EXPERIENCES"
+                  ]}
+                  speed={55}
+                  deleteSpeed={35}
+                  pauseTime={2500}
+                  loop={true}
+                  cursorChar="|"
+                  className="hero-eyebrow__text"
+                />
+              </div>
+
+              <h1 className="hero-headline">
+                <span className="hero-headline__line">
+                  <SplitText text="WE DESIGN" type="chars" delay={0.2} stagger={0.03} />
+                </span>
+                <span className="hero-headline__line">
+                  <SplitText text="VISUALS THAT" type="chars" delay={0.5} stagger={0.03} />
+                </span>
+                <span className="hero-headline__line hero-headline__line--gold">
+                  <SplitText text="CONNECT." type="chars" delay={0.8} stagger={0.035} />
+                </span>
+              </h1>
             </div>
 
-            <h1 className="hero-headline">
-              <span className="hero-headline__line">WE DESIGN</span>
-              <span className="hero-headline__line">VISUALS THAT</span>
-              <span className="hero-headline__line hero-headline__line--gold">CONNECT.</span>
-            </h1>
+            <div className="hero-left__bottom">
+              <p className="hero-body">
+                We help brands communicate with clarity through branding, digital experiences and motion.
+              </p>
 
-            <p className="hero-body">
-              We help brands communicate with clarity through branding, digital experiences and motion.
-            </p>
+              <a
+                href="#work"
+                className="hero-cta"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (containerRef.current) {
+                    const maxScroll = containerRef.current.offsetHeight - window.innerHeight;
+                    snapTo(maxScroll, 2.2);
+                  }
+                }}
+              >
+                <span className="hero-cta__text">EXPLORE OUR WORK</span>
+                <div className="hero-cta__btn">→</div>
+              </a>
 
-            <a
-              href="#work"
-              className="hero-cta"
-              onClick={(e) => {
-                e.preventDefault();
-                if (containerRef.current) {
-                  const maxScroll = containerRef.current.offsetHeight - window.innerHeight;
-                  snapTo(maxScroll, 2.2);
-                }
-              }}
-            >
-              <span className="hero-cta__text">EXPLORE OUR WORK</span>
-              <div className="hero-cta__btn">→</div>
-            </a>
-
-            <div className="hero-socials">
-              {['IG', 'BE', 'LI', 'DR'].map((s) => (
-                <a key={s} href={`#${s.toLowerCase()}`} className="hero-socials__link">
-                  {s}
-                </a>
-              ))}
+              <div className="hero-socials">
+                {['IG', 'BE', 'LI', 'DR'].map((s) => (
+                  <a key={s} href={`#${s.toLowerCase()}`} className="hero-socials__link">
+                    {s}
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -672,41 +755,45 @@ export function HomePage({ onReplay }) {
           
           {/* About Left Column */}
           <div className="about-left" ref={aboutLeftRef}>
-            <div className="about-eyebrow" ref={aboutEyebrowRef}>WE ARE</div>
-            
-            <div className="about-brand" ref={aboutBrandRef}>
-              <img
-                src="/images/aar_logo.png"
-                alt="AAR"
-                className="about-brand__logo"
-              />
-              <div className="about-brand__sub">
-                <span>V</span>
-                <span>I</span>
-                <span>S</span>
-                <span>U</span>
-                <span>A</span>
-                <span>L</span>
-                <span>S</span>
+            <div className="about-left__top">
+              <div className="about-eyebrow" ref={aboutEyebrowRef}>WE ARE</div>
+              
+              <div className="about-brand" ref={aboutBrandRef}>
+                <img
+                  src="/images/aar_logo.png"
+                  alt="AAR"
+                  className="about-brand__logo"
+                />
+                <div className="about-brand__sub">
+                  <span>V</span>
+                  <span>I</span>
+                  <span>S</span>
+                  <span>U</span>
+                  <span>A</span>
+                  <span>L</span>
+                  <span>S</span>
+                </div>
               </div>
+
+              <div className="about-gold-dash" ref={aboutDashRef} />
             </div>
 
-            <div className="about-gold-dash" ref={aboutDashRef} />
+            <div className="about-left__bottom">
+              <div className="about-studio-statement" ref={aboutStatementRef}>
+                <p>A CREATIVE VISUAL STUDIO</p>
+                <p>CRAFTING EXPERIENCES</p>
+                <p>
+                  THAT <span className="about-gold-word">CONNECT.</span>
+                </p>
+              </div>
 
-            <div className="about-studio-statement" ref={aboutStatementRef}>
-              <p>A CREATIVE VISUAL STUDIO</p>
-              <p>CRAFTING EXPERIENCES</p>
-              <p>
-                THAT <span className="about-gold-word">CONNECT.</span>
-              </p>
-            </div>
-
-            <div className="about-tags" ref={aboutTagsRef}>
-              <span>BRAND</span>
-              <span className="about-tags__sep">|</span>
-              <span>DESIGN</span>
-              <span className="about-tags__sep">|</span>
-              <span>VISUAL</span>
+              <div className="about-tags" ref={aboutTagsRef}>
+                <span>BRAND</span>
+                <span className="about-tags__sep">|</span>
+                <span>DESIGN</span>
+                <span className="about-tags__sep">|</span>
+                <span>VISUAL</span>
+              </div>
             </div>
           </div>
 

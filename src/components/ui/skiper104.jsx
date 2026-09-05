@@ -15,9 +15,19 @@ export function Skiper104({ items }) {
   const badgeRefs = useRef([]);
   const textRefs = useRef([]);
 
+  // Mobile layout refs
+  const mobileContainerRef = useRef(null);
+  const mobileLineFillRef = useRef(null);
+  const mobileCardRefs = useRef([]);
+  const mobileBadgeRefs = useRef([]);
+  const mobileTextRefs = useRef([]);
+
   cardRefs.current = [];
   badgeRefs.current = [];
   textRefs.current = [];
+  mobileCardRefs.current = [];
+  mobileBadgeRefs.current = [];
+  mobileTextRefs.current = [];
 
   const addToCardRefs = (el) => {
     if (el && !cardRefs.current.includes(el)) cardRefs.current.push(el);
@@ -27,6 +37,16 @@ export function Skiper104({ items }) {
   };
   const addToTextRefs = (el) => {
     if (el && !textRefs.current.includes(el)) textRefs.current.push(el);
+  };
+
+  const addToMobileCardRefs = (el) => {
+    if (el && !mobileCardRefs.current.includes(el)) mobileCardRefs.current.push(el);
+  };
+  const addToMobileBadgeRefs = (el) => {
+    if (el && !mobileBadgeRefs.current.includes(el)) mobileBadgeRefs.current.push(el);
+  };
+  const addToMobileTextRefs = (el) => {
+    if (el && !mobileTextRefs.current.includes(el)) mobileTextRefs.current.push(el);
   };
 
   const defaultItems = [
@@ -59,9 +79,9 @@ export function Skiper104({ items }) {
 
       mm.add("(min-width: 1024px)", () => {
         // Initially ensure all cards, badges, and text blocks are COMPLETELY OUT (0 opacity, offset)
-        gsap.set(cardRefs.current, { y: -50, opacity: 0 });
-        gsap.set(badgeRefs.current, { scale: 0, opacity: 0 });
-        gsap.set(textRefs.current, { y: 50, opacity: 0 });
+        if (cardRefs.current.length) gsap.set(cardRefs.current, { y: -50, opacity: 0 });
+        if (badgeRefs.current.length) gsap.set(badgeRefs.current, { scale: 0, opacity: 0 });
+        if (textRefs.current.length) gsap.set(textRefs.current, { y: 50, opacity: 0 });
         if (lineFillRef.current) gsap.set(lineFillRef.current, { scaleX: 0 });
 
         // Master scroll-pinned timeline — shifted up so cards, line, badges, and text are comfortably inside viewport
@@ -155,6 +175,103 @@ export function Skiper104({ items }) {
           );
         }
       });
+
+      // Mobile on-scroll progressive reveal (< 1024px) with vertical line
+      mm.add("(max-width: 1023px)", () => {
+        // Initially hide all mobile cards, badges, and text
+        if (mobileCardRefs.current.length) gsap.set(mobileCardRefs.current, { y: 35, opacity: 0 });
+        if (mobileBadgeRefs.current.length) gsap.set(mobileBadgeRefs.current, { scale: 0, opacity: 0 });
+        if (mobileTextRefs.current.length) gsap.set(mobileTextRefs.current, { y: 25, opacity: 0 });
+        if (mobileLineFillRef.current) gsap.set(mobileLineFillRef.current, { scaleY: 0 });
+
+        const mobileTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: mobileContainerRef.current,
+            start: "top 72%",
+            end: "bottom 75%",
+            scrub: 0.3,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        // 1. Vertical progress fill line scales down from top to bottom
+        if (mobileLineFillRef.current) {
+          mobileTl.to(
+            mobileLineFillRef.current,
+            { scaleY: 1, ease: "none" },
+            0
+          );
+        }
+
+        // 2. Step 1 (reveals at start: 0.00 -> 0.16)
+        if (mobileCardRefs.current[0]) {
+          mobileTl.to(
+            mobileCardRefs.current[0],
+            { y: 0, opacity: 1, ease: "power2.out", duration: 0.16 },
+            0.02
+          );
+        }
+        if (mobileBadgeRefs.current[0]) {
+          mobileTl.to(
+            mobileBadgeRefs.current[0],
+            { scale: 1, opacity: 1, ease: "back.out(1.7)", duration: 0.14 },
+            0.02
+          );
+        }
+        if (mobileTextRefs.current[0]) {
+          mobileTl.to(
+            mobileTextRefs.current[0],
+            { y: 0, opacity: 1, ease: "power2.out", duration: 0.16 },
+            0.04
+          );
+        }
+
+        // 3. Step 2 (reveals when vertical line reaches middle: 0.30 -> 0.48)
+        if (mobileCardRefs.current[1]) {
+          mobileTl.to(
+            mobileCardRefs.current[1],
+            { y: 0, opacity: 1, ease: "power2.out", duration: 0.18 },
+            0.30
+          );
+        }
+        if (mobileBadgeRefs.current[1]) {
+          mobileTl.to(
+            mobileBadgeRefs.current[1],
+            { scale: 1, opacity: 1, ease: "back.out(1.7)", duration: 0.16 },
+            0.30
+          );
+        }
+        if (mobileTextRefs.current[1]) {
+          mobileTl.to(
+            mobileTextRefs.current[1],
+            { y: 0, opacity: 1, ease: "power2.out", duration: 0.18 },
+            0.33
+          );
+        }
+
+        // 4. Step 3 (reveals when vertical line reaches bottom: 0.62 -> 0.82)
+        if (mobileCardRefs.current[2]) {
+          mobileTl.to(
+            mobileCardRefs.current[2],
+            { y: 0, opacity: 1, ease: "power2.out", duration: 0.18 },
+            0.62
+          );
+        }
+        if (mobileBadgeRefs.current[2]) {
+          mobileTl.to(
+            mobileBadgeRefs.current[2],
+            { scale: 1, opacity: 1, ease: "back.out(1.7)", duration: 0.16 },
+            0.62
+          );
+        }
+        if (mobileTextRefs.current[2]) {
+          mobileTl.to(
+            mobileTextRefs.current[2],
+            { y: 0, opacity: 1, ease: "power2.out", duration: 0.18 },
+            0.65
+          );
+        }
+      });
     }, pinSectionRef);
 
     return () => ctx.revert();
@@ -234,47 +351,63 @@ export function Skiper104({ items }) {
       </div>
 
       {/* ── MOBILE / TABLET LAYOUT (< 1024px) ── */}
-      <div className="relative my-10 flex w-full flex-col gap-12 pl-12 pr-2 lg:hidden">
-        {/* Vertical Connecting Guide Line (Black Gradient) */}
-        <div className="absolute left-[19px] top-6 bottom-6 w-[2.5px] bg-gradient-to-b from-[#2e2e36] via-[#1a1a1f] to-[#0a0a0d]" />
+      <div ref={mobileContainerRef} className="relative my-8 flex w-full flex-col gap-14 lg:hidden">
+        {/* Background Track Line behind badges */}
+        <div className="absolute left-[16px] top-[16px] bottom-[30px] w-[2px] bg-[#0d0d0d]/12 pointer-events-none z-0 rounded-full" />
+
+        {/* Dynamic Active Progress Fill Line (Vertical) */}
+        <div
+          ref={mobileLineFillRef}
+          className="absolute left-[16px] top-[16px] bottom-[30px] w-[2px] origin-top bg-gradient-to-b from-[#2e2e36] via-[#1a1a1f] to-[#0a0a0d] shadow-sm pointer-events-none z-0 rounded-full"
+          style={{ transformOrigin: "top center" }}
+        />
 
         {data.map((item, index) => (
-          <div key={index} className="relative z-10 flex flex-col gap-4">
+          <div key={index} className="relative z-10 flex items-start gap-4 sm:gap-6">
             {/* Step Badge */}
-            <div className="absolute -left-[43px] top-0 flex size-8 items-center justify-center rounded-md bg-gradient-to-b from-[#2e2e36] via-[#1a1a1f] to-[#0a0a0d] text-[#f5f2ed] border border-white/15 shadow-md text-xs font-bold font-mono tracking-wider">
+            <div
+              ref={addToMobileBadgeRefs}
+              className="relative z-10 shrink-0 flex size-[34px] items-center justify-center rounded-md bg-gradient-to-b from-[#2e2e36] via-[#1a1a1f] to-[#0a0a0d] text-[#f5f2ed] border border-white/15 shadow-md text-xs font-bold font-mono tracking-wider"
+            >
               {String(index + 1).padStart(2, "0")}
             </div>
 
-            {/* Visual Graphic */}
-            <div className="relative flex h-64 sm:h-72 w-full items-center justify-center overflow-hidden rounded-2xl border border-[#0d0d0d]/10 bg-[#faf7f2] shadow-sm">
-              <img
-                src={item.bgSrc}
-                alt={item.title || ""}
-                className="h-full w-full object-cover object-center"
-              />
-              {item.overlaySrc && (
+            {/* Content Column: Graphic + Typography */}
+            <div className="flex-1 min-w-0 flex flex-col gap-4">
+              {/* Visual Graphic */}
+              <div
+                ref={addToMobileCardRefs}
+                className="relative flex h-56 sm:h-72 w-full items-center justify-center overflow-hidden rounded-2xl border border-[#0d0d0d]/10 bg-[#faf7f2] shadow-sm"
+              >
                 <img
-                  src={item.overlaySrc}
-                  alt=""
-                  className="pointer-events-none absolute z-10 h-[50%] w-fit object-contain drop-shadow-md"
+                  src={item.bgSrc}
+                  alt={item.title || ""}
+                  className="h-full w-full object-cover object-center"
                 />
-              )}
-              <div className="pointer-events-none absolute inset-0 rounded-2xl border border-white/20 z-20" />
-            </div>
+                {item.overlaySrc && (
+                  <img
+                    src={item.overlaySrc}
+                    alt=""
+                    className="pointer-events-none absolute z-10 h-[50%] w-fit object-contain drop-shadow-md"
+                  />
+                )}
+                <div className="pointer-events-none absolute inset-0 rounded-2xl border border-white/20 z-20" />
+              </div>
 
-            {/* Content */}
-            <div className="mt-3 space-y-3.5">
-              <h3 className="text-[19px] font-bold tracking-[0.02em] text-[#0d0d0d] leading-[1.3] font-['Cinzel','Playfair_Display',serif]">
-                {item.title}
-              </h3>
-              {item.lead && (
-                <h4 className="text-[11.5px] font-bold tracking-[0.06em] text-[#9e7623] uppercase leading-[1.6] font-['Plus_Jakarta_Sans',sans-serif]">
-                  {item.lead}
-                </h4>
-              )}
-              <p className="text-[13px] leading-[1.85] text-[#55524c] font-normal font-['Plus_Jakarta_Sans',sans-serif]">
-                {item.desc}
-              </p>
+              {/* Typography */}
+              <div ref={addToMobileTextRefs} className="space-y-3">
+                <h3 className="text-[18px] sm:text-[20px] font-bold tracking-[0.02em] text-[#0d0d0d] leading-[1.3] font-['Cinzel','Playfair_Display',serif]">
+                  {item.title}
+                </h3>
+                {item.lead && (
+                  <h4 className="text-[11px] sm:text-[11.5px] font-bold tracking-[0.06em] text-[#9e7623] uppercase leading-[1.6] font-['Plus_Jakarta_Sans',sans-serif]">
+                    {item.lead}
+                  </h4>
+                )}
+                <p className="text-[13px] leading-[1.8] text-[#55524c] font-normal font-['Plus_Jakarta_Sans',sans-serif]">
+                  {item.desc}
+                </p>
+              </div>
             </div>
           </div>
         ))}

@@ -215,22 +215,16 @@
 }
 
 .hero-frame-canvas {
-  width: min(98vw, 1440px);
-  height: min(94vh, 900px);
+  width: min(74vw, 1120px);
+  height: min(72vh, 660px);
+  aspect-ratio: 16 / 9;
   object-fit: contain;
   pointer-events: none;
   user-select: none;
-  /* Ultra-feathered gradient mask for full-presence frame */
-  -webkit-mask-image: 
-    radial-gradient(ellipse 58% 54% at 50% 50%, #000000 28%, rgba(0, 0, 0, 0.88) 38%, rgba(0, 0, 0, 0.45) 52%, rgba(0, 0, 0, 0.12) 68%, transparent 84%),
-    linear-gradient(to right, transparent 0%, #000000 14%, #000000 86%, transparent 100%),
-    linear-gradient(to bottom, transparent 0%, #000000 10%, #000000 90%, transparent 100%);
-  mask-image: 
-    radial-gradient(ellipse 58% 54% at 50% 50%, #000000 28%, rgba(0, 0, 0, 0.88) 38%, rgba(0, 0, 0, 0.45) 52%, rgba(0, 0, 0, 0.12) 68%, transparent 84%),
-    linear-gradient(to right, transparent 0%, #000000 14%, #000000 86%, transparent 100%),
-    linear-gradient(to bottom, transparent 0%, #000000 10%, #000000 90%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
+  mix-blend-mode: multiply;
+  filter: brightness(1.075) contrast(1.015);
+  -webkit-mask-image: radial-gradient(ellipse 65% 62% at 50% 50%, #000 38%, rgba(0, 0, 0, 0.85) 52%, rgba(0, 0, 0, 0.3) 68%, transparent 82%);
+  mask-image: radial-gradient(ellipse 65% 62% at 50% 50%, #000 38%, rgba(0, 0, 0, 0.85) 52%, rgba(0, 0, 0, 0.3) 68%, transparent 82%);
 }
 
 /* --------------------------------------------------------------------------- */
@@ -260,6 +254,11 @@
   z-index: 20;
   pointer-events: auto;
   will-change: transform, opacity;
+}
+
+.hero-left__top,
+.hero-left__bottom {
+  display: contents;
 }
 
 .hero-eyebrow {
@@ -657,6 +656,11 @@
   will-change: transform, opacity;
 }
 
+.about-left__top,
+.about-left__bottom {
+  display: contents;
+}
+
 .about-eyebrow {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 12px;
@@ -966,25 +970,263 @@
 /* RESPONSIVE BREAKPOINTS                                                       */
 /* --------------------------------------------------------------------------- */
 @media (max-width: 960px) {
-  .hero-overlay-grid,
-  .about-overlay-grid {
+  /* Hero Stage Mobile: Top Headline + Centered Scaled Cube + Bottom Subheading & CTA */
+  .hero-overlay-grid {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
-    padding-top: 100px;
-    padding-bottom: 60px;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0;
+    pointer-events: none;
+    box-sizing: border-box;
+  }
+
+  .hero-left {
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+    padding: clamp(98px, 14.5vh, 126px) 20px clamp(120px, 18vh, 155px) 20px;
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  /* Top Group: Eyebrow + Main Headline */
+  .hero-left__top {
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
+    width: 100%;
+    pointer-events: auto;
+    z-index: 22;
+    transform: translateY(clamp(16px, 2.5vh, 26px));
   }
 
-  .hero-left,
-  .about-left {
-    padding: 0 24px;
+  .hero-eyebrow {
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+
+  .hero-eyebrow__text {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+  }
+
+  .hero-headline {
     align-items: center;
+    text-align: center;
+    margin-bottom: 0;
+  }
+
+  .hero-headline__line {
+    font-size: clamp(28px, 7.6vw, 36px);
+    line-height: 0.95;
     text-align: center;
   }
 
-  .hero-right,
+  /* 3D Cube Canvas: Centered in Mobile Viewport with Balanced Proportions */
+  .hero-canvas-wrapper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  .hero-frame-canvas {
+    width: min(94vw, 440px);
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    transform: scale(1.1);
+    transform-origin: center center;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    filter: brightness(1.075) contrast(1.015);
+    -webkit-mask-image: radial-gradient(ellipse 65% 62% at 50% 50%, #000 38%, rgba(0, 0, 0, 0.85) 52%, rgba(0, 0, 0, 0.3) 68%, transparent 82%);
+    mask-image: radial-gradient(ellipse 65% 62% at 50% 50%, #000 38%, rgba(0, 0, 0, 0.85) 52%, rgba(0, 0, 0, 0.3) 68%, transparent 82%);
+  }
+
+  /* Bottom Group: Subheading & Explore Our Work CTA */
+  .hero-left__bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    pointer-events: auto;
+    z-index: 22;
+    gap: 12px;
+    transform: translateY(clamp(-28px, -4.2vh, -18px));
+  }
+
+  .hero-body {
+    font-size: 12.5px;
+    line-height: 1.5;
+    max-width: 300px;
+    margin: 0 auto;
+    text-align: center;
+    color: var(--muted);
+  }
+
+  .hero-cta {
+    margin: 0 auto;
+    pointer-events: auto;
+  }
+
+  .hero-socials {
+    display: none;
+  }
+
+  .hero-right {
+    display: none;
+  }
+
+  .hero-meta {
+    padding: 0 16px;
+    height: 40px;
+    z-index: 15;
+  }
+
+  .hero-meta__item {
+    font-size: 8.5px;
+    letter-spacing: 0.15em;
+  }
+
+  /* About Overlay Mobile: Split into Top Brand & Bottom Statement around Center Cube */
+  .about-overlay-grid {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0;
+    pointer-events: none;
+    box-sizing: border-box;
+    z-index: 20;
+  }
+
+  .about-left {
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+    padding: clamp(80px, 12vh, 100px) 20px clamp(54px, 7.5vh, 68px) 20px;
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  .about-left__top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    pointer-events: auto;
+    z-index: 22;
+    transform: translateY(clamp(28px, 4.5vh, 42px));
+  }
+
+  .about-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+
+  .about-brand {
+    align-items: center;
+    margin-bottom: 4px;
+  }
+
+  .about-brand__logo {
+    height: clamp(38px, 5.2vh, 48px);
+    width: auto;
+  }
+
+  .about-brand__sub {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    width: 100%;
+    max-width: 110px;
+  }
+
+  .about-gold-dash {
+    width: 32px;
+    height: 2px;
+    margin: 8px auto 0 auto;
+  }
+
+  /* Bottom Group: Statement & Tags below the Cube */
+  .about-left__bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    pointer-events: auto;
+    z-index: 22;
+    gap: 12px;
+    transform: translateY(clamp(-82px, -11.5vh, -60px));
+  }
+
+  .about-studio-statement {
+    font-size: clamp(11.5px, 3.2vw, 13px);
+    line-height: 1.55;
+    letter-spacing: 0.14em;
+    max-width: 290px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .about-tags {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    margin-top: 0;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .about-scroll-hint {
+    bottom: 8px;
+    gap: 3px;
+  }
+
+  .about-scroll-hint__text {
+    font-size: 8.5px;
+    letter-spacing: 0.22em;
+    opacity: 0.35;
+  }
+
+  .about-scroll-hint__line {
+    height: 14px;
+  }
+
   .about-right {
     display: none;
   }

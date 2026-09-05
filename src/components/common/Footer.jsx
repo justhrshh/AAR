@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { Twitter, ArrowUpRight } from 'lucide-react';
 import './Footer.css';
 
@@ -43,7 +44,13 @@ export function Footer({ theme = 'light' }) {
       <div className="aar-footer-container">
         
         {/* Top Section: Editorial Callout */}
-        <div className="aar-footer-top">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="aar-footer-top"
+        >
           <div className="aar-footer-headline">
             <span className="aar-footer-eyebrow">
               <span className="aar-footer-eyebrow__dash" />
@@ -64,13 +71,19 @@ export function Footer({ theme = 'light' }) {
               <span className="aar-footer-cta-btn__arrow">→</span>
             </button>
           </div>
-        </div>
+        </motion.div>
 
         {/* Middle Section: Upgraded Directory Grid */}
         <div className="aar-footer-middle-upgrade">
           
           {/* Brand Info Column */}
-          <div className="aar-footer-brand-side">
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            className="aar-footer-brand-side"
+          >
             <div 
               className="aar-footer-logo-wrap" 
               onClick={() => scrollTo('top')} 
@@ -115,13 +128,19 @@ export function Footer({ theme = 'light' }) {
             <p className="aar-footer-copy-note">
               © {new Date().getFullYear()} AAR Visuals. All rights reserved.
             </p>
-          </div>
+          </motion.div>
 
           {/* Directory Links Grid: Pages, Disciplines, Socials, Legal */}
           <div className="aar-footer-links-grid">
             
             {/* 01. Pages */}
-            <div className="aar-footer-col">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{ duration: 0.6, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+              className="aar-footer-col aar-footer-col--pages"
+            >
               <h3 className="aar-footer-col__title">PAGES</h3>
               <ul className="aar-footer-nav-list">
                 <li>
@@ -155,10 +174,16 @@ export function Footer({ theme = 'light' }) {
                   </button>
                 </li>
               </ul>
-            </div>
+            </motion.div>
 
             {/* 02. Disciplines */}
-            <div className="aar-footer-col">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{ duration: 0.6, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+              className="aar-footer-col aar-footer-col--disciplines"
+            >
               <h3 className="aar-footer-col__title">DISCIPLINES</h3>
               <ul className="aar-footer-nav-list">
                 <li>
@@ -192,10 +217,16 @@ export function Footer({ theme = 'light' }) {
                   </button>
                 </li>
               </ul>
-            </div>
+            </motion.div>
 
             {/* 03. Socials */}
-            <div className="aar-footer-col">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{ duration: 0.6, delay: 0.19, ease: [0.22, 1, 0.36, 1] }}
+              className="aar-footer-col aar-footer-col--socials"
+            >
               <h3 className="aar-footer-col__title">SOCIALS</h3>
               <ul className="aar-footer-nav-list">
                 <li>
@@ -215,7 +246,7 @@ export function Footer({ theme = 'light' }) {
                     rel="noopener noreferrer"
                     className="aar-footer-nav-btn aar-footer-nav-btn--link"
                   >
-                    X / Twitter <ArrowUpRight className="inline w-3 h-3 ml-0.5 opacity-70" />
+                    X <ArrowUpRight className="inline w-3 h-3 ml-0.5 opacity-70" />
                   </a>
                 </li>
                 <li>
@@ -249,10 +280,16 @@ export function Footer({ theme = 'light' }) {
                   </a>
                 </li>
               </ul>
-            </div>
+            </motion.div>
 
             {/* 04. Direct & Legal */}
-            <div className="aar-footer-col">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{ duration: 0.6, delay: 0.26, ease: [0.22, 1, 0.36, 1] }}
+              className="aar-footer-col aar-footer-col--direct"
+            >
               <h3 className="aar-footer-col__title">DIRECT & LEGAL</h3>
               <ul className="aar-footer-nav-list">
                 <li>
@@ -281,17 +318,30 @@ export function Footer({ theme = 'light' }) {
                   </button>
                 </li>
               </ul>
-            </div>
+            </motion.div>
 
           </div>
         </div>
 
         {/* Monumental Bottom Watermark */}
-        <div className="aar-footer-monumental-wrap">
-          <h1 className="aar-footer-monumental-text select-none">
-            AAR VISUALS
-          </h1>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.05 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="aar-footer-monumental-wrap"
+        >
+          <div className="aar-footer-monumental-inner select-none">
+            <img
+              src={theme === 'dark' ? '/images/aar_logo_white.png' : '/images/aar_logo.png'}
+              alt="AAR"
+              className="aar-footer-monumental-logo"
+            />
+            <h1 className="aar-footer-monumental-text">
+              VISUALS
+            </h1>
+          </div>
+        </motion.div>
 
       </div>
     </footer>

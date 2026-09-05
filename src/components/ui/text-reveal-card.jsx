@@ -32,7 +32,9 @@ export const TextRevealCard = ({
   }
 
   function touchMoveHandler(event) {
-    event.preventDefault();
+    if (event.cancelable) {
+      event.preventDefault();
+    }
     const clientX = event.touches[0].clientX;
     if (cardRef.current) {
       const { left, width } = cardRef.current.getBoundingClientRect();

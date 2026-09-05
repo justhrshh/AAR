@@ -140,15 +140,27 @@ export function TeamSection() {
       <div className="team-section-container">
         {/* ── 01. SECTION EDITORIAL HEADER ── */}
         <div className="team-header">
-          <div className="team-header__eyebrow">
+          <motion.div
+            initial={{ opacity: 0, y: -16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="team-header__eyebrow"
+          >
             <span className="team-header__eyebrow-dash" />
             <span className="team-header__eyebrow-text">
               CHAPTER 05 / THE ATELIER & LEADERSHIP
             </span>
-          </div>
+          </motion.div>
 
           <div className="team-header__main-row">
-            <div className="team-lockup-container">
+            <motion.div
+              initial={{ opacity: 0, y: 35, scale: 0.97 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="team-lockup-container"
+            >
               {/* Row 1: THE + Minds */}
               <div className="team-lockup-row1">
                 <span className="team-lockup-the">THE</span>
@@ -194,9 +206,15 @@ export function TeamSection() {
                   </svg>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="team-header__desc-col">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.65, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="team-header__desc-col"
+            >
               <p className="team-header__desc">
                 A monastic collective of obsessive designers, creative technologists, and visual sculptors operating at the intersection of taste and computational rigor.
               </p>
@@ -204,14 +222,47 @@ export function TeamSection() {
                 <span className="team-meta-label">ATELIER ROSTER</span>
                 <span className="team-meta-val">05 CORE DISCIPLINARY LEADS • ATELIER ROSTER</span>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
 
         {/* ── 02. INTERACTIVE FEATURE CAROUSEL ── */}
-        <div className="team-carousel-wrapper">
+        <motion.div
+          initial={{ opacity: 0, y: 40, scale: 0.98 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+          className="team-carousel-wrapper"
+        >
           <div className="team-carousel-card">
-            {/* Left Column: Rolling Navigation Rail */}
+            {/* Mobile Quick-Selector Pill Rail (< 1024px) */}
+            <div className="team-mobile-nav-bar">
+              <div className="team-mobile-pill-track">
+                {TEAM_MEMBERS.map((member, index) => {
+                  const isActive = index === currentIndex;
+                  const Icon = member.icon;
+                  return (
+                    <button
+                      key={`mob-pill-${member.id}`}
+                      type="button"
+                      onClick={() => handleChipClick(index)}
+                      className={cn(
+                        "team-mobile-pill-btn",
+                        isActive
+                          ? "team-mobile-pill-btn--active"
+                          : "team-mobile-pill-btn--inactive"
+                      )}
+                      aria-label={`View ${member.name}`}
+                    >
+                      <Icon size={12} strokeWidth={2.2} />
+                      <span>{member.name.split(" ")[0]}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Left Column: Rolling Navigation Rail (Desktop >= 1024px) */}
             <div className="team-rail-left">
               <div className="team-rail-badge">
                 <span className="team-rail-dot" />
@@ -295,6 +346,16 @@ export function TeamSection() {
                     <motion.div
                       key={member.id}
                       initial={false}
+                      drag={isActive ? "x" : false}
+                      dragConstraints={{ left: 0, right: 0 }}
+                      dragElastic={0.25}
+                      onDragEnd={(_, info) => {
+                        if (info.offset.x < -40) {
+                          nextStep();
+                        } else if (info.offset.x > 40) {
+                          prevStep();
+                        }
+                      }}
                       animate={{
                         x: isActive ? 0 : isPrev ? -95 : isNext ? 95 : 0,
                         scale: isActive ? 1 : isPrev || isNext ? 0.86 : 0.72,
@@ -312,7 +373,7 @@ export function TeamSection() {
                       className={cn(
                         "team-member-3d-card",
                         isActive
-                          ? "team-member-3d-card--active"
+                          ? "team-member-3d-card--active cursor-grab active:cursor-grabbing"
                           : "team-member-3d-card--ambient"
                       )}
                     >
@@ -403,7 +464,7 @@ export function TeamSection() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

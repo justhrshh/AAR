@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { PROJECTS } from '../../data/projects';
 import { ProjectShowcase } from './ProjectShowcase';
 import { ViewportVideo } from '../common/ViewportVideo';
 import './WorkSection.css';
 
-const CATEGORIES = ['ALL', 'BRANDING', 'DIGITAL', 'MOTION', 'ART DIRECTION'];
-
 export function WorkSection() {
-  const [activeCategory, setActiveCategory] = useState('ALL');
   const [selectedProject, setSelectedProject] = useState(null);
-
-  const filteredProjects = activeCategory === 'ALL'
-    ? PROJECTS
-    : PROJECTS.filter(p => p.categoryFilter === activeCategory || p.services?.some(s => s.toUpperCase().includes(activeCategory)));
 
   const openCaseStudy = (project) => {
     setSelectedProject(project);
@@ -30,22 +24,40 @@ export function WorkSection() {
 
         {/* ── 01. EDITORIAL WORK HEADER ── */}
         <div className="work-header">
-          <div className="work-header__eyebrow">
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="work-header__eyebrow"
+          >
             <span className="work-header__eyebrow-dash" />
             <span className="work-header__eyebrow-text">CHAPTER 02 / SELECTED WORK ARCHIVE</span>
-          </div>
+          </motion.div>
 
           <div className="work-header__main-row">
-            <div className="work-header__title-wrap">
+            <motion.div
+              initial={{ opacity: 0, y: 35, scale: 0.96 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="work-header__title-wrap"
+            >
               <h2 className="sr-only">Selected Projects</h2>
               <img
                 src="/images/selected-projects-title.png"
                 alt="Selected Projects"
                 className="work-header__title-img"
               />
-            </div>
+            </motion.div>
 
-            <div className="work-header__desc-col">
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.65, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="work-header__desc-col"
+            >
               <p className="work-header__desc">
                 A curated body of identity systems, digital platforms, and sensorial motion pieces crafted for visionaries worldwide.
               </p>
@@ -59,37 +71,26 @@ export function WorkSection() {
                   <span className="work-stat__label">BESPOKE SYSTEMS</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
 
-        {/* ── 02. SHOWCASE & FILTER ZONE (WITH CUSTOM BG BELOW THE DIVIDER) ── */}
-        <div className="work-showcase-zone">
+        {/* ── 02. SHOWCASE ZONE (WITH CUSTOM BG BELOW THE DIVIDER) ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 45 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.8, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+          className="work-showcase-zone"
+        >
           <div className="work-showcase-bg-layer" />
-
-          {/* Filter Bar */}
-          <div className="work-filter-bar">
-            <span className="work-filter-bar__label">FILTER DISCIPLINE:</span>
-            <div className="work-filter-pills">
-              {CATEGORIES.map(cat => (
-                <button
-                  key={cat}
-                  className={`work-filter-pill ${activeCategory === cat ? 'work-filter-pill--active' : ''}`}
-                  onClick={() => setActiveCategory(cat)}
-                >
-                  <span>{cat}</span>
-                  {activeCategory === cat && <span className="work-filter-pill__dot" />}
-                </button>
-              ))}
-            </div>
-          </div>
 
           {/* Draggable Card Presentation Showcase */}
           <ProjectShowcase
-            projects={filteredProjects}
+            projects={PROJECTS}
             onSelectProject={openCaseStudy}
           />
-        </div>
+        </motion.div>
 
       </div>
 

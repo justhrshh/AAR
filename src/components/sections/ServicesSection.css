@@ -710,14 +710,161 @@
 
 @media (max-width: 768px) {
   .aar-services-section {
-    padding: 100px 24px 80px;
+    padding: 80px 20px 60px;
+  }
+
+  .services-header__title {
+    font-size: clamp(32px, 8vw, 44px);
   }
 
   .service-card-title-group {
-    gap: 16px;
+    gap: 14px;
+  }
+
+  .service-card-name {
+    font-size: clamp(16px, 4.4vw, 20px);
+  }
+
+  .service-card-trigger {
+    padding: 20px 14px;
+  }
+
+  .service-card-drawer-inner {
+    padding: 8px 12px 24px;
+    gap: 20px;
+  }
+
+  .service-drawer-lead {
+    font-size: 14px;
+  }
+
+  .service-drawer-desc {
+    font-size: 12.5px;
+    line-height: 1.6;
+  }
+
+  .service-drawer-deliv-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .service-deliv-item {
+    font-size: 12px;
+  }
+
+  /* ── CONNECTED VERTICAL TIMELINE FOR PROCESS STEPS ── */
+  .services-process-block {
+    margin-top: 60px;
+  }
+
+  .services-process-title {
+    font-size: clamp(24px, 6.5vw, 36px);
   }
 
   .services-process-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    padding-left: 28px;
+    margin-top: 36px;
+  }
+
+  /* Continuous connecting gold rail */
+  .services-process-grid::before {
+    content: '';
+    position: absolute;
+    top: 14px;
+    bottom: 24px;
+    left: 8px;
+    width: 2px;
+    background: linear-gradient(180deg, #c9962c 0%, rgba(201, 150, 44, 0.45) 75%, rgba(201, 150, 44, 0.12) 100%);
+  }
+
+  .process-node {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0 0 28px 14px;
+    position: relative;
+    box-shadow: none;
+    transform: none !important;
+  }
+
+  .process-node:last-child {
+    padding-bottom: 0;
+  }
+
+  /* Timeline Node Bead */
+  .process-node::before {
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: 4px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ede8e1;
+    border: 2px solid #c9962c;
+    box-shadow: 0 0 8px rgba(201, 150, 44, 0.5);
+    z-index: 2;
+  }
+
+  .process-node__top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-start;
+  }
+
+  .process-node__num {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 9999px;
+    background: rgba(201, 150, 44, 0.12);
+    border: 1px solid rgba(201, 150, 44, 0.3);
+    color: #c9962c;
+  }
+
+  .process-node__phase {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: #0d0d0d;
+    font-weight: 800;
+  }
+
+  .process-node__headline {
+    font-size: 14.5px;
+    margin-top: 6px;
+    letter-spacing: 0.02em;
+    color: #0d0d0d;
+  }
+
+  .process-node__text {
+    font-size: 12.5px;
+    line-height: 1.6;
+    margin-top: 4px;
+    color: #6e6b66;
+  }
+
+  .process-node__line {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .aar-services-section {
+    padding: 70px 16px 50px;
+  }
+
+  .service-card-trigger {
+    padding: 18px 8px;
+  }
+
+  .service-card-toggle-icon {
+    width: 26px;
+    height: 26px;
+    font-size: 13px;
   }
 }

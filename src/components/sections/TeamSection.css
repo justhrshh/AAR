@@ -715,3 +715,280 @@
 .team-deck-btn:active {
   transform: scale(0.95);
 }
+
+/* ─────────────────────────────────────────────────────────────
+   MOBILE QUICK-SELECTOR RAIL (< 1024px)
+───────────────────────────────────────────────────────────── */
+.team-mobile-nav-bar {
+  display: none;
+  width: 100%;
+  padding: 16px 16px 12px;
+  background: linear-gradient(180deg, rgba(24, 22, 20, 0.98) 0%, rgba(14, 13, 12, 0.96) 100%);
+  border-bottom: 1px solid rgba(201, 150, 44, 0.16);
+  position: relative;
+  z-index: 25;
+}
+
+.team-mobile-pill-track {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px 2px 6px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.team-mobile-pill-track::-webkit-scrollbar {
+  display: none;
+}
+
+.team-mobile-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 9999px;
+  border: 1px solid rgba(201, 150, 44, 0.22);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(245, 240, 232, 0.75);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  touch-action: pan-x;
+}
+
+.team-mobile-pill-btn:active {
+  transform: scale(0.96);
+}
+
+.team-mobile-pill-btn--active {
+  background: linear-gradient(135deg, #dfb76c 0%, #c9962c 100%);
+  color: #0b0a09;
+  border-color: #dfb76c;
+  box-shadow: 0 4px 14px rgba(201, 150, 44, 0.35);
+  font-weight: 800;
+}
+
+.team-mobile-pill-btn--inactive:hover {
+  border-color: rgba(201, 150, 44, 0.45);
+  color: #ffffff;
+  background: rgba(201, 150, 44, 0.10);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE BREAKPOINTS: ATELIER / TEAM (MOBILE & TABLET)
+───────────────────────────────────────────────────────────── */
+@media (max-width: 1023px) {
+  .aar-team-section {
+    padding: 70px 20px 80px;
+  }
+
+  .team-carousel-wrapper::before {
+    display: none;
+  }
+
+  /* Editorial Card Container on Mobile: Light, Crisp, High-Fashion */
+  .team-carousel-card {
+    flex-direction: column;
+    min-height: auto;
+    border-radius: 24px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.08),
+                0 2px 8px rgba(0, 0, 0, 0.02);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .team-rail-left {
+    display: none !important;
+  }
+
+  /* Mobile Quick-Selector Pill Rail */
+  .team-mobile-nav-bar {
+    display: block;
+    padding: 14px 14px 12px;
+    background: #faf8f5;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .team-mobile-pill-track {
+    gap: 8px;
+    padding: 2px 4px 6px;
+  }
+
+  .team-mobile-pill-btn {
+    padding: 8px 15px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    border-radius: 9999px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .team-mobile-pill-btn--inactive {
+    background: #ffffff;
+    color: #55524d;
+    border: 1px solid rgba(0, 0, 0, 0.09);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  }
+
+  .team-mobile-pill-btn--inactive:hover {
+    background: #f0ebe4;
+    color: #0d0d0d;
+    border-color: rgba(201, 150, 44, 0.4);
+  }
+
+  .team-mobile-pill-btn--active {
+    background: #0d0d0d;
+    color: #ffffff;
+    border-color: #0d0d0d;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  }
+
+  .team-mobile-pill-btn--active svg {
+    color: var(--gold, #c9962c);
+  }
+
+  /* Main Deck Area */
+  .team-deck-right {
+    min-height: auto;
+    padding: 28px 16px 74px;
+    background: transparent;
+    border-top: none;
+  }
+
+  .team-deck-ambient-glow {
+    display: none;
+  }
+
+  .team-card-frame-stage {
+    max-width: 320px;
+    width: 100%;
+    aspect-ratio: 3 / 4.1;
+  }
+
+  .team-member-3d-card {
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 14px 40px -8px rgba(0, 0, 0, 0.14);
+  }
+
+  .team-member-3d-card--active {
+    border: 1.5px solid rgba(201, 150, 44, 0.75);
+    box-shadow: 0 20px 50px -10px rgba(201, 150, 44, 0.28),
+                0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .team-member-overlay-content {
+    padding: 36px 20px 22px;
+    background: linear-gradient(to top, rgba(13, 13, 13, 0.94) 0%, rgba(13, 13, 13, 0.78) 55%, rgba(13, 13, 13, 0.2) 85%, transparent 100%);
+  }
+
+  .team-member-badge {
+    font-size: 9.5px;
+    padding: 3.5px 11px;
+    margin-bottom: 8px;
+  }
+
+  .team-member-name {
+    font-size: 21px;
+    margin-bottom: 6px;
+  }
+
+  .team-member-bio {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: rgba(245, 240, 232, 0.92);
+  }
+
+  /* Live Marker Badge on Mobile */
+  .team-live-marker {
+    top: 14px;
+    left: 14px;
+    padding: 5px 12px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(201, 150, 44, 0.45);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  }
+
+  .team-live-text {
+    color: #0d0d0d;
+    font-size: 9.5px;
+    font-weight: 800;
+  }
+
+  /* Deck Footer: Live Counter & Navigation Buttons */
+  .team-deck-footer {
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+  }
+
+  .team-deck-counter {
+    color: rgba(0, 0, 0, 0.35);
+  }
+
+  .team-deck-counter-curr {
+    color: #0d0d0d;
+    font-weight: 800;
+    font-size: 15px;
+  }
+
+  .team-deck-counter-sep {
+    color: var(--gold, #c9962c);
+  }
+
+  .team-deck-counter-total {
+    color: #8c8880;
+  }
+
+  .team-deck-btn {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    color: #0d0d0d;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  .team-deck-btn:hover {
+    background: #0d0d0d;
+    border-color: #0d0d0d;
+    color: #ffffff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  }
+}
+
+@media (max-width: 480px) {
+  .aar-team-section {
+    padding: 60px 16px 70px;
+  }
+
+  .team-deck-right {
+    padding: 22px 10px 70px;
+  }
+
+  .team-card-frame-stage {
+    max-width: 295px;
+    aspect-ratio: 3 / 4.1;
+  }
+
+  .team-member-overlay-content {
+    padding: 30px 16px 18px;
+  }
+
+  .team-member-name {
+    font-size: 19.5px;
+  }
+
+  .team-member-bio {
+    font-size: 12px;
+    line-height: 1.48;
+  }
+}

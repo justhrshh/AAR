@@ -1,4 +1,6 @@
-import React from 'react';
+import { motion } from 'framer-motion';
+import { SplitText } from '../ui/SplitText';
+import { TypewriterText } from '../ui/TypewriterText';
 import './StudioSection.css';
 import { Skiper104 } from '../ui/skiper104';
 
@@ -31,17 +33,29 @@ export function StudioSection() {
         {/* ── 01. STUDIO HERO / ESSAY ── */}
         <div className="studio-header">
           {/* Chapter Eyebrow with diamond & decorative lines */}
-          <div className="studio-header__eyebrow-center">
+          <motion.div
+            initial={{ opacity: 0, y: -16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="studio-header__eyebrow-center"
+          >
             <span className="studio-eyebrow-line" />
             <span className="studio-eyebrow-diamond">♦</span>
             <span className="studio-header__eyebrow-text">CHAPTER 04 / STUDIO PHILOSOPHY</span>
             <span className="studio-eyebrow-diamond">♦</span>
             <span className="studio-eyebrow-line" />
-          </div>
+          </motion.div>
 
           <div className="studio-header__main-row">
             {/* ── EXACT REFERENCE ARTWORK LOCKUP ── */}
-            <div className="studio-lockup-container">
+            <motion.div
+              initial={{ opacity: 0, y: 35, scale: 0.97 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="studio-lockup-container"
+            >
               {/* Row 1: THE + Studio */}
               <div className="studio-lockup-row1">
                 <span className="studio-lockup-the">THE</span>
@@ -87,29 +101,63 @@ export function StudioSection() {
                   </svg>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="studio-header__lead-col">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.65, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="studio-header__lead-col"
+            >
               <p className="studio-header__lead">
                 AAR Visuals was founded on a simple conviction: that meaningful design is born from human taste, deep patience, and uncompromising craftsmanship.
               </p>
               <div className="studio-header__coords">
                 <span className="studio-coords-label">BASE LOCATION</span>
-                <span className="studio-coords-val">NEW DELHI, INDIA • 28.6139° N, 77.2090° E</span>
+                <TypewriterText
+                  words={[
+                    "NEW DELHI, INDIA • 28.6139° N, 77.2090° E",
+                    "HAUZ KHAS DESIGN DISTRICT • NEW DELHI",
+                    "GLOBAL VISUAL ATELIER • EST. 2026"
+                  ]}
+                  speed={50}
+                  pauseTime={3000}
+                  loop={true}
+                  cursorChar="|"
+                  className="studio-coords-val"
+                />
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
 
         {/* ── 02. MANIFESTO ESSAY ── */}
         <div className="studio-manifesto-block">
-          <div className="studio-manifesto-left">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="studio-manifesto-left"
+          >
             <h3 className="studio-manifesto-title">
-              WE DO NOT BELIEVE IN FORMULAIC EFFICIENCY. WE BELIEVE IN INTENTIONALITY.
+              <SplitText
+                text="WE DO NOT BELIEVE IN FORMULAIC EFFICIENCY. WE BELIEVE IN INTENTIONALITY."
+                type="words"
+                delay={0.1}
+                stagger={0.035}
+              />
             </h3>
-          </div>
+          </motion.div>
 
-          <div className="studio-manifesto-right">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            className="studio-manifesto-right"
+          >
             <p>
               Most digital studio work today feels interchangeable—templated cards, generic animations, and disposable branding created for quick clicks rather than lasting connection.
             </p>
@@ -119,17 +167,31 @@ export function StudioSection() {
             <p>
               From hand-curated typographic ligatures to mathematical spatial shaders, we treat every pixel and ink mark as an enduring cultural artifact.
             </p>
-          </div>
+          </motion.div>
         </div>
 
         {/* ── 03. 3 CORE PRINCIPLES (SKIPER-UI 104 SCROLL REVEAL) ── */}
         <div className="studio-principles-block">
-          <div className="studio-principles-tag">02 / HOW WE THINK</div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-30px" }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="studio-principles-tag"
+          >
+            02 / HOW WE THINK
+          </motion.div>
           <Skiper104 items={PHILOSOPHY_ITEMS} />
         </div>
 
         {/* ── 04. VISUAL PAUSE / STUDIO BANNER ── */}
-        <div className="studio-sculpture-block">
+        <motion.div
+          initial={{ opacity: 0, y: 40, scale: 0.98 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="studio-sculpture-block"
+        >
           <div className="studio-banner-wrap relative w-full overflow-hidden rounded-2xl border border-[#0d0d0d]/10 shadow-[0_20px_50px_-15px_rgba(13,13,13,0.15)] bg-[#141416]">
             <img
               src="https://res.cloudinary.com/hspt0e7x/image/upload/v1788494920/d66c00be-dc24-4f7a-aefd-0f14792efc89_dtyptq.png"
@@ -138,7 +200,7 @@ export function StudioSection() {
               loading="lazy"
             />
           </div>
-        </div>
+        </motion.div>
 
       </div>
     </section>

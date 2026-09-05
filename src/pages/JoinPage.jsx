@@ -19,8 +19,6 @@ export function JoinPage() {
     role: 'graphic-design',
     portfolioUrl: '',
     bio: '',
-    resumeFile: null,
-    resumeFileName: '',
     linkedinUrl: '',
     socialUrl: ''
   });
@@ -31,7 +29,6 @@ export function JoinPage() {
 
   const formRef = useRef(null);
   const rolesRef = useRef(null);
-  const fileInputRef = useRef(null);
 
   const scrollToElement = (ref) => {
     if (ref && ref.current) {
@@ -50,28 +47,6 @@ export function JoinPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (formErrors[name]) {
       setFormErrors((prev) => ({ ...prev, [name]: '' }));
-    }
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData((prev) => ({
-        ...prev,
-        resumeFile: file,
-        resumeFileName: file.name
-      }));
-    }
-  };
-
-  const handleRemoveFile = () => {
-    setFormData((prev) => ({
-      ...prev,
-      resumeFile: null,
-      resumeFileName: ''
-    }));
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
     }
   };
 
@@ -107,10 +82,6 @@ export function JoinPage() {
       formDataToSend.append("linkedin_url", formData.linkedinUrl || "N/A");
       formDataToSend.append("social_url", formData.socialUrl || "N/A");
 
-      if (formData.resumeFile) {
-        formDataToSend.append("attachment", formData.resumeFile);
-      }
-
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         body: formDataToSend
@@ -138,8 +109,6 @@ export function JoinPage() {
       role: 'graphic-design',
       portfolioUrl: '',
       bio: '',
-      resumeFile: null,
-      resumeFileName: '',
       linkedinUrl: '',
       socialUrl: ''
     });
@@ -586,42 +555,6 @@ export function JoinPage() {
                     {formErrors.bio && <span className="join-form-error">{formErrors.bio}</span>}
                   </div>
 
-                  {/* Row 5: Resume Upload (OPTIONAL) */}
-                  <div className="join-form-group">
-                    <label className="join-form-label">
-                      RESUME / CV <span className="opt">(OPTIONAL — PDF, DOC, DOCX)</span>
-                    </label>
-                    
-                    <div className="join-upload-box">
-                      <input
-                        type="file"
-                        ref={fileInputRef}
-                        id="resumeUpload"
-                        accept=".pdf,.doc,.docx"
-                        onChange={handleFileChange}
-                        className="join-upload-input"
-                      />
-                      
-                      {!formData.resumeFileName ? (
-                        <label htmlFor="resumeUpload" className="join-upload-trigger">
-                          <span className="join-upload-icon">📄</span>
-                          <span className="join-upload-text">CLICK OR DRAG RESUME FILE HERE</span>
-                          <span className="join-upload-sub">Max size 15MB • PDF, DOC, DOCX</span>
-                        </label>
-                      ) : (
-                        <div className="join-upload-selected">
-                          <span className="join-upload-filename">✓ {formData.resumeFileName}</span>
-                          <button 
-                            type="button" 
-                            onClick={handleRemoveFile} 
-                            className="join-upload-remove-btn"
-                          >
-                            REMOVE FILE ✕
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
 
                   {/* Row 6: LinkedIn & Socials (OPTIONAL) */}
                   <div className="join-form-row">

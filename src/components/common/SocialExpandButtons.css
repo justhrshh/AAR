@@ -1,0 +1,118 @@
+.social-expand-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.social-expand-container .Btn {
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-radius 0.4s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+}
+
+.social-expand-container .instagram {
+  background: #f09433;
+  background: -moz-linear-gradient(
+    45deg,
+    #f09433 0%,
+    #e6683c 25%,
+    #dc2743 50%,
+    #cc2366 75%,
+    #bc1888 100%
+  );
+  background: -webkit-linear-gradient(
+    45deg,
+    #f09433 0%,
+    #e6683c 25%,
+    #dc2743 50%,
+    #cc2366 75%,
+    #bc1888 100%
+  );
+  background: linear-gradient(
+    45deg,
+    #f09433 0%,
+    #e6683c 25%,
+    #dc2743 50%,
+    #cc2366 75%,
+    #bc1888 100%
+  );
+}
+
+.social-expand-container .whatsapp {
+  background-color: #25d366;
+}
+
+.social-expand-container .x-twitter,
+.social-expand-container .twitter {
+  background-color: #000000;
+}
+
+.social-expand-container .facebook {
+  background-color: #1877f2;
+}
+
+.social-expand-container .threads {
+  background-color: #111111;
+}
+
+.social-expand-container .x-twitter:hover {
+  width: 90px;
+}
+
+.social-expand-container .Btn:hover {
+  width: 125px;
+  transition-duration: 0.4s;
+  border-radius: 30px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+  transform: translateY(-2px);
+}
+
+.social-expand-container .Btn:hover .text {
+  opacity: 1;
+  transition-duration: 0.4s;
+}
+
+.social-expand-container .Btn:hover .svgIcon {
+  opacity: 0;
+  transition-duration: 0.3s;
+  transform: scale(0.6);
+}
+
+.social-expand-container .text {
+  position: absolute;
+  color: rgb(255, 255, 255);
+  width: 100%;
+  text-align: center;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transition-duration: 0.4s;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.social-expand-container .svgIcon {
+  transition-duration: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-expand-container .svgIcon path {
+  fill: white;
+}

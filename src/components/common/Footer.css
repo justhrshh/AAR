@@ -497,12 +497,38 @@
   border-top-color: rgba(255, 255, 255, 0.06);
 }
 
+.aar-footer-monumental-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2.5vw, 40px);
+  max-width: 100%;
+  padding: 0 16px;
+}
+
+.aar-footer-monumental-logo {
+  height: clamp(32px, 8.5vw, 130px);
+  width: auto;
+  object-fit: contain;
+  opacity: 0.20;
+  user-select: none;
+  pointer-events: none;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.18) 100%);
+  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.18) 100%);
+  flex-shrink: 0;
+}
+
+.aar-footer--dark .aar-footer-monumental-logo {
+  opacity: 0.22;
+  filter: brightness(0) invert(1);
+}
+
 .aar-footer-monumental-text {
   text-align: center;
   font-family: 'Cinzel', 'Playfair Display', serif;
-  font-size: clamp(48px, 12vw, 175px);
+  font-size: clamp(36px, 9.5vw, 150px);
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   line-height: 0.85;
   text-transform: uppercase;
   user-select: none;
@@ -535,12 +561,209 @@
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .aar-editorial-footer {
-    padding: 80px 20px 36px;
+    padding: 36px 20px 24px;
   }
+
+  .aar-footer-container {
+    gap: 32px;
+  }
+
+  /* 01. Hide redundant CTA on mobile */
+  .aar-footer-top {
+    display: none;
+  }
+
+  /* 02. Brand block hidden on mobile */
+  .aar-footer-middle-upgrade {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-bottom: 0;
+    width: 100%;
+  }
+
+  .aar-footer-brand-side {
+    display: none !important;
+  }
+
+  /* 03. Hide redundant Disciplines column on mobile */
+  .aar-footer-col--disciplines {
+    display: none !important;
+  }
+
+  /* 04. Centered Directory Grid across Full Width */
   .aar-footer-links-grid {
-    grid-template-columns: 1fr;
-    gap: 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 20px;
+    width: 100%;
+    padding-top: 0;
+    border-top: none;
+    justify-items: center;
+  }
+
+  .aar-footer--dark .aar-footer-links-grid {
+    border-top: none;
+  }
+
+  .aar-footer-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .aar-footer-col__title {
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    margin-bottom: 2px;
+    color: #c9962c;
+    text-align: center;
+    width: 100%;
+  }
+
+  .aar-footer-nav-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .aar-footer-nav-btn,
+  .aar-footer-nav-link {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    opacity: 0.85;
+    white-space: nowrap;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  /* Span Direct & Legal across both columns centered */
+  .aar-footer-col--direct {
+    grid-column: 1 / -1;
+    border-top: 1px solid rgba(13, 13, 13, 0.06);
+    padding-top: 20px;
+    margin-top: 8px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .aar-footer--dark .aar-footer-col--direct {
+    border-top-color: rgba(255, 255, 255, 0.06);
+  }
+
+  .aar-footer-col--direct .aar-footer-col__title {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 4px;
+  }
+
+  .aar-footer-col--direct .aar-footer-nav-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .aar-footer-col--direct .aar-footer-nav-btn {
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  /* 05. Monumental AAR VISUALS Watermark at Bottom of Mobile */
+  .aar-footer-monumental-wrap {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(13, 13, 13, 0.08);
+    overflow: hidden;
+  }
+
+  .aar-footer--dark .aar-footer-monumental-wrap {
+    border-top-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .aar-footer-monumental-inner {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(10px, 3vw, 20px);
+    margin: 0 auto;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+
+  .aar-footer-monumental-logo {
+    height: clamp(32px, 8.5vw, 48px);
+    width: auto;
+    object-fit: contain;
+    opacity: 0.22;
+    flex-shrink: 0;
+  }
+
+  .aar-footer--dark .aar-footer-monumental-logo {
+    opacity: 0.24;
+    filter: brightness(0) invert(1);
+  }
+
+  .aar-footer-monumental-text {
+    font-family: 'Cinzel', 'Playfair Display', serif;
+    font-size: clamp(34px, 10.5vw, 68px);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 0.88;
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 1;
+    margin: 0;
+    text-align: center;
+    flex-shrink: 0;
+    background: linear-gradient(180deg, rgba(13, 13, 13, 0.24) 0%, rgba(13, 13, 13, 0.04) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .aar-footer--dark .aar-footer-monumental-text {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0.04) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+@media (max-width: 480px) {
+  .aar-editorial-footer {
+    padding: 30px 16px 20px;
+  }
+
+  .aar-footer-links-grid {
+    gap: 20px 14px;
+  }
+
+  .aar-footer-col--direct .aar-footer-nav-list {
+    gap: 9px;
+  }
+
+  .aar-footer-nav-btn,
+  .aar-footer-nav-link {
+    font-size: 11.5px;
   }
 }

@@ -20,7 +20,7 @@ export const Skiper31 = () => {
 
       <div
         ref={headerRef}
-        className="relative w-full min-h-[22vh] sm:min-h-[26vh] pt-28 sm:pt-32 lg:pt-[16vh] pb-8 sm:pb-12 lg:pb-[11vh] px-6 flex flex-col items-center justify-center bg-[#ede8e1]"
+        className="relative w-full min-h-[28vh] sm:min-h-[36vh] pt-32 sm:pt-44 lg:pt-[26vh] pb-16 sm:pb-28 lg:pb-[20vh] px-6 flex flex-col items-center justify-center bg-[#ede8e1]"
       >
         <motion.div
           className="relative w-full max-w-[88vw] sm:max-w-[78vw] lg:max-w-[840px] flex flex-col items-center select-none"

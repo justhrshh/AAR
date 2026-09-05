@@ -1,5 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { SplitText } from '../ui/SplitText';
+import { TypewriterText } from '../ui/TypewriterText';
 import './JoinMicroSection.css';
 
 export function JoinMicroSection() {
@@ -15,7 +18,11 @@ export function JoinMicroSection() {
   return (
     <section className="join-editorial-section" id="join-teaser" aria-label="Join Our Talent">
       <div className="join-editorial-container">
-        <div 
+        <motion.div 
+          initial={{ opacity: 0, y: 45, scale: 0.97 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
           className="join-editorial-card"
           onClick={handleJoinClick}
           role="region"
@@ -94,10 +101,17 @@ export function JoinMicroSection() {
           <div className="join-editorial-main">
             <div className="join-editorial-narrative">
               <h2 className="join-editorial-headline">
-                THE ATELIER IS OPEN.
+                <SplitText text="THE ATELIER IS OPEN." type="chars" delay={0.15} stagger={0.03} />
               </h2>
               <p className="join-editorial-subline">
-                For people who make things that matter.
+                <TypewriterText
+                  text="For people who make things that matter."
+                  speed={40}
+                  loop={false}
+                  cursorChar="|"
+                  triggerInView={true}
+                  startDelay={500}
+                />
               </p>
               <p className="join-editorial-copy">
                 Designers, developers, filmmakers, animators, strategists and obsessive makers — we're building a network for people who care about the work as much as the idea.
@@ -134,7 +148,7 @@ export function JoinMicroSection() {
               <span className="join-sig-word join-sig-word--gold">CREATE.</span>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

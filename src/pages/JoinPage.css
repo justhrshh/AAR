@@ -938,78 +938,7 @@
   min-height: 110px;
 }
 
-/* Upload Box */
-.join-upload-box {
-  position: relative;
-  border: 2px dashed rgba(0, 0, 0, 0.15);
-  border-radius: 14px;
-  background: #fbf9f5;
-  padding: 24px;
-  text-align: center;
-  transition: all 0.3s ease;
-}
 
-.join-upload-box:hover {
-  border-color: var(--accent, #c9962c);
-  background: #ffffff;
-}
-
-.join-upload-input {
-  display: none;
-}
-
-.join-upload-trigger {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-}
-
-.join-upload-icon {
-  font-size: 24px;
-}
-
-.join-upload-text {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: #0d0d0d;
-}
-
-.join-upload-sub {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9.5px;
-  color: #7d7a74;
-}
-
-.join-upload-selected {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #ffffff;
-  border: 1px solid rgba(201, 150, 44, 0.4);
-  padding: 12px 18px;
-  border-radius: 10px;
-}
-
-.join-upload-filename {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 600;
-  color: #1a8840;
-}
-
-.join-upload-remove-btn {
-  background: transparent;
-  border: none;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: #d75757;
-  cursor: pointer;
-  font-weight: 700;
-}
 
 /* Submit Area */
 .join-form-submit-wrap {

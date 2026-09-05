@@ -458,3 +458,31 @@
     display: none;
   }
 }
+
+@media (max-width: 480px) {
+  .organic-menu-overlay {
+    padding-top: 75px;
+    padding-bottom: 36px;
+  }
+
+  .pills-composition-wrap {
+    max-width: 290px;
+    row-gap: 14px;
+  }
+
+  .pill-card-btn {
+    min-width: 240px;
+    padding: 14px 18px 14px 16px;
+  }
+
+  .pill-main-title {
+    font-size: 1.35rem;
+  }
+
+  .bubble-menu-close-btn {
+    top: 18px;
+    right: 18px;
+    width: 44px;
+    height: 44px;
+  }
+}
